@@ -10,7 +10,7 @@ export const ComingSoon = () => {
     console.log(`printing: ${process.env.NEXT_PUBLIC_CLOUDFRONT_DISTRIBUTION_DOMAIN}`)
     return (
         <>
-            <Video src={`${process.env.NEXT_PUBLIC_CLOUDFRONT_DISTRIBUTION_DOMAIN}/mangrove.mp4`} autoPlay loop muted />
+            <Video src={`${process.env.NEXT_PUBLIC_CLOUDFRONT_DISTRIBUTION_DOMAIN}/mangrove.mp4`} autoPlay loop muted playsInline />
             <Container>
                 <Typography variant="h1">COMING SOON</Typography>
             </Container>

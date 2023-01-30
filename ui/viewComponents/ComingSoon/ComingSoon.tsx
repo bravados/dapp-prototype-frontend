@@ -1,10 +1,10 @@
 import { styled } from '@infrastructure/style';
 import Typography from '@mui/material/Typography';
-import { StyledVideo, StyledContainer } from './ComingSoon.styles';
+import { VideoStyles, ContainerStyles } from './ComingSoon.styles';
 
-const Video = styled('video', StyledVideo);
+const Video = styled('video', VideoStyles);
 
-const Container = styled('div', StyledContainer);
+const Container = styled('div', ContainerStyles);
 
 export const ComingSoon = () => {
     console.log(`printing: ${process.env.NEXT_PUBLIC_CLOUDFRONT_DISTRIBUTION_DOMAIN}`)

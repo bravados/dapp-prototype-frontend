@@ -1,6 +1,6 @@
 import { css } from '@infrastructure/style'
 
-export const StyledVideo = css({
+export const VideoStyles = css({
     objectFit: 'cover',
     position: 'absolute',
     zIndex: -1,
@@ -8,7 +8,7 @@ export const StyledVideo = css({
     height: '100%',
 })
 
-export const StyledContainer = css({
+export const ContainerStyles = css({
     display: 'flex',
     justifyContent: 'center',
     minHeight: '100vh',

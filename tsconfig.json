@@ -28,6 +28,12 @@
       "@infrastructure/*": [
         "./infrastructure/*"
       ],
+      "@interfaces/*": [
+        "./interfaces/*"
+      ],
+      "@services/*": [
+        "./services/*"
+      ],
     }
   },
   "include": [

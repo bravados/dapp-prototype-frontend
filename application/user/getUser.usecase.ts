@@ -20,29 +20,16 @@ class GetUserUseCase {
 }
 
 function useGetUser(blockchain: Blockchain, address: Address) {
-  const [user, setUser] = useLocalStorageUser();
-
   const [request, { loading, error, data }] = new GetUserUseCase().getUser(
     blockchain,
     address,
   );
 
-  const clear = () => {
-    setUser(null);
-  };
-
-  useEffect(() => {
-    if (data) {
-      setUser(data);
-    }
-  }, [data, setUser]);
-
   return {
-    user,
+    user: data,
     request,
     loading,
     error,
-    clear,
   };
 }
 

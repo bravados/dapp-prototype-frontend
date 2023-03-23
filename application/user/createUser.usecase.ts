@@ -22,10 +22,6 @@ function useCreateUser({ blockchain, address }: CreateUserPayload) {
     new CreateUserUseCase().createUser({ blockchain, address });
 
   useEffect(() => {
-    request?.();
-  }, [request]);
-
-  useEffect(() => {
     if (data) {
       setUser(data);
     }

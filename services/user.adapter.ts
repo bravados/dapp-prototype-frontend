@@ -1,6 +1,6 @@
 import { User } from '@domain/user';
 import { Blockchain } from '@domain/wallet/wallet';
-import { useMutation, useQuery } from '@infrastructure/http';
+import { HTTPError, useMutation, useQuery } from '@infrastructure/http';
 import { Scalars } from '@infrastructure/scalars';
 import { UserResponse } from '@interfaces/GetUserResponse';
 import {
@@ -37,7 +37,10 @@ class UserAdapter implements UserService {
   getUser(blockchain: Blockchain, address: Address): GetUserResponse {
     const uri = `/users/${blockchain}/${address}`;
 
-    const [request, { loading, error, data }] = useQuery<UserResponse>(uri);
+    const [request, { loading, error, data }] = useQuery<
+      UserResponse,
+      HTTPError
+    >(uri);
 
     return [
       request,

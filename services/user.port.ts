@@ -1,11 +1,11 @@
 import { User } from '@domain/user';
 import { Blockchain } from '@domain/wallet/wallet';
-import { QueryResponse } from '@infrastructure/http';
+import { HTTPError, QueryResponse } from '@infrastructure/http';
 import { Scalars } from '@infrastructure/scalars';
 
 type Address = Scalars['Address'];
 
-type GetUserResponse = QueryResponse<User>;
+type GetUserResponse = QueryResponse<User, HTTPError>;
 
 type CreateUserPayload = {
   blockchain: Blockchain;

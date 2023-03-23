@@ -13,7 +13,7 @@ type QueryResponse<T = unknown, S = unknown> = [
   (params?: QueryRequestOptions<S>) => void,
   {
     loading: boolean;
-    error?: boolean;
+    error?: any;
     data?: T;
   },
 ];
@@ -69,7 +69,7 @@ const useQuery = <T = unknown, S = unknown>(
     performQuery,
     {
       loading: response.isLoading && response.isFetching,
-      error: response.isError,
+      error: response.error,
       data: response.data as T,
     },
   ];

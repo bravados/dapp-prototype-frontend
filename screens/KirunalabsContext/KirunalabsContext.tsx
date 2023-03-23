@@ -15,7 +15,7 @@ const useKirunalabsContext = (): KirunalabsContextType => {
 
   if (!context) {
     throw new Error(
-      'Ensure this call was made under a KirunalabsContext provider',
+      'Ensure you have a KirunalabsContext provider',
     );
   }
 
@@ -37,5 +37,4 @@ const KirunalabsContextProvider = ({children}: KirunalabsContextProviderProps) =
 return <KirunalabsContext.Provider value={memoizedContext}>{children}</KirunalabsContext.Provider>
 };
 
-export { KirunalabsContextProvider, useKirunalabsContext };
-export type { KirunalabsContextType };
+export { useKirunalabsContext, KirunalabsContextProvider };

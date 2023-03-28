@@ -9,7 +9,7 @@ function IsValidBlockchain(validationOptions?: ValidationOptions) {
       options: validationOptions,
       validator: {
         validate(value: unknown) {
-          const validTypes = ['NEAR'];
+          const validTypes = ['near'];
 
           return validTypes.includes(value as string);
         },

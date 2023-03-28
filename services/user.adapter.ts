@@ -12,9 +12,11 @@ import {
 
 type Address = Scalars['Address'];
 
+const baseUrl = process.env.NEXT_PUBLIC_KIRUNALABS_API_URL;
+
 class UserAdapter implements UserService {
   createUser(payload: CreateUserPayload): CreateUserResponse {
-    const uri = `/users`;
+    const uri = `${baseUrl}/users`;
 
     const [request, { loading, error, data }] = useMutation<UserResponse>(uri, {
       method: 'POST',
@@ -35,7 +37,7 @@ class UserAdapter implements UserService {
   }
 
   getUser(blockchain: Blockchain, address: Address): GetUserResponse {
-    const uri = `/users/${blockchain}/${address}`;
+    const uri = `${baseUrl}/users/${blockchain.toLowerCase()}/${address}`;
 
     const [request, { loading, error, data }] = useQuery<
       UserResponse,

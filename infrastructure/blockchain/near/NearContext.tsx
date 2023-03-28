@@ -15,9 +15,10 @@ import {
 } from './config';
 
 type WalletContext = {
-  isSignedIn: () => void;
+  isSignedIn: () => boolean;
   signIn: (successUrl?: string) => void;
   signOut: () => void;
+  address?: string;
 };
 
 const NearContext = createContext<WalletContext | null>(null);
@@ -38,6 +39,8 @@ const NearContextProvider = ({ children }: { children: React.ReactNode }) => {
   const [near, setNear] = useState<Near>();
 
   const [walletConnection, setWalletConnection] = useState<WalletConnection>();
+
+  const [address, setAddress] = useState<string>();
 
   useEffect(() => {
     if (!keyStore) {
@@ -63,12 +66,19 @@ const NearContextProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     if (near) {
-      setWalletConnection(new nearAPI.WalletConnection(near, null));
+      setWalletConnection(new nearAPI.WalletConnection(near, 'kirunalabs'));
     }
   }, [near]);
 
+  useEffect(() => {
+    if (walletConnection) {
+      const address = walletConnection.getAccountId();
+      setAddress(address);
+    }
+  }, [walletConnection]);
+
   const isSignedIn = useCallback(() => {
-    walletConnection?.isSignedIn();
+    return walletConnection?.isSignedIn() ?? false;
   }, [walletConnection]);
 
   const signIn = useCallback(
@@ -87,8 +97,9 @@ const NearContextProvider = ({ children }: { children: React.ReactNode }) => {
       isSignedIn,
       signIn,
       signOut,
+      address,
     }),
-    [isSignedIn, signIn, signOut],
+    [isSignedIn, signIn, signOut, address],
   );
 
   return (

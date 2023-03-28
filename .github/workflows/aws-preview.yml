@@ -1,8 +1,10 @@
-name: Build image and deploy to the preview environment ("kirunalabs-preview" cluster)
+name:
+  Build image and deploy to the preview environment ("kirunalabs-preview"
+  cluster)
 
 on:
   push:
-    branches: ["preview"]
+    branches: ['preview']
 
 permissions:
   contents: read
@@ -34,7 +36,10 @@ jobs:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: ${{ vars.ECR_REPOSITORY }}
           IMAGE_TAG: ${{ github.ref_name }}
-          NEXT_PUBLIC_CLOUDFRONT_DISTRIBUTION_DOMAIN: ${{ vars.CLOUDFRONT_DISTRIBUTION_DOMAIN }}
+          NEXT_PUBLIC_CLOUDFRONT_DISTRIBUTION_DOMAIN:
+            ${{ vars.CLOUDFRONT_DISTRIBUTION_DOMAIN }}
+          NEXT_PUBLIC_KIRUNALABS_API_URL:
+            ${{ vars.NEXT_PUBLIC_KIRUNALABS_API_URL_PREVIEW }}
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG

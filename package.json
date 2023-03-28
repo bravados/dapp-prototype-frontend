@@ -26,6 +26,7 @@
     "class-validator": "^0.14.0",
     "eslint": "8.30.0",
     "eslint-config-next": "13.1.1",
+    "fs": "^0.0.1-security",
     "jest": "^29.5.0",
     "jest-environment-jsdom": "^29.5.0",
     "jotai": "^2.0.3",

@@ -2,7 +2,7 @@ import { IsDefined, IsInt, IsOptional } from 'class-validator';
 import { transformAndValidateSync } from 'class-transformer-validator';
 import { Scalars } from '@infrastructure/scalars';
 import { Expose, Type } from '@infrastructure/domain';
-import { UserResponse } from '@interfaces/GetUserResponse';
+import { UserResponse } from '@interfaces/UserResponse';
 import { Wallet } from '../wallet/wallet';
 import { IsValidUserType } from './userType.validator';
 

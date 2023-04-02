@@ -1,4 +1,4 @@
-import { FileResponse } from '@interfaces/CreateFileResponse';
+import { FileResponse } from '@interfaces/FileResponse';
 import { useMutation } from '@infrastructure/http';
 import {
   CreateFilePayload,

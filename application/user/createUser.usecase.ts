@@ -1,5 +1,5 @@
-import { UserAdapter } from '@services/user.adapter';
-import { CreateUserPayload, UserService } from '@services/user.port';
+import { UserAdapter } from '@services/users/user.adapter';
+import { CreateUserPayload, UserService } from '@services/users/user.port';
 
 class CreateUserUseCase {
   private userService: UserService;

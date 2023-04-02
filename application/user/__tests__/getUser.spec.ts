@@ -1,6 +1,6 @@
 import { alice } from '@domain/user/__mocks__/user';
 import { useLocalStorageUser } from '@infrastructure/localStorage';
-import { UserAdapter } from '@services/user.adapter';
+import { UserAdapter } from '@services/users/user.adapter';
 import { renderHook } from '@testing-library/react';
 import { useGetUser } from '../getUser.usecase';
 
@@ -8,7 +8,7 @@ jest.mock('@infrastructure/localStorage', () => ({
   useLocalStorageUser: jest.fn(),
 }));
 
-jest.mock('@services/user.adapter');
+jest.mock('@services/users/user.adapter');
 
 const request = jest.fn();
 

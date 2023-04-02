@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from '@infrastructure/http';
 import { User } from '@domain/user';
-import { UserAdapter } from '@services/user.adapter';
+import { UserAdapter } from '@services/users/user.adapter';
 import { Blockchain } from '@domain/wallet';
 
 jest.mock('@infrastructure/http', () => ({
@@ -17,6 +17,8 @@ jest.mock('@domain/user', () => ({
 const blockchain = 'NEAR';
 
 const address = '123';
+
+const baseUrl = process.env.NEXT_PUBLIC_KIRUNALABS_API_URL;
 
 describe('createUser', () => {
   const request = jest.fn();
@@ -60,7 +62,9 @@ describe('createUser', () => {
 
       adapter.createUser(payload);
 
-      expect(useMutation).toBeCalledWith(`/users`, { method: 'POST' });
+      expect(useMutation).toBeCalledWith(`${baseUrl}/users`, {
+        method: 'POST',
+      });
 
       expect(User.fromData).toBeCalled();
     });
@@ -121,7 +125,9 @@ describe('getUser', () => {
 
       adapter.getUser(blockchain, address);
 
-      expect(useQuery).toBeCalledWith(`/users/${blockchain}/${address}`);
+      expect(useQuery).toBeCalledWith(
+        `${baseUrl}/users/${blockchain.toLowerCase()}/${address}`,
+      );
 
       expect(User.fromData).toBeCalled();
     });

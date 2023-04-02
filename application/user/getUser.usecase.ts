@@ -1,9 +1,7 @@
-import { useEffect } from 'react';
-import { UserService } from '@services/user.port';
-import { UserAdapter } from '@services/user.adapter';
+import { UserService } from '@services/users/user.port';
+import { UserAdapter } from '@services/users/user.adapter';
 import { Blockchain } from '@domain/wallet';
 import { Scalars } from '@infrastructure/scalars';
-import { useLocalStorageUser } from '@infrastructure/localStorage';
 
 type Address = Scalars['Address'];
 

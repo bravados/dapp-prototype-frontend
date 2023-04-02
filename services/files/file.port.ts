@@ -1,13 +1,24 @@
-import { HTTPError, MutationResponse } from '@infrastructure/http';
+import { HTTPError } from '@infrastructure/http';
 
 type IPFSFile = {
   cid: string;
 };
 
-type CreateFileResponse = MutationResponse<IPFSFile, HTTPError>;
+type CreateFilePayload = {
+  file: any;
+};
+
+type CreateFileResponse = [
+  (payload: CreateFilePayload) => void,
+  {
+    loading: boolean;
+    error?: HTTPError;
+    data?: IPFSFile;
+  },
+];
 
 interface FileService {
-  createFile(file: any): CreateFileResponse;
+  createFile(): CreateFileResponse;
 }
 
-export type { FileService, CreateFileResponse };
+export type { FileService, CreateFilePayload, CreateFileResponse };

@@ -8,7 +8,7 @@ class CreateFileUseCase {
     this.fileService = new FileAdapter();
   }
 
-  async createFile() {
+  createFile() {
     return this.fileService.createFile();
   }
 }

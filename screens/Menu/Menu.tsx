@@ -1,15 +1,15 @@
 import { Fragment, useEffect, useState } from 'react';
-import { useNearContext } from '@infrastructure/blockchain/near';
-import { useKirunalabsContext } from 'screens/KirunalabsContext';
-import { useGetUser } from 'application/user/getUser.usecase';
+import { useRouter } from 'next/router';
+import { useNear } from '@infrastructure/blockchain/near';
+import { useCreateUser, useGetUser } from '@application/user';
 import { TermsAndConditions } from 'ui/viewComponents';
-import { useCreateUser } from 'application/user/createUser.usecase';
 import { NearButtons } from 'ui/viewComponents/NearButtons';
+import { useKirunalabs } from 'screens/KirunalabsContext';
 
 const Menu = () => {
-  const { user, setUser } = useKirunalabsContext();
+  const { user, setUser, deleteUser } = useKirunalabs();
 
-  const { isSignedIn, signIn, signOut, address } = useNearContext();
+  const { isSignedIn, signIn, signOut, address } = useNear();
 
   const {
     user: existingUser,
@@ -30,6 +30,8 @@ const Menu = () => {
 
   const [isTermsAndConditionsVisible, setIsTermsAndConditionsVisible] =
     useState(false);
+
+  const { asPath } = useRouter();
 
   useEffect(() => {
     setIsSignedInNear(isSignedIn());
@@ -61,16 +63,14 @@ const Menu = () => {
 
   // show terms and conditions if user is not found
   useEffect(() => {
-    if (requestExistingUserError) {
-      if (requestExistingUserError?.status === 404)
-        setIsTermsAndConditionsVisible(true);
-      else console.error(requestExistingUserError);
+    if (requestExistingUserError && requestExistingUserError.status === 404) {
+      setIsTermsAndConditionsVisible(true);
     }
   }, [requestExistingUserError]);
 
   // set user if new user is created
   useEffect(() => {
-    if (newUser && newUser.id != user?.id) {
+    if (newUser) {
       setUser(newUser);
       setIsTermsAndConditionsVisible(false);
     } else {
@@ -86,6 +86,7 @@ const Menu = () => {
 
   const onSignOut = () => {
     signOut();
+    deleteUser();
     setIsSignedInNear(false);
   };
 
@@ -102,6 +103,7 @@ const Menu = () => {
       <NearButtons
         isSignedIn={isSignedInNear}
         isMintButtonVisible={user?.type === 'ARTIST'}
+        isMintButtonSelected={asPath === '/mint/near'}
         onSignIn={onSignIn}
         onSignOut={onSignOut}
       />

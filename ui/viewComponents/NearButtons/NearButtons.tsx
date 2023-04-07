@@ -1,8 +1,10 @@
 import { Fragment } from 'react';
+import { MenuButton } from '@ui/core/MenuButton';
 
 type Props = {
   isSignedIn: boolean;
   isMintButtonVisible: boolean;
+  isMintButtonSelected: boolean;
   onSignIn: () => void;
   onSignOut: () => void;
 };
@@ -10,14 +12,19 @@ type Props = {
 const NearButtons = ({
   isSignedIn,
   isMintButtonVisible,
+  isMintButtonSelected,
   onSignIn,
   onSignOut,
 }: Props) => {
   return (
     <Fragment>
-      {!isSignedIn && <button onClick={onSignIn}>Sign In</button>}
-      {isSignedIn && <button onClick={onSignOut}>Sign Out</button>}
-      {isSignedIn && isMintButtonVisible && <button>Mint</button>}
+      {isSignedIn && isMintButtonVisible && (
+        <MenuButton href="/mint/near" isSelected={isMintButtonSelected}>
+          Mint
+        </MenuButton>
+      )}
+      {!isSignedIn && <MenuButton onClick={onSignIn}>Sign In</MenuButton>}
+      {isSignedIn && <MenuButton onClick={onSignOut}>Sign Out</MenuButton>}
     </Fragment>
   );
 };

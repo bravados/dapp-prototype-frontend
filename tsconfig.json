@@ -22,6 +22,9 @@
     "incremental": true,
     "baseUrl": ".",
     "paths": {
+      "@application/*": [
+        "./application/*"
+      ],
       "@domain/*": [
         "./domain/*"
       ],
@@ -31,8 +34,14 @@
       "@interfaces/*": [
         "./interfaces/*"
       ],
+      "@screens/*": [
+        "./screens/*"
+      ],
       "@services/*": [
         "./services/*"
+      ],
+      "@ui/*": [
+        "./ui/*"
       ],
     }
   },

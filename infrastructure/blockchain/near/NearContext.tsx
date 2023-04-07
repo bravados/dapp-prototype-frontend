@@ -23,7 +23,7 @@ type WalletContext = {
 
 const NearContext = createContext<WalletContext | null>(null);
 
-const useNearContext = (): WalletContext => {
+const useNear = (): WalletContext => {
   const context = useContext(NearContext);
 
   if (!context) {
@@ -33,7 +33,7 @@ const useNearContext = (): WalletContext => {
   return context;
 };
 
-const NearContextProvider = ({ children }: { children: React.ReactNode }) => {
+const NearProvider = ({ children }: { children: React.ReactNode }) => {
   const [keyStore, setKeyStore] = useState<BrowserLocalStorageKeyStore>();
 
   const [near, setNear] = useState<Near>();
@@ -109,4 +109,4 @@ const NearContextProvider = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export { useNearContext, NearContextProvider };
+export { useNear, NearProvider };

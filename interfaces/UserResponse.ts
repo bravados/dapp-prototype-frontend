@@ -5,6 +5,7 @@ interface UserResponse {
   avatar?: Maybe<string>;
   type?: string;
   wallets?: UserWalletResponse[];
+  royalties?: UserRoyaltyResponse[];
 }
 
 interface UserWalletResponse {
@@ -14,4 +15,11 @@ interface UserWalletResponse {
   userId?: number;
 }
 
-export type { UserResponse, UserWalletResponse };
+interface UserRoyaltyResponse {
+  userId: number;
+  walletId: number;
+  percent: number;
+  wallet: UserWalletResponse;
+}
+
+export type { UserResponse, UserWalletResponse, UserRoyaltyResponse };

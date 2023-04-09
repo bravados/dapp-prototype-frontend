@@ -9,7 +9,9 @@ type Blockchain = 'NEAR';
 
 class Wallet implements UserWalletResponse {
   static fromData(data: UserWalletResponse): Wallet {
-    return transformAndValidateSync(Wallet, data);
+    return transformAndValidateSync(Wallet, data, {
+      transformer: { strategy: 'excludeAll' },
+    });
   }
 
   id: Scalars['ID'];

@@ -1,7 +1,12 @@
-import { MainLayout } from 'components/layouts/MainLayout';
+import { CreateNft } from '@screens/CreateNft';
+import { MainLayout } from 'components/layouts';
 
 const Mint = () => {
-  return <MainLayout>mint section</MainLayout>;
+  return (
+    <MainLayout>
+      <CreateNft />
+    </MainLayout>
+  );
 };
 
 export default Mint;

@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useNear } from '@infrastructure/blockchain/near';
 import { useCreateUser, useGetUser } from '@application/user';
@@ -99,7 +99,7 @@ const Menu = () => {
   };
 
   return (
-    <Fragment>
+    <div className="navbar-container">
       <NearButtons
         isSignedIn={isSignedInNear}
         isMintButtonVisible={user?.type === 'ARTIST'}
@@ -113,7 +113,7 @@ const Menu = () => {
         onAccept={onAcceptTermsAndConditions}
         onReject={onRejectTermsAndConditions}
       />
-    </Fragment>
+    </div>
   );
 };
 

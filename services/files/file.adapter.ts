@@ -14,6 +14,7 @@ class FileAdapter implements FileService {
 
     const [request, { loading, error, data }] = useMutation<FileResponse>(uri, {
       method: 'POST',
+      contentType: 'multipart/form-data',
     });
 
     const requestWrapper = ({ file }: CreateFilePayload) => {

@@ -1,9 +1,14 @@
-import { createContext, useCallback, useContext, useMemo } from 'react';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+} from 'react';
 import { User } from '@domain/user';
-import { useLocalStorageUser } from '@infrastructure/localStorage';
 
 type KirunalabsContextType = {
-  user: Maybe<User>;
+  user?: User;
   setUser: (user: User) => void;
   deleteUser: () => void;
 };
@@ -25,10 +30,10 @@ type KirunalabsContextProviderProps = {
 };
 
 const KirunalabsProvider = ({ children }: KirunalabsContextProviderProps) => {
-  const [user, setUser] = useLocalStorageUser();
+  const [user, setUser] = useState<User>();
 
   const deleteUser = useCallback(() => {
-    setUser(null);
+    setUser(undefined);
   }, [setUser]);
 
   const memoizedContext = useMemo<KirunalabsContextType>(

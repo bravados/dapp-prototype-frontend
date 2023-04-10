@@ -1,4 +1,5 @@
 import type { AppProps } from 'next/app';
+import 'reflect-metadata';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { getCssAndReset, theme, ThemeProvider } from '@infrastructure/style';
 import { NearProvider } from '@infrastructure/blockchain/near';

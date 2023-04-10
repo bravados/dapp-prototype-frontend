@@ -1,6 +1,6 @@
 import { useMutation as _useMutation } from '@tanstack/react-query';
 import { useState, useEffect } from 'react';
-import { request } from './request';
+import { ContentType, request } from './request';
 import type { Method, Callback } from './request';
 
 type MutationRequestOptions<T = unknown> = {
@@ -20,6 +20,7 @@ type MutationResponse<T = unknown, S = unknown> = [
 
 type MutationOptions<T = unknown, S = unknown> = {
   method?: Method;
+  contentType?: ContentType;
   onError?: Callback<T | undefined, S | undefined>;
   onSuccess?: Callback<T | undefined, S | undefined>;
 };
@@ -54,10 +55,11 @@ const useMutation = <T = unknown, S = unknown>(
         method: options?.method || 'POST',
         body: data,
         headers,
+        contentType: options?.contentType,
       });
       setEnabled(false);
     } catch (error) {
-      console.log('Error while preparing the mutation');
+      console.log('Error while performing the mutation', error);
       setEnabled(false);
       throw error;
     }

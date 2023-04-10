@@ -6,16 +6,19 @@ type FetchResponse<T> = {
 
 type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'OPTIONS';
 
+type ContentType = 'application/json' | 'multipart/form-data';
+
 type RequestOptions = {
   method: Method;
   headers?: Record<string, string>;
   body?: unknown;
+  contentType?: ContentType;
 };
 
 type FetchOptions = {
   method: Method;
   headers: Record<string, string>;
-  body?: string;
+  body?: any;
 };
 
 type Callback<T = unknown, S = unknown> = (data?: T, context?: S) => void;
@@ -32,22 +35,23 @@ class HTTPError extends Error {
 
 const request = async (
   url: string,
-  { method, body, headers = {} }: RequestOptions,
+  {
+    method,
+    body,
+    headers = {},
+    contentType = 'application/json',
+  }: RequestOptions,
 ) => {
-  const defaultHeaders = {
-    'content-type': 'application/json',
-  };
-
   const fetchOptions: FetchOptions = {
     method,
     headers: {
-      ...defaultHeaders,
-      ...(headers || {}),
+      ...headers,
     },
   };
 
   if (body) {
-    fetchOptions.body = JSON.stringify(body);
+    fetchOptions.body =
+      contentType === 'application/json' ? JSON.stringify(body) : body;
   }
 
   const response = await fetch(url, fetchOptions);
@@ -60,4 +64,4 @@ const request = async (
 };
 
 export { request };
-export type { FetchResponse, Method, Callback, HTTPError };
+export type { ContentType, FetchResponse, Method, Callback, HTTPError };

@@ -1565,6 +1565,11 @@ base-x@^3.0.2:
   dependencies:
     safe-buffer "^5.0.1"
 
+big-ts@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/big-ts/-/big-ts-0.1.0.tgz#bc0f8b03e50152660fff76fb411935cff26d1486"
+  integrity sha512-Iq1Bomi5yfbfLEF5wxs1RECi6cjALbuXmDFK3xwlLYikYmrRuYbZKD/KpTp5unH6FuWdx5I6z5rZDVKT6ygxhQ==
+
 binary-extensions@^2.0.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/binary-extensions/-/binary-extensions-2.2.0.tgz#75f502eeaf9ffde42fc98829645be4ea76bd9e2d"
@@ -2583,6 +2588,11 @@ form-data@^4.0.0:
     asynckit "^0.4.0"
     combined-stream "^1.0.8"
     mime-types "^2.1.12"
+
+fp-ts@^2.13.1:
+  version "2.13.1"
+  resolved "https://registry.yarnpkg.com/fp-ts/-/fp-ts-2.13.1.tgz#1bf2b24136cca154846af16752dc29e8fa506f2a"
+  integrity sha512-0eu5ULPS2c/jsa1lGFneEFFEdTbembJv8e4QKXeVJ3lm/5hyve06dlKZrpxmMwJt6rYen7sxmHHK2CLaXvWuWQ==
 
 fs.realpath@^1.0.0:
   version "1.0.0"

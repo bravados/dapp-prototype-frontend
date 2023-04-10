@@ -56,7 +56,7 @@ const Menu = () => {
 
   // set user if existing user is found
   useEffect(() => {
-    if (existingUser && existingUser.id != user?.id) {
+    if (existingUser && !user) {
       setUser(existingUser);
     }
   }, [existingUser, user, setUser]);

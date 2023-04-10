@@ -9,9 +9,16 @@ import {
   parseNearAmount,
 } from 'near-api-js/lib/utils/format';
 import { v4 as uuidv4 } from 'uuid';
+import * as Big from 'big-ts';
 
 const NFT_CONTRACT_NAME = process.env.NEXT_PUBLIC_NFT_CONTRACT_NAME || '';
 const MARKET_CONTRACT_NAME = process.env.NEXT_PUBLIC_MARKET_CONTRACT_NAME || '';
+
+const MAX_GAS_UNITS = Big.mult(Big.parse(10 ** 14))(Big.parse(3)); // 300000000000000;
+
+const BOATLOAD_OF_GAS = Big.toString(
+  Big.mult(Big.parse(10 ** 13))(Big.parse(15)),
+); // "150000000000000"
 
 const getConfig = (networkId = 'testnet') => {
   return {
@@ -35,4 +42,6 @@ export {
   parseNearAmount,
   uuidv4,
   getConfig,
+  MAX_GAS_UNITS,
+  BOATLOAD_OF_GAS,
 };

@@ -1,4 +1,4 @@
-interface NftResponse {
+interface NftBackendResponse {
   id: string;
   title: Maybe<string>;
   description: Maybe<string>;
@@ -7,4 +7,4 @@ interface NftResponse {
   blockchain: string;
 }
 
-export type { NftResponse };
+export type { NftBackendResponse };

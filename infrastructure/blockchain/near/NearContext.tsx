@@ -22,6 +22,7 @@ import {
   parseAmount,
   parseRoyalties,
 } from './helper';
+import { Nft, NftNear } from '@domain/nft/nft';
 
 type WalletContext = {
   isSignedIn: () => boolean;
@@ -35,6 +36,13 @@ type BlockchainContext = WalletContext & {
   formatAmount: (amount: string) => string;
   mint: (params: MintParams) => any;
   parseAmount: (formattedAmount: string) => string;
+  publishNft: (nft: Nft) => void;
+  unpublishNft: (nft: Nft) => void;
+  useGetNft: () => [
+    (tokenId: string) => void,
+    { error?: { status: number }; data?: Nft },
+  ];
+  useIsNftPublished: () => [(nftId: string) => void, { data: boolean }];
 };
 
 type MintParams = {
@@ -145,6 +153,56 @@ const NearProvider = ({ children }: { children: React.ReactNode }) => {
     return walletConnection?.isSignedIn() ?? false;
   }, [walletConnection]);
 
+  const publishNft = (nft: Nft) => {};
+
+  const unpublishNft = (nft: Nft) => {};
+
+  const useGetNft = (): [
+    (tokenId: string) => void,
+    { error?: { status: number }; data?: Nft },
+  ] => {
+    const [nft, setNft] = useState<Nft>();
+    const [error, setError] = useState<any>();
+
+    const requestGetNft = (tokenId: string) => {
+      nftContract
+        .nft_token({
+          token_id: tokenId,
+        })
+        .then((nft: any) => {
+          const deserializedNft = nft ? NftNear.fromData(nft) : nft;
+          setNft(deserializedNft);
+        });
+    };
+
+    useEffect(() => {
+      if (nft === null) {
+        setError({ status: 404 });
+      }
+    }, [nft]);
+
+    return [requestGetNft, { error, data: nft }];
+  };
+
+  const useIsNftPublished = (): [
+    (tokenId: string) => void,
+    { data: boolean },
+  ] => {
+    const [isPublished, setIsPublished] = useState<boolean>(false);
+
+    const requestIsPublished = (tokenId: string) => {
+      marketContract
+        .get_sale({
+          nft_contract_token: `${getConfig().nftContractName}.${tokenId}`,
+        })
+        .then((sale: any) => {
+          setIsPublished(!!sale);
+        });
+    };
+
+    return [requestIsPublished, { data: isPublished }];
+  };
+
   const mint = useCallback(
     ({
       title,
@@ -180,8 +238,6 @@ const NearProvider = ({ children }: { children: React.ReactNode }) => {
         meta: tokenId,
       };
 
-      console.dir(mintParams, { depth: null });
-
       return nftContract.nft_mint(mintParams);
     },
     [nftContract, marketContract, address, gasFees],
@@ -208,7 +264,12 @@ const NearProvider = ({ children }: { children: React.ReactNode }) => {
       signIn,
       signOut,
       parseAmount,
+      publishNft,
+      unpublishNft,
+      useGetNft,
+      useIsNftPublished,
     }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [address, gasFees, isSignedIn, mint, signIn, signOut],
   );
 

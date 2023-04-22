@@ -2,7 +2,7 @@ import { User } from '@domain/user';
 import { Blockchain } from '@domain/wallet/wallet';
 import { HTTPError, useMutation, useQuery } from '@infrastructure/http';
 import { Scalars } from '@infrastructure/scalars';
-import { UserResponse } from '@interfaces/UserResponse';
+import { UserResponse } from '@interfaces/backend/UserResponse';
 import {
   CreateUserPayload,
   CreateUserResponse,

@@ -5,6 +5,10 @@ import { KirunaDialog } from '@ui/viewComponents/KirunaDialog';
 import { CreateNftForm } from '@ui/viewComponents';
 import { useCreateFile } from '@application/file';
 
+const kirunalabsUrl = process.env.NEXT_PUBLIC_KIRUNALABS_FALLBACK_URL;
+
+const fallbackUrl = `${kirunalabsUrl}/mint/near`;
+
 const CreateNft = () => {
   const { gasFees, formatAmount, mint, isSignedIn } = useNear();
 
@@ -55,7 +59,7 @@ const CreateNft = () => {
       description,
       nftStorageId: nftStorageId!,
       royalties: user!.royalties,
-      callbackUrl: 'https://kirunalabs.io',
+      callbackUrl: fallbackUrl,
     });
   };
 

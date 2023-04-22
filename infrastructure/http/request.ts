@@ -38,13 +38,20 @@ const request = async (
   {
     method,
     body,
-    headers = {},
+    headers,
     contentType = 'application/json',
   }: RequestOptions,
 ) => {
+  let defaultHeaders = {} as any;
+  
+  if(contentType === 'application/json'){
+    defaultHeaders['Content-Type'] = 'application/json';
+  }
+
   const fetchOptions: FetchOptions = {
     method,
     headers: {
+      ...defaultHeaders,
       ...headers,
     },
   };

@@ -3,7 +3,7 @@ import { IsDefined, IsInt } from 'class-validator';
 import { Wallet } from '@domain/wallet';
 import { Expose, Type } from '@infrastructure/domain';
 import { Scalars } from '@infrastructure/scalars';
-import { UserRoyaltyResponse } from '@interfaces/UserResponse';
+import { UserRoyaltyResponse } from '@interfaces/backend/UserResponse';
 
 class Royalty implements UserRoyaltyResponse {
   static fromData(data: UserRoyaltyResponse): Royalty {

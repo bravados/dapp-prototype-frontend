@@ -2,7 +2,7 @@ import { IsDefined, IsNotEmpty } from 'class-validator';
 import { transformAndValidateSync } from 'class-transformer-validator';
 import { Expose } from '@infrastructure/domain';
 import { Scalars } from '@infrastructure/scalars';
-import { UserWalletResponse } from '@interfaces/UserResponse';
+import { UserWalletResponse } from '@interfaces/backend/UserResponse';
 import { IsValidBlockchain } from './blockchain.validator';
 
 type Blockchain = 'NEAR';

@@ -1,5 +1,4 @@
 import {
-  Button,
   Dialog,
   DialogActions,
   DialogContent,
@@ -11,35 +10,22 @@ type KirunaDialogProps = {
   isOpen: boolean;
   titleText: string;
   contentText: string;
-  actionText?: string;
-  closeText?: string;
-  onAction?: () => void;
-  onClose?: () => void;
+  children?: React.ReactNode;
 };
 
 const KirunaDialog = ({
   isOpen,
   titleText,
   contentText,
-  actionText,
-  closeText,
-  onAction,
-  onClose,
+  children,
 }: KirunaDialogProps) => {
   return (
-    <Dialog open={isOpen} onClose={onClose}>
+    <Dialog open={isOpen}>
       <DialogTitle>{titleText}</DialogTitle>
       <DialogContent>
         <DialogContentText>{contentText}</DialogContentText>
       </DialogContent>
-      <DialogActions>
-        {closeText && onClose && <Button onClick={onClose}>{closeText}</Button>}
-        {actionText && onAction && (
-          <Button onClick={onAction} autoFocus>
-            {actionText}
-          </Button>
-        )}
-      </DialogActions>
+      <DialogActions>{children}</DialogActions>
     </Dialog>
   );
 };

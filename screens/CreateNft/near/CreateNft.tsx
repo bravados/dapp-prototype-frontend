@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useState } from 'react';
-import { useNear } from '@infrastructure/blockchain/near';
+import { MINT_DEPOSIT, useNear } from '@infrastructure/blockchain/near';
 import { useKirunalabs } from '@screens/KirunalabsContext';
 import { KirunaDialog } from '@ui/viewComponents/KirunaDialog';
 import { CreateNftForm } from '@ui/viewComponents';
@@ -10,7 +10,7 @@ const kirunalabsUrl = process.env.NEXT_PUBLIC_KIRUNALABS_FALLBACK_URL;
 const fallbackUrl = `${kirunalabsUrl}/mint/near`;
 
 const CreateNft = () => {
-  const { gasFees, formatAmount, mint, isSignedIn } = useNear();
+  const { formatAmount, mint, isSignedIn } = useNear();
 
   const { user } = useKirunalabs();
 
@@ -24,9 +24,7 @@ const CreateNft = () => {
   const [dialogMessage, setDialogMessage] = useState('');
 
   useEffect(() => {
-    if (!isSignedIn) {
-      setDialogMessage('Make sure that your wallet is signed in');
-    } else if (!user || user.type !== 'ARTIST') {
+    if (!user || user.type !== 'ARTIST') {
       setDialogMessage('Make sure that Kirunalabs granted you "Artist" role');
     } else if (!user.royalties) {
       setDialogMessage(
@@ -72,7 +70,7 @@ const CreateNft = () => {
       />
       <CreateNftForm
         file={uploadedFile}
-        gasFees={formatAmount(gasFees || '0')}
+        estimatedCost={formatAmount(MINT_DEPOSIT)}
         isFileUploaded={!!nftStorageId}
         onSubmit={onSubmit}
         onFileChanged={onFileChanged}

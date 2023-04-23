@@ -3,7 +3,7 @@ import { useGetNft } from '@application/nft';
 import { Blockchain } from '@domain/wallet';
 import { useNear } from '@infrastructure/blockchain/near';
 import { Button } from '@mui/material';
-import { KirunaDialog } from '@ui/viewComponents';
+import { KirunaDialog, PublishNftForm } from '@ui/viewComponents';
 
 const kirunalabsUrl = process.env.NEXT_PUBLIC_KIRUNALABS_FALLBACK_URL;
 
@@ -18,17 +18,12 @@ const PublishNft = ({ tokenId }: Props) => {
   const [dialogTitle, setDialogTitle] = useState('');
   const [dialogMessage, setDialogMessage] = useState('');
 
+  const handleDialogClose = () => {
+    setIsDialogOpen(false);
+  };
+
   // check if nft exists in kirunalabs
   const [requestGetNft, { error: getNftError, data: nft }] = useGetNft();
-
-  useEffect(() => {
-    if (getNftError?.status === 404) {
-      setIsDialogOpen(true);
-      setDialogMessage(
-        'The NFT could not be found in Kirunalabs. Did you mint it?',
-      );
-    }
-  }, [getNftError]);
 
   useEffect(() => {
     if (tokenId && !getNftError && !nft) {
@@ -39,26 +34,32 @@ const PublishNft = ({ tokenId }: Props) => {
     }
   }, [tokenId, getNftError, requestGetNft, nft]);
 
+  useEffect(() => {
+    if (getNftError?.status === 404) {
+      setIsDialogOpen(true);
+      setDialogMessage(
+        'The NFT could not be found in Kirunalabs. Did you mint it?',
+      );
+    }
+  }, [getNftError]);
+
   // check if nft already published in market
-  const { useIsNftPublished } = useNear();
-  const [
-    requestIsNftPublished,
-    { error: isNftPublishedError, data: isNftPublished },
-  ] = useIsNftPublished();
+  const { useGetSale } = useNear();
+  const [requestGetSale, { data: sale }] = useGetSale();
 
   useEffect(() => {
     if (nft) {
-      requestIsNftPublished(nft.id);
+      requestGetSale(nft.id);
     }
-  }, [nft, requestIsNftPublished]);
+  }, [nft, requestGetSale]);
 
   // if nft is not published in market, show button
   const { publishNft } = useNear();
 
-  const handlePublish = () => {
+  const handlePublish = (price: string) => {
     const callbackUrl = `${fallbackUrl}?tokenId=${nft!.id}`;
 
-    publishNft({ tokenId: nft!.id, price: '0.3', callbackUrl });
+    publishNft({ tokenId: nft!.id, price, callbackUrl });
   };
 
   // if nft is published in market, show unpublish button
@@ -76,13 +77,11 @@ const PublishNft = ({ tokenId }: Props) => {
         isOpen={isDialogOpen}
         titleText={dialogTitle}
         contentText={dialogMessage}
-      />
-      {nft && !isNftPublished && (
-        <Button onClick={handlePublish}>Publish</Button>
-      )}
-      {nft && isNftPublished && (
-        <Button onClick={handleUnpublish}>Unpublish</Button>
-      )}
+      >
+        <Button onClick={handleDialogClose}>Close</Button>
+      </KirunaDialog>
+      {nft && !sale && <PublishNftForm onSubmit={handlePublish} />}
+      {nft && sale && <Button onClick={handleUnpublish}>Unpublish</Button>}
     </Fragment>
   );
 };

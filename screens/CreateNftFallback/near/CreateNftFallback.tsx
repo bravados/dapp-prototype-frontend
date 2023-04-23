@@ -21,6 +21,10 @@ const CreateNftFallback = ({ isError, tokenId }: CreateNftFallbackProps) => {
     setDialogTitle('The NFT could not be minted');
   }, [isError]);
 
+  const handleDialogClose = () => {
+    setIsDialogOpen(false);
+  };
+
   // check if nft exists in kirunalabs
   const [requestGetNft, { error: getNftError, data: nft }] = useGetBackendNft();
 
@@ -55,10 +59,10 @@ const CreateNftFallback = ({ isError, tokenId }: CreateNftFallbackProps) => {
   }, [getNearNftError]);
 
   useEffect(() => {
-    if (nftInNear && !createNftError) {
+    if (nftInNear && !createdNft && !createNftError) {
       requestCreateNft(nftInNear);
     }
-  }, [nftInNear, createNftError, requestCreateNft]);
+  }, [nftInNear, createdNft, createNftError, requestCreateNft]);
 
   useEffect(() => {
     if (createNftError) {
@@ -84,7 +88,9 @@ const CreateNftFallback = ({ isError, tokenId }: CreateNftFallbackProps) => {
       isOpen={isDialogOpen}
       titleText={dialogTitle}
       contentText={dialogMessage}
-    />
+    >
+      <Button onClick={handleDialogClose}>Close</Button>
+    </KirunaDialog>
   );
 };
 

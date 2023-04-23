@@ -8,6 +8,9 @@ import {
 } from 'react';
 import { Royalty } from '@domain/royalty';
 import {
+  MINT_DEPOSIT,
+  PUBLISH_DEPOSIT,
+  MIN_ATTACHABLE_DEPOSIT,
   BOATLOAD_OF_GAS,
   BrowserLocalStorageKeyStore,
   getConfig,
@@ -25,7 +28,7 @@ import {
 import { Nft, NftNear } from '@domain/nft/nft';
 
 type WalletContext = {
-  isSignedIn: () => boolean;
+  isSignedIn: boolean;
   signIn: (successUrl?: string) => void;
   signOut: () => void;
   address?: string;
@@ -42,7 +45,7 @@ type BlockchainContext = WalletContext & {
     (tokenId: string) => void,
     { error?: { status: number }; data?: Nft },
   ];
-  useIsNftPublished: () => [(nftId: string) => void, { data: boolean }];
+  useGetSale: () => [(nftId: string) => void, { data: any }];
 };
 
 type MintParams = {
@@ -82,6 +85,8 @@ const NearProvider = ({ children }: { children: React.ReactNode }) => {
   const [near, setNear] = useState<Near>();
 
   const [walletConnection, setWalletConnection] = useState<WalletConnection>();
+
+  const [isSignedIn, setIsSignedIn] = useState<boolean>(false);
 
   const [gasFees, setGasFees] = useState<string>();
 
@@ -165,8 +170,8 @@ const NearProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }, [walletConnection]);
 
-  const isSignedIn = useCallback(() => {
-    return walletConnection?.isSignedIn() ?? false;
+  useEffect(() => {
+    setIsSignedIn(walletConnection?.isSignedIn() ?? false);
   }, [walletConnection]);
 
   const publishNft = ({ tokenId, price, callbackUrl }: PublishParams) => {
@@ -179,7 +184,7 @@ const NearProvider = ({ children }: { children: React.ReactNode }) => {
         msg: JSON.stringify({ sale_conditions: parsedPrice }),
       },
       gas: BOATLOAD_OF_GAS,
-      amount: gasFees,
+      amount: PUBLISH_DEPOSIT,
       callbackUrl: callbackUrl,
     });
   };
@@ -191,7 +196,7 @@ const NearProvider = ({ children }: { children: React.ReactNode }) => {
         token_id: tokenId,
       },
       gas: BOATLOAD_OF_GAS,
-      amount: '1', // 1 yocto NEAR
+      amount: MIN_ATTACHABLE_DEPOSIT,
       callbackUrl: callbackUrl,
     });
   };
@@ -223,11 +228,8 @@ const NearProvider = ({ children }: { children: React.ReactNode }) => {
     return [requestGetNft, { error, data: nft }];
   };
 
-  const useIsNftPublished = (): [
-    (tokenId: string) => void,
-    { data: boolean },
-  ] => {
-    const [isPublished, setIsPublished] = useState<boolean>(false);
+  const useGetSale = (): [(tokenId: string) => void, { data: any }] => {
+    const [sale, setSale] = useState<boolean>(false);
 
     const requestIsPublished = (tokenId: string) => {
       marketContract
@@ -235,11 +237,11 @@ const NearProvider = ({ children }: { children: React.ReactNode }) => {
           nft_contract_token: `${getConfig().nftContractName}.${tokenId}`,
         })
         .then((sale: any) => {
-          setIsPublished(!!sale);
+          setSale(sale);
         });
     };
 
-    return [requestIsPublished, { data: isPublished }];
+    return [requestIsPublished, { data: sale }];
   };
 
   const mint = useCallback(
@@ -272,14 +274,14 @@ const NearProvider = ({ children }: { children: React.ReactNode }) => {
           perpetual_royalties: parseRoyalties(royalties),
         },
         gas: BOATLOAD_OF_GAS,
-        amount: gasFees,
+        amount: MINT_DEPOSIT,
         callbackUrl,
         meta: tokenId,
       };
 
       return nftContract.nft_mint(mintParams);
     },
-    [nftContract, marketContract, address, gasFees],
+    [nftContract, marketContract, address],
   );
 
   const signIn = useCallback(
@@ -291,6 +293,7 @@ const NearProvider = ({ children }: { children: React.ReactNode }) => {
 
   const signOut = useCallback(() => {
     walletConnection?.signOut();
+    setIsSignedIn(false);
   }, [walletConnection]);
 
   const memoizedContext = useMemo<BlockchainContext>(
@@ -306,7 +309,7 @@ const NearProvider = ({ children }: { children: React.ReactNode }) => {
       publishNft,
       unpublishNft,
       useGetNft,
-      useIsNftPublished,
+      useGetSale,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [address, gasFees, isSignedIn, mint, signIn, signOut],

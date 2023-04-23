@@ -14,7 +14,7 @@ type Errors = { [key: string]: string };
 type CreateNftFormProps = {
   // eslint-disable-next-line no-unused-vars
   file: any;
-  gasFees: string;
+  estimatedCost: string;
   isFileUploaded: boolean;
   onFileChanged: (file: any) => void;
   onSubmit: (title: string, description: string) => void;
@@ -22,7 +22,7 @@ type CreateNftFormProps = {
 
 const CreateNftForm = ({
   file,
-  gasFees,
+  estimatedCost,
   isFileUploaded,
   onFileChanged,
   onSubmit,
@@ -91,18 +91,6 @@ const CreateNftForm = ({
             />
           </Grid>
           <Grid item>
-            <p>
-              <i>
-                Estimated fees: {gasFees}
-                <b>
-                  <span title="NEAR Tokens"> Ⓝ. </span>
-                </b>
-                You will not pay more than this and you will be refunded the
-                unused amount
-              </i>
-            </p>
-          </Grid>
-          <Grid item>
             <ImageUploader file={file} onFileChanged={onFileChanged} />
           </Grid>
           <Grid item>
@@ -116,6 +104,17 @@ const CreateNftForm = ({
             >
               Create NFT
             </Button>
+          </Grid>
+          <Grid item>
+            <p>
+              <i>
+                Estimated cost: {estimatedCost}
+                <b>
+                  <span title="NEAR Tokens"> Ⓝ. </span>
+                </b>
+                Click the button to proceed to the payment
+              </i>
+            </p>
           </Grid>
         </Grid>
       </FormControl>

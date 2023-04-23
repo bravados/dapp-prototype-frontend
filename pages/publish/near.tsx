@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import { MainLayout } from 'components/layouts';
 import { PublishNft } from '@screens/PublishNft';
+import { WalletConnectedRoute } from '@screens/WalletConnectedRoute';
 
 const Publish = () => {
   const { query } = useRouter();
@@ -9,7 +10,9 @@ const Publish = () => {
 
   return (
     <MainLayout>
-      <PublishNft tokenId={tokenId} />
+      <WalletConnectedRoute>
+        <PublishNft tokenId={tokenId} />
+      </WalletConnectedRoute>
     </MainLayout>
   );
 };

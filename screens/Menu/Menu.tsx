@@ -26,33 +26,22 @@ const Menu = () => {
     address: address!,
   });
 
-  const [isSignedInNear, setIsSignedInNear] = useState(isSignedIn());
-
   const [isTermsAndConditionsVisible, setIsTermsAndConditionsVisible] =
     useState(false);
 
   const { asPath } = useRouter();
 
-  useEffect(() => {
-    setIsSignedInNear(isSignedIn());
-  }, [isSignedIn]);
-
   // request existing user only once
   useEffect(() => {
     if (
-      isSignedInNear &&
+      isSignedIn &&
       requestExistingUser &&
       !existingUser &&
       !requestExistingUserError
     ) {
       requestExistingUser();
     }
-  }, [
-    isSignedInNear,
-    requestExistingUser,
-    existingUser,
-    requestExistingUserError,
-  ]);
+  }, [isSignedIn, requestExistingUser, existingUser, requestExistingUserError]);
 
   // set user if existing user is found
   useEffect(() => {
@@ -87,7 +76,6 @@ const Menu = () => {
   const onSignOut = () => {
     signOut();
     deleteUser();
-    setIsSignedInNear(false);
   };
 
   const onAcceptTermsAndConditions = () => {
@@ -101,7 +89,7 @@ const Menu = () => {
   return (
     <div className="navbar-container">
       <NearButtons
-        isSignedIn={isSignedInNear}
+        isSignedIn={isSignedIn}
         isMintButtonVisible={user?.type === 'ARTIST'}
         isMintButtonSelected={asPath === '/mint/near'}
         onSignIn={onSignIn}

@@ -2,7 +2,7 @@ import { Nft } from '@domain/nft/nft';
 import { Blockchain } from '@domain/wallet';
 import { HTTPError } from '@infrastructure/http';
 
-type CreateNftPayload = Nft;
+type CreateNftPayload = Nft & {creator: {id: number}};
 
 type CreateNftResponse = [
   (payload: CreateNftPayload) => void,

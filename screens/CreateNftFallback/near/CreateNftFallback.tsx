@@ -1,9 +1,10 @@
-import { Fragment, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { KirunaDialog } from '@ui/viewComponents';
 import { useCreateNft, useGetNft as useGetBackendNft } from '@application/nft';
 import { useNear } from '@infrastructure/blockchain/near';
 import { Button } from '@mui/material';
 import { Blockchain } from '@domain/wallet';
+import { useKirunalabs } from '@screens/KirunalabsContext';
 
 type CreateNftFallbackProps = {
   isError?: boolean;
@@ -11,6 +12,7 @@ type CreateNftFallbackProps = {
 };
 
 const CreateNftFallback = ({ isError, tokenId }: CreateNftFallbackProps) => {
+  const { user } = useKirunalabs();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [dialogTitle, setDialogTitle] = useState('');
   const [dialogMessage, setDialogMessage] = useState('');
@@ -59,10 +61,10 @@ const CreateNftFallback = ({ isError, tokenId }: CreateNftFallbackProps) => {
   }, [getNearNftError]);
 
   useEffect(() => {
-    if (nftInNear && !createdNft && !createNftError) {
-      requestCreateNft(nftInNear);
+    if (nftInNear && !createdNft && !createNftError && user) {
+      requestCreateNft({ ...nftInNear, creator: { id: user.id } });
     }
-  }, [nftInNear, createdNft, createNftError, requestCreateNft]);
+  }, [nftInNear, createdNft, createNftError, requestCreateNft, user]);
 
   useEffect(() => {
     if (createNftError) {

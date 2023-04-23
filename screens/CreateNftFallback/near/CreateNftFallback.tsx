@@ -69,44 +69,22 @@ const CreateNftFallback = ({ isError, tokenId }: CreateNftFallbackProps) => {
     }
   }, [createNftError]);
 
-  // if nft exists in kiruna, check if it is published in market
-  const { useIsNftPublished } = useNear();
-  const [requestIsNftPublished, { data: isNftPublished }] = useIsNftPublished();
-
+  // if nft is created successfully, redirect to Publish page
   useEffect(() => {
     if (nft || createdNft) {
-      requestIsNftPublished(tokenId!);
+      const tokenId = nft?.id || createdNft?.id;
+      const queryParams = new URLSearchParams({ tokenId: tokenId! });
+
+      window.location.href = `/publish/near?${queryParams.toString()}`;
     }
-  }, [nft, createdNft, requestIsNftPublished, tokenId]);
-
-  // if nft is not published in market, show button
-  const { publishNft } = useNear();
-
-  const handlePublish = () => {
-    publishNft(nftInNear!);
-  };
-
-  // if nft is published in market, show unpublish button
-  const { unpublishNft } = useNear();
-
-  const handleUnpublish = () => {
-    unpublishNft(nftInNear!);
-  };
+  }, [nft, createdNft]);
 
   return (
-    <Fragment>
-      <KirunaDialog
-        isOpen={isDialogOpen}
-        titleText={dialogTitle}
-        contentText={dialogMessage}
-      />
-      {(nft || createdNft) && !isNftPublished && (
-        <Button onClick={handlePublish}>Publish</Button>
-      )}
-      {(nft || createdNft) && isNftPublished && (
-        <Button onClick={handleUnpublish}>Unpublish</Button>
-      )}
-    </Fragment>
+    <KirunaDialog
+      isOpen={isDialogOpen}
+      titleText={dialogTitle}
+      contentText={dialogMessage}
+    />
   );
 };
 

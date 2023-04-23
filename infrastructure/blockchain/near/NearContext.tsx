@@ -36,8 +36,8 @@ type BlockchainContext = WalletContext & {
   formatAmount: (amount: string) => string;
   mint: (params: MintParams) => any;
   parseAmount: (formattedAmount: string) => string;
-  publishNft: (nft: Nft) => void;
-  unpublishNft: (nft: Nft) => void;
+  publishNft: (params: PublishParams) => void;
+  unpublishNft: (params: UnpublishParams) => void;
   useGetNft: () => [
     (tokenId: string) => void,
     { error?: { status: number }; data?: Nft },
@@ -50,6 +50,17 @@ type MintParams = {
   description: string;
   nftStorageId: string;
   royalties: Royalty[];
+  callbackUrl?: string;
+};
+
+type PublishParams = {
+  tokenId: string;
+  price: string;
+  callbackUrl?: string;
+};
+
+type UnpublishParams = {
+  tokenId: string;
   callbackUrl?: string;
 };
 
@@ -128,21 +139,26 @@ const NearProvider = ({ children }: { children: React.ReactNode }) => {
         getConfig().nftContractName,
         {
           viewMethods: ['nft_token', 'nft_tokens'],
-          changeMethods: ['new_default_meta', 'nft_mint', 'nft_approve'],
+          changeMethods: [
+            'new_default_meta',
+            'nft_mint',
+            'nft_approve',
+            'nft_revoke',
+          ],
         },
       );
       setNftContract(nftContract);
 
       const marketContract = new nearAPI.Contract(
         walletConnection.account(),
-        getConfig().nftContractName,
+        getConfig().marketContractName,
         {
           viewMethods: [
             'get_sale',
             'get_sales_by_nft_contract_id',
             'get_supply_by_nft_contract_id',
           ],
-          changeMethods: ['offer'],
+          changeMethods: ['offer', 'remove_sale'],
         },
       );
       setMarketContract(marketContract);
@@ -153,9 +169,32 @@ const NearProvider = ({ children }: { children: React.ReactNode }) => {
     return walletConnection?.isSignedIn() ?? false;
   }, [walletConnection]);
 
-  const publishNft = (nft: Nft) => {};
+  const publishNft = ({ tokenId, price, callbackUrl }: PublishParams) => {
+    const parsedPrice = parseAmount(price);
 
-  const unpublishNft = (nft: Nft) => {};
+    nftContract.nft_approve({
+      args: {
+        token_id: tokenId,
+        account_id: getConfig().marketContractName,
+        msg: JSON.stringify({ sale_conditions: parsedPrice }),
+      },
+      gas: BOATLOAD_OF_GAS,
+      amount: gasFees,
+      callbackUrl: callbackUrl,
+    });
+  };
+
+  const unpublishNft = ({ tokenId, callbackUrl }: UnpublishParams) => {
+    marketContract.remove_sale({
+      args: {
+        nft_contract_id: getConfig().nftContractName,
+        token_id: tokenId,
+      },
+      gas: BOATLOAD_OF_GAS,
+      amount: '1', // 1 yocto NEAR
+      callbackUrl: callbackUrl,
+    });
+  };
 
   const useGetNft = (): [
     (tokenId: string) => void,

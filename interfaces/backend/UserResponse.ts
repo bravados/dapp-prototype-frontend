@@ -22,4 +22,8 @@ interface UserRoyaltyResponse {
   wallet: UserWalletResponse;
 }
 
-export type { UserResponse, UserWalletResponse, UserRoyaltyResponse };
+interface UserIdsResponse {
+  ids: number[];
+}
+
+export type { UserResponse, UserWalletResponse, UserRoyaltyResponse, UserIdsResponse };

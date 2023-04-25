@@ -45,6 +45,7 @@ type BlockchainContext = WalletContext & {
     (tokenId: string) => void,
     { error?: { status: number }; data?: Nft },
   ];
+  useGetNftsByOwner: () => [(address: string) => void, { data?: Nft[] }];
   useGetSale: () => [(nftId: string) => void, { data: any }];
 };
 
@@ -143,7 +144,7 @@ const NearProvider = ({ children }: { children: React.ReactNode }) => {
         walletConnection.account(),
         getConfig().nftContractName,
         {
-          viewMethods: ['nft_token', 'nft_tokens'],
+          viewMethods: ['nft_token', 'nft_tokens', 'nft_tokens_for_owner'],
           changeMethods: [
             'new_default_meta',
             'nft_mint',
@@ -228,6 +229,28 @@ const NearProvider = ({ children }: { children: React.ReactNode }) => {
     return [requestGetNft, { error, data: nft }];
   };
 
+  const useGetNftsByOwner = (): [
+    (address: string) => void,
+    { data?: Nft[] },
+  ] => {
+    const [nfts, setNfts] = useState<Nft[]>();
+
+    const requestGetNftsByOwner = (address: string) => {
+      nftContract
+        .nft_tokens_for_owner({
+          account_id: address,
+        })
+        .then((nfts: any) => {
+          const deserializedNfts = nfts.map((nft: any) =>
+            NftNear.fromData(nft),
+          );
+          setNfts(deserializedNfts);
+        });
+    };
+
+    return [requestGetNftsByOwner, { data: nfts }];
+  };
+
   const useGetSale = (): [(tokenId: string) => void, { data: any }] => {
     const [sale, setSale] = useState<boolean>(false);
 
@@ -309,6 +332,7 @@ const NearProvider = ({ children }: { children: React.ReactNode }) => {
       publishNft,
       unpublishNft,
       useGetNft,
+      useGetNftsByOwner,
       useGetSale,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps

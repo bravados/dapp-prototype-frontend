@@ -1,5 +1,6 @@
 import { IsDefined, IsInt, IsOptional } from 'class-validator';
 import { transformAndValidateSync } from 'class-transformer-validator';
+import { instanceToPlain } from 'class-transformer';
 import { Scalars } from '@infrastructure/scalars';
 import { Expose, Type } from '@infrastructure/domain';
 import { UserResponse } from '@interfaces/backend/UserResponse';
@@ -21,6 +22,14 @@ class User implements UserResponse {
     });
   }
 
+  static toPlain(user: User) {
+    let plainUser = instanceToPlain(user);
+    plainUser.wallets = user.wallets.map((wallet) =>Wallet.toPlain(wallet));
+    plainUser.nfts = user.nfts.map((nft) => NftBackend.toPlain(nft));
+
+    return plainUser;
+  }
+
   @Expose()
   @IsInt()
   id: Scalars['ID'];
@@ -31,11 +40,11 @@ class User implements UserResponse {
 
   @Expose()
   @IsOptional()
-  email: Maybe<Email>;
+  email: Email;
 
   @Expose()
   @IsOptional()
-  avatar: Maybe<Avatar>;
+  avatar: Avatar;
 
   @Expose()
   @IsValidUserType()

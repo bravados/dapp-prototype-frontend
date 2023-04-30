@@ -12,19 +12,16 @@ import { ImageUploader } from '@ui/viewComponents/ImageUploader';
 type Errors = { [key: string]: string };
 
 type CreateNftFormProps = {
-  // eslint-disable-next-line no-unused-vars
-  file: any;
+  fileUrl?: string;
   estimatedCost: string;
-  isFileUploaded: boolean;
-  onFileChanged: (file: any) => void;
+  onFileChange: (file: any) => void;
   onSubmit: (title: string, description: string) => void;
 };
 
 const CreateNftForm = ({
-  file,
+  fileUrl,
   estimatedCost,
-  isFileUploaded,
-  onFileChanged,
+  onFileChange,
   onSubmit,
 }: CreateNftFormProps) => {
   const [title, setTitle] = useState('');
@@ -91,7 +88,11 @@ const CreateNftForm = ({
             />
           </Grid>
           <Grid item>
-            <ImageUploader file={file} onFileChanged={onFileChanged} />
+            <ImageUploader
+              fileUrl={fileUrl}
+              isEdit={true}
+              onChange={onFileChange}
+            />
           </Grid>
           <Grid item>
             <Button
@@ -100,7 +101,7 @@ const CreateNftForm = ({
               onClick={onSubmitForm}
               disableElevation
               sx={{ mt: 5 }}
-              disabled={!isFileUploaded}
+              disabled={!fileUrl}
             >
               Create NFT
             </Button>

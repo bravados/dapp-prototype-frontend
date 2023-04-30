@@ -1,6 +1,6 @@
 import { IsDefined, IsNotEmpty } from 'class-validator';
 import { transformAndValidateSync } from 'class-transformer-validator';
-import { Expose } from '@infrastructure/domain';
+import { Expose, instanceToPlain } from '@infrastructure/domain';
 import { Scalars } from '@infrastructure/scalars';
 import { UserWalletResponse } from '@interfaces/backend/UserResponse';
 import { IsValidBlockchain } from './blockchain.validator';
@@ -12,6 +12,10 @@ class Wallet implements UserWalletResponse {
     return transformAndValidateSync(Wallet, data, {
       transformer: { strategy: 'excludeAll' },
     });
+  }
+
+  static toPlain(wallet: Wallet) {
+    return instanceToPlain(wallet);
   }
 
   id: Scalars['ID'];

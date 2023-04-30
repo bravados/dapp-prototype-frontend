@@ -18,11 +18,26 @@ type CreateUserPayload = {
 
 type CreateUserResponse = QueryResponse<User>;
 
+type UpdateUserProfileRequestPayload = {
+  name: string;
+  email?: string;
+};
+
+type UpdateUserProfileResponse = [
+  (payload: UpdateUserProfileRequestPayload) => void,
+  {
+    loading: boolean;
+    error?: HTTPError;
+    data?: User;
+  },
+]
+
 interface UserService {
   createUser(payload: CreateUserPayload): CreateUserResponse;
   getUser(blockchain: Blockchain, address: Address): GetUserResponse;
   getUserIds(): Promise<GetUserIdsResponse>;
   getUserById(id: number): Promise<User>;
+  updateUserProfile(id: number): UpdateUserProfileResponse;
 }
 
 export type {
@@ -31,5 +46,7 @@ export type {
   GetUserIdsResponse,
   GetUserByIdResponse,
   CreateUserPayload,
+  UpdateUserProfileRequestPayload,
   CreateUserResponse,
+  UpdateUserProfileResponse,
 };

@@ -7,6 +7,8 @@ import { useCreateFile } from '@application/file';
 
 const kirunalabsUrl = process.env.NEXT_PUBLIC_KIRUNALABS_FALLBACK_URL;
 
+const ipfsUrl = 'https://cloudflare-ipfs.com/ipfs';
+
 const fallbackUrl = `${kirunalabsUrl}/mint/near`;
 
 const CreateNft = () => {
@@ -14,9 +16,9 @@ const CreateNft = () => {
 
   const { user } = useKirunalabs();
 
-  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const [ipfsFileId, setIpfsFileId] = useState<string>();
 
-  const [nftStorageId, setNftStorageId] = useState<string>();
+  const [fileUrl, setFileUrl] = useState<string>();
 
   const [requestCreateFile, { error: createFileError, data: ipfsFile }] =
     useCreateFile();
@@ -37,7 +39,8 @@ const CreateNft = () => {
 
   useEffect(() => {
     if (ipfsFile) {
-      setNftStorageId(ipfsFile.cid);
+      setIpfsFileId(ipfsFile.cid);
+      setFileUrl(`${ipfsUrl}/${ipfsFile.cid}`);
     }
     if (createFileError) {
       setDialogMessage(
@@ -46,8 +49,7 @@ const CreateNft = () => {
     }
   }, [ipfsFile, createFileError]);
 
-  const onFileChanged = (file: any) => {
-    setUploadedFile(file);
+  const onFileChange = (file: any) => {
     requestCreateFile({ file: file });
   };
 
@@ -55,7 +57,7 @@ const CreateNft = () => {
     mint({
       title,
       description,
-      nftStorageId: nftStorageId!,
+      nftStorageId: ipfsFileId!,
       royalties: user!.royalties,
       callbackUrl: fallbackUrl,
     });
@@ -69,11 +71,10 @@ const CreateNft = () => {
         contentText={dialogMessage}
       />
       <CreateNftForm
-        file={uploadedFile}
+        fileUrl={fileUrl}
         estimatedCost={formatAmount(MINT_DEPOSIT)}
-        isFileUploaded={!!nftStorageId}
         onSubmit={onSubmit}
-        onFileChanged={onFileChanged}
+        onFileChange={onFileChange}
       />
     </Fragment>
   );

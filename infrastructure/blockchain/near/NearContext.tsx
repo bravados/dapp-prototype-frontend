@@ -235,18 +235,24 @@ const NearProvider = ({ children }: { children: React.ReactNode }) => {
   ] => {
     const [nfts, setNfts] = useState<Nft[]>();
 
-    const requestGetNftsByOwner = (address: string) => {
-      nftContract
-        .nft_tokens_for_owner({
-          account_id: address,
-        })
-        .then((nfts: any) => {
-          const deserializedNfts = nfts.map((nft: any) =>
-            NftNear.fromData(nft),
-          );
-          setNfts(deserializedNfts);
-        });
-    };
+    const requestGetNftsByOwner = useCallback(
+      (address: string) => {
+        if (nftContract) {
+          nftContract
+            .nft_tokens_for_owner({
+              account_id: address,
+            })
+            .then((nfts: any) => {
+              const deserializedNfts = nfts.map((nft: any) =>
+                NftNear.fromData(nft),
+              );
+              setNfts(deserializedNfts);
+            });
+        }
+      },
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [nftContract],
+    );
 
     return [requestGetNftsByOwner, { data: nfts }];
   };

@@ -5,7 +5,7 @@ import { Scalars } from '@infrastructure/scalars';
 import { NftBackendResponse } from '@interfaces/backend/NftResponse';
 import { NftNearResponse } from '@interfaces/blockchain/near/NftResponse';
 import { Blockchain, IsValidBlockchain } from '..';
-import { Transform } from 'class-transformer';
+import { Transform, instanceToPlain } from 'class-transformer';
 
 interface Nft {
   id: Scalars['UUID'];
@@ -24,6 +24,10 @@ class NftBackend implements Nft {
     return transformAndValidateSync(NftBackend, data, {
       transformer: { strategy: 'excludeAll' },
     });
+  }
+
+  static toPlain(nft: NftBackend) {
+    return instanceToPlain(nft);
   }
 
   @Expose()
@@ -66,7 +70,7 @@ class NftNear implements Nft {
   description: Scalars['String'];
 
   @Expose()
-  @Transform(({ obj }) => obj.metadata.media)
+  @Transform(({ obj }) => `${obj.metadata.media}`)
   media: Scalars['String'];
 
   @Expose()

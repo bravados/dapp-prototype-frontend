@@ -1,72 +1,78 @@
-import { Button } from '@mui/material';
+import React, { Fragment, useEffect, useRef } from 'react';
+import { Button, Grid, Stack } from '@mui/material';
 import CardMedia from '@mui/material/CardMedia';
-import React, { useState, useRef, useEffect } from 'react';
+import { styled } from '@stitches/react';
 
-const urlFromFile = async (file: File) => {
-  const blob = new Blob([await file.arrayBuffer()]);
-  const srcBlob = URL.createObjectURL(blob);
-
-  return srcBlob;
-};
+const ActionsContainer = styled('div', { margin: '10px' });
 
 interface ImageUploaderProps {
-  file: any;
-  onFileChanged: (file: any) => void;
-  isDisabled?: boolean;
+  fileUrl?: string;
+  isEdit: boolean;
+  onChange?: (file: any) => void;
+  onRemove?: () => void;
 }
 
 export const ImageUploader = ({
-  file,
-  isDisabled = false,
-  onFileChanged,
+  fileUrl,
+  isEdit,
+  onChange,
+  onRemove,
 }: ImageUploaderProps) => {
   const fileInput = useRef<HTMLInputElement>(null);
-  const [imageUrl, setImageUrl] = useState('');
 
-  useEffect(() => {
-    const setImage = async () => {
-      if (file) {
-        const url = await urlFromFile(file);
-        setImageUrl(url);
-      } else {
-        setImageUrl('');
-      }
-    };
-    setImage();
-  }, [file]);
+  const handleClick = (e: any) => {
+    e.preventDefault();
+    fileInput.current && fileInput.current.click();
+  };
 
-  const handleFileInput = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
 
-      onFileChanged(file);
+      onChange?.(file);
     }
   };
 
   return (
-    <div className="file-uploader">
-      <CardMedia component="img" src={imageUrl}></CardMedia>
+    <Stack className="file-uploader">
       <input
         ref={fileInput}
-        type="file"
-        onChange={handleFileInput}
         hidden
-        disabled={isDisabled}
+        accept="image/*"
+        multiple
+        type="file"
+        onChange={handleFileChange}
       />
-      {!imageUrl && (
-        <Button
-          variant="outlined"
-          color="primary"
-          onClick={(e) => {
-            e.preventDefault();
-            fileInput.current && fileInput.current.click();
-          }}
-          disableElevation
-          disabled={isDisabled}
-        >
+      {fileUrl ? (
+        <CardMedia component="img" src={fileUrl ?? ''} sx={{ maxWidth: 345 }} />
+      ) : (
+        <Button variant="outlined" color="primary" onClick={handleClick}>
           Upload Image
         </Button>
       )}
-    </div>
+      {fileUrl && isEdit && (
+        <Grid
+          container
+          direction="row"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <ActionsContainer>
+            <Fragment>
+              <Button
+                variant="contained"
+                component="label"
+                onClick={handleClick}
+              >
+                Edit
+              </Button>
+              <Button variant="outlined" component="label" onClick={onRemove}>
+                Remove
+              </Button>
+            </Fragment>
+          </ActionsContainer>
+        </Grid>
+      )}
+    </Stack>
   );
 };

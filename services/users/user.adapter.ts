@@ -8,6 +8,8 @@ import {
   CreateUserResponse,
   GetUserIdsResponse,
   GetUserResponse,
+  UpdateUserProfileRequestPayload,
+  UpdateUserProfileResponse,
   UserService,
 } from './user.port';
 
@@ -80,7 +82,28 @@ class UserAdapter implements UserService {
       console.log(error)
       throw new Error('User.adapter.getUserById: request failed');
      }
-  } 
+  }
+
+  updateUserProfile(id: number): UpdateUserProfileResponse {
+    const uri = `${baseUrl}/users/${id}/update-profile`;
+
+    const [request, { loading, error, data }] = useMutation<UserResponse, UpdateUserProfileRequestPayload>(uri, {
+      method: 'POST',
+    });
+
+    const requestWrapper = ({name, email}: UpdateUserProfileRequestPayload) => {
+      request({ data: {name, email} });
+    };
+
+    return [
+      requestWrapper,
+      {
+        loading,
+        error,
+        data: data ? User.fromData(data) : data,
+      }
+    ];
+  }
 }
 
 export { UserAdapter };

@@ -17,8 +17,18 @@ type CreateFileResponse = [
   },
 ];
 
+type DeleteFileResponse = [
+  (payload: IPFSFile) => void,
+  {
+    loading: boolean;
+    error?: HTTPError;
+    success: boolean;
+  },
+];
+
 interface FileService {
   createFile(): CreateFileResponse;
+  deleteFile(): DeleteFileResponse;
 }
 
-export type { FileService, CreateFilePayload, CreateFileResponse };
+export type { IPFSFile, FileService, CreateFilePayload, CreateFileResponse, DeleteFileResponse };

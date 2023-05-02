@@ -1,13 +1,15 @@
-import React, { Fragment, useEffect, useRef } from 'react';
-import { Button, Grid, Stack } from '@mui/material';
+import React, { Fragment, useRef } from 'react';
+import { Grid } from '@mui/material';
 import CardMedia from '@mui/material/CardMedia';
 import { styled } from '@stitches/react';
+import { WaiterButton } from '@ui/core/WaiterButton';
 
 const ActionsContainer = styled('div', { margin: '10px' });
 
 interface ImageUploaderProps {
   fileUrl?: string;
   isEdit: boolean;
+  isLoading?: boolean;
   onChange?: (file: any) => void;
   onRemove?: () => void;
 }
@@ -15,6 +17,7 @@ interface ImageUploaderProps {
 export const ImageUploader = ({
   fileUrl,
   isEdit,
+  isLoading,
   onChange,
   onRemove,
 }: ImageUploaderProps) => {
@@ -34,7 +37,12 @@ export const ImageUploader = ({
   };
 
   return (
-    <Stack className="file-uploader">
+    <Grid
+      container
+      direction="column"
+      justifyContent="center"
+      alignItems="center"
+    >
       <input
         ref={fileInput}
         hidden
@@ -43,36 +51,34 @@ export const ImageUploader = ({
         type="file"
         onChange={handleFileChange}
       />
-      {fileUrl ? (
+      {fileUrl && (
         <CardMedia component="img" src={fileUrl ?? ''} sx={{ maxWidth: 345 }} />
-      ) : (
-        <Button variant="outlined" color="primary" onClick={handleClick}>
-          Upload Image
-        </Button>
       )}
-      {fileUrl && isEdit && (
-        <Grid
-          container
-          direction="row"
-          justifyContent="center"
-          alignItems="center"
-        >
-          <ActionsContainer>
-            <Fragment>
-              <Button
+      {isEdit && (
+        <ActionsContainer>
+          <Fragment>
+            {!fileUrl && (
+              <WaiterButton
+                isLoading={isLoading}
                 variant="contained"
-                component="label"
+                color="primary"
                 onClick={handleClick}
               >
-                Edit
-              </Button>
-              <Button variant="outlined" component="label" onClick={onRemove}>
+                Upload Image
+              </WaiterButton>
+            )}
+            {fileUrl && (
+              <WaiterButton
+                isLoading={isLoading}
+                variant="outlined"
+                onClick={onRemove}
+              >
                 Remove
-              </Button>
-            </Fragment>
-          </ActionsContainer>
-        </Grid>
+              </WaiterButton>
+            )}
+          </Fragment>
+        </ActionsContainer>
       )}
-    </Stack>
+    </Grid>
   );
 };

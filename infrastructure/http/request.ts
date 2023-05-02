@@ -67,7 +67,12 @@ const request = async (
     throw new HTTPError('Invalid request', response.status);
   }
 
-  return response.json();
+  try {
+    return await response.json();
+  } catch (error) {
+    console.log('[request] Error while parsing the response. Probably the body was empty', error);
+    return {};
+  }
 };
 
 export { request };

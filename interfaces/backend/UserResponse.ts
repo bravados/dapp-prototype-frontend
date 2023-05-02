@@ -26,4 +26,8 @@ interface UserIdsResponse {
   ids: number[];
 }
 
-export type { UserResponse, UserWalletResponse, UserRoyaltyResponse, UserIdsResponse };
+interface UploadAvatarResponse {
+  url: string;
+}
+
+export type { UserResponse, UserWalletResponse, UserRoyaltyResponse, UserIdsResponse, UploadAvatarResponse };

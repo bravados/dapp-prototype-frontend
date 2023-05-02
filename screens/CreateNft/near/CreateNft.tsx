@@ -4,6 +4,7 @@ import { useKirunalabs } from '@screens/KirunalabsContext';
 import { KirunaDialog } from '@ui/viewComponents/KirunaDialog';
 import { CreateNftForm } from '@ui/viewComponents';
 import { useCreateFile } from '@application/file';
+import { useDeleteFile } from '@application/file/deleteFile.usecase';
 
 const kirunalabsUrl = process.env.NEXT_PUBLIC_KIRUNALABS_FALLBACK_URL;
 
@@ -20,11 +21,9 @@ const CreateNft = () => {
 
   const [fileUrl, setFileUrl] = useState<string>();
 
-  const [requestCreateFile, { error: createFileError, data: ipfsFile }] =
-    useCreateFile();
-
   const [dialogMessage, setDialogMessage] = useState('');
 
+  // check if the user is an artist and has royalties set
   useEffect(() => {
     if (!user || user.type !== 'ARTIST') {
       setDialogMessage('Make sure that Kirunalabs granted you "Artist" role');
@@ -36,6 +35,16 @@ const CreateNft = () => {
       setDialogMessage('');
     }
   }, [isSignedIn, user]);
+
+  // handle create the nft in IPFS
+  const [
+    requestCreateFile,
+    { loading: createFileLoading, error: createFileError, data: ipfsFile },
+  ] = useCreateFile();
+
+  const onFileChange = (file: any) => {
+    requestCreateFile({ file: file });
+  };
 
   useEffect(() => {
     if (ipfsFile) {
@@ -49,10 +58,37 @@ const CreateNft = () => {
     }
   }, [ipfsFile, createFileError]);
 
-  const onFileChange = (file: any) => {
-    requestCreateFile({ file: file });
+  // handle delete the nft in IPFS
+  const [
+    requestDeleteFile,
+    {
+      loading: deleteFileLoading,
+      error: deleteFileError,
+      success: deleteFileSuccess,
+    },
+  ] = useDeleteFile();
+
+  const onFileDelete = () => {
+    if (ipfsFileId) {
+      requestDeleteFile({ cid: ipfsFileId });
+    }
   };
 
+  useEffect(() => {
+    if (deleteFileError) {
+      setDialogMessage(
+        'The image could not be deleted from IPFS. Contact Kirunalabs',
+      );
+    }
+  }, [deleteFileError]);
+
+  useEffect(() => {
+    if (deleteFileSuccess) {
+      setFileUrl('');
+    }
+  }, [deleteFileSuccess]);
+
+  // handle minting
   const onSubmit = (title: string, description: string) => {
     mint({
       title,
@@ -73,8 +109,10 @@ const CreateNft = () => {
       <CreateNftForm
         fileUrl={fileUrl}
         estimatedCost={formatAmount(MINT_DEPOSIT)}
+        isFileLoading={createFileLoading || deleteFileLoading}
         onSubmit={onSubmit}
         onFileChange={onFileChange}
+        onFileRemove={onFileDelete}
       />
     </Fragment>
   );

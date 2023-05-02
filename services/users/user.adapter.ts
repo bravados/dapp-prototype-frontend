@@ -1,13 +1,16 @@
 import { User } from '@domain/user';
 import { Blockchain } from '@domain/wallet/wallet';
-import { HTTPError, useMutation, useQuery, request as httpRequest } from '@infrastructure/http';
+import { HTTPError, useMutation, useQuery, request as httpRequest, QueryOptions } from '@infrastructure/http';
 import { Scalars } from '@infrastructure/scalars';
-import { UserIdsResponse, UserResponse } from '@interfaces/backend/UserResponse';
+import { UploadAvatarResponse, UserIdsResponse, UserResponse } from '@interfaces/backend/UserResponse';
 import {
   CreateUserPayload,
   CreateUserResponse,
   GetUserIdsResponse,
   GetUserResponse,
+  RemoveUserAvatarResponse,
+  UpdateUserAvatarRequestPayload,
+  UpdateUserAvatarResponse,
   UpdateUserProfileRequestPayload,
   UpdateUserProfileResponse,
   UserService,
@@ -39,13 +42,13 @@ class UserAdapter implements UserService {
     ];
   }
   
-  getUser(blockchain: Blockchain, address: Address): GetUserResponse {
+  getUser(blockchain: Blockchain, address: Address, options?: QueryOptions): GetUserResponse {
     const uri = `${baseUrl}/users/${blockchain.toLowerCase()}/${address}`;
     
     const [request, { loading, error, data }] = useQuery<
     UserResponse,
     HTTPError
-    >(uri);
+    >(uri, options);
     
     return [
       request,
@@ -82,6 +85,48 @@ class UserAdapter implements UserService {
       console.log(error)
       throw new Error('User.adapter.getUserById: request failed');
      }
+  }
+
+  removeUserAvatar(id: number): RemoveUserAvatarResponse {
+    const uri = `${baseUrl}/users/${id}/remove-avatar`;
+
+    const [request, { loading, error, status }] = useMutation(uri, {
+      method: 'POST',
+    });
+
+    return [
+      request,
+      {
+        loading,
+        error,
+        success: status === 'success',
+      },
+    ]
+  }
+
+  uploadUserAvatar(id: number): UpdateUserAvatarResponse {
+    const uri = `${baseUrl}/users/${id}/upload-avatar`;
+
+    const [request, { loading, error, status }] = useMutation<UploadAvatarResponse, UpdateUserAvatarRequestPayload>(uri, {
+      method: 'POST',
+      contentType: 'multipart/form-data',
+    });
+
+    const requestWrapper = ({file}: UpdateUserAvatarRequestPayload) => {
+      const formData = new FormData();
+      formData.append('file', file);
+
+      request({ data: formData });
+    }
+
+    return [
+      requestWrapper,
+      {
+        loading,
+        error,
+        success: status === 'success',
+      }
+    ];
   }
 
   updateUserProfile(id: number): UpdateUserProfileResponse {

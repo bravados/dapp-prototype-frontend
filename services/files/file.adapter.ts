@@ -3,7 +3,9 @@ import { useMutation } from '@infrastructure/http';
 import {
   CreateFilePayload,
   CreateFileResponse,
+  DeleteFileResponse,
   FileService,
+  IPFSFile,
 } from './file.port';
 
 const baseUrl = process.env.NEXT_PUBLIC_KIRUNALABS_API_URL;
@@ -32,6 +34,27 @@ class FileAdapter implements FileService {
         data,
       },
     ];
+  }
+
+  deleteFile(): DeleteFileResponse {
+    const uri = `${baseUrl}/files`;
+
+    const [request, { loading, error, status }] = useMutation<void, IPFSFile>(uri, {
+      method: 'DELETE',
+    });
+
+    const requestWrapper = (payload: IPFSFile) => {
+      request({ data: payload });
+    }
+
+    return [
+      requestWrapper,
+      {
+        loading,
+        error,
+        success: status === 'success',
+      },
+    ]
   }
 }
 

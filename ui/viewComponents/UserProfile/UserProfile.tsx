@@ -7,6 +7,7 @@ import { UserProfileData } from '@screens/UserProfileData';
 
 type Props = {
   isEdit: boolean;
+  isLoading: boolean;
   name: string;
   email: string;
   avatar?: string;
@@ -20,6 +21,7 @@ type Props = {
 
 const UserProfile = ({
   isEdit,
+  isLoading,
   avatar,
   name,
   email,
@@ -56,6 +58,7 @@ const UserProfile = ({
             <ImageUploader
               fileUrl={avatar}
               isEdit={isEdit}
+              isLoading={isLoading}
               onChange={onAvatarChange}
               onRemove={onAvatarRemove}
             />

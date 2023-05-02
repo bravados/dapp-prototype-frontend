@@ -15,6 +15,7 @@ type MutationResponse<T = unknown, S = unknown> = [
     loading: boolean;
     error?: any;
     data?: T;
+    status?: string;
   },
 ];
 
@@ -101,6 +102,7 @@ const useMutation = <T = unknown, S = unknown>(
       loading: mutation.isLoading,
       error: mutation.error,
       data: mutation.data,
+      status: mutation.status,
     },
   ];
 };

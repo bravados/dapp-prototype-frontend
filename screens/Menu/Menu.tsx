@@ -45,7 +45,7 @@ const Menu = () => {
 
   // set user if existing user is found
   useEffect(() => {
-    if (existingUser && !user) {
+    if (existingUser && (!user || existingUser?.avatar !== user?.avatar)) {
       setUser(existingUser);
     }
   }, [existingUser, user, setUser]);

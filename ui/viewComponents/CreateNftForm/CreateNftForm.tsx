@@ -14,14 +14,18 @@ type Errors = { [key: string]: string };
 type CreateNftFormProps = {
   fileUrl?: string;
   estimatedCost: string;
+  isFileLoading: boolean;
   onFileChange: (file: any) => void;
+  onFileRemove: () => void;
   onSubmit: (title: string, description: string) => void;
 };
 
 const CreateNftForm = ({
   fileUrl,
   estimatedCost,
+  isFileLoading,
   onFileChange,
+  onFileRemove,
   onSubmit,
 }: CreateNftFormProps) => {
   const [title, setTitle] = useState('');
@@ -91,7 +95,9 @@ const CreateNftForm = ({
             <ImageUploader
               fileUrl={fileUrl}
               isEdit={true}
+              isLoading={isFileLoading}
               onChange={onFileChange}
+              onRemove={onFileRemove}
             />
           </Grid>
           <Grid item>

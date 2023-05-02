@@ -1,6 +1,6 @@
 import { IsDefined, IsInt, IsOptional } from 'class-validator';
 import { transformAndValidateSync } from 'class-transformer-validator';
-import { instanceToPlain } from 'class-transformer';
+import { Transform, instanceToPlain } from 'class-transformer';
 import { Scalars } from '@infrastructure/scalars';
 import { Expose, Type } from '@infrastructure/domain';
 import { UserResponse } from '@interfaces/backend/UserResponse';
@@ -13,7 +13,19 @@ type UserType = 'INDIVIDUAL' | 'ARTIST' | 'ADMIN';
 
 type Email = Scalars['Email'];
 
-type Avatar = Scalars['URL'];
+type Avatar = Scalars['String'];
+
+const avatarBaseUrl = process.env.NEXT_PUBLIC_CLOUDFRONT_DISTRIBUTION_DOMAIN;
+
+const buildAvatarUrl = (avatar: Avatar) => {
+  if(!avatar) return '';
+  
+  if(avatar.includes(avatarBaseUrl!)) {
+    return avatar;
+  }
+  return `${avatarBaseUrl}/avatars/${avatar}`;
+}
+
 
 class User implements UserResponse {
   static fromData(data: UserResponse): User {
@@ -44,6 +56,7 @@ class User implements UserResponse {
 
   @Expose()
   @IsOptional()
+  @Transform(({ value }) => buildAvatarUrl(value))
   avatar: Avatar;
 
   @Expose()

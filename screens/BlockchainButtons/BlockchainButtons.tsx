@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useNear } from '@infrastructure/blockchain/near';
 import { useCreateUser, useGetUser } from '@application/user';
@@ -6,7 +6,7 @@ import { TermsAndConditions } from 'ui/viewComponents';
 import { NearButtons } from 'ui/viewComponents/NearButtons';
 import { useKirunalabs } from 'screens/KirunalabsContext';
 
-const Menu = () => {
+const BlockchainButtons = () => {
   const { user, setUser, deleteUser } = useKirunalabs();
 
   const { isSignedIn, signIn, signOut, address } = useNear();
@@ -87,7 +87,7 @@ const Menu = () => {
   };
 
   return (
-    <div className="navbar-container">
+    <Fragment>
       <NearButtons
         isSignedIn={isSignedIn}
         isMintButtonVisible={user?.type === 'ARTIST'}
@@ -101,8 +101,8 @@ const Menu = () => {
         onAccept={onAcceptTermsAndConditions}
         onReject={onRejectTermsAndConditions}
       />
-    </div>
+    </Fragment>
   );
 };
 
-export { Menu };
+export { BlockchainButtons };

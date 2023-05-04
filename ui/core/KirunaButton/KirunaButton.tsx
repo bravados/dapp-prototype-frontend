@@ -1,30 +1,35 @@
-import { Button, ButtonProps } from '@mui/material';
-import React from 'react';
 import Link from 'next/link';
+import { Button, ButtonProps } from '@mui/material';
 
 const withLink = (href: string, children: React.ReactNode) => {
   return <Link href={href}>{children}</Link>;
 };
 
-type MenuButtonProps = ButtonProps & {
+type Props = ButtonProps & {
   href?: string;
   isSelected?: boolean;
   children: React.ReactNode;
 };
 
-const MenuButton = ({
+const KirunaButton = ({
   href,
   isSelected = false,
   onClick,
   children,
-}: MenuButtonProps) => {
-  const variant = isSelected ? 'contained' : 'outlined';
+}: Props) => {
+  const fontWeight = isSelected ? 'bold' : 'normal';
 
   return (
-    <Button onClick={onClick} variant={variant}>
+    <Button
+      onClick={onClick}
+      variant={'text'}
+      style={{ fontWeight: fontWeight }}
+      disableRipple
+    >
       {href ? withLink(href, children) : children}
     </Button>
   );
 };
 
-export { MenuButton };
+export { KirunaButton };
+export type { Props };

@@ -1,7 +1,10 @@
 import Head from 'next/head';
 import 'reflect-metadata';
-import { Menu } from '@screens/Menu';
+import { FullLogo } from '@ui/core/FullLogo';
+import { SocialMedia } from '@ui/viewComponents/SocialMedia';
 import styles from './MainLayout.module.scss';
+import { ActionsContainer } from '@ui/viewComponents/ActionsContainer';
+import { Manifesto } from '@ui/viewComponents/Manifesto';
 
 type MainLayoutProps = {
   children: React.ReactNode;
@@ -17,7 +20,10 @@ const MainLayout = ({ children }: MainLayoutProps) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <Menu />
+        <FullLogo />
+        <ActionsContainer />
+        <SocialMedia />
+        <Manifesto />
         {children}
       </main>
     </div>

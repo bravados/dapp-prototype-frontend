@@ -1,14 +1,19 @@
 import { styled } from '@stitches/react';
+import { Button } from '@mui/material';
 
-const StyledImg = styled('img', {
+const StyledButton = styled(Button, {
   width: '15vw',
   marginTop: '6.2vh',
   marginLeft: '4vw',
-  position: 'absolute',
+  position: 'fixed',
 });
 
 const FullLogo = () => {
-  return <StyledImg src="/full-logo-white-grey.svg" alt="Logo" />;
+  return (
+    <StyledButton>
+      <img src="/full-logo-white-grey.svg" alt="Logo" />
+    </StyledButton>
+  );
 };
 
 export { FullLogo };

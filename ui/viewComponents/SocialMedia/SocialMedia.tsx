@@ -8,7 +8,7 @@ const StyledImg = styled('img', {
 });
 
 const Container = styled('div', {
-  position: 'absolute',
+  position: 'fixed',
   left: '0',
   bottom: '0',
   marginLeft: '4vw',

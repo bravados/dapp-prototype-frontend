@@ -1,9 +1,9 @@
-import { Button } from '@mui/material';
+import { Button, ButtonProps } from '@mui/material';
 import { styled } from '@stitches/react';
+import { CustomLink } from '@ui/core/CustomLink';
 
-// todo why can't I use KirunaButton here? css is not applied
 const StyledButton = styled(Button, {
-  position: 'absolute',
+  position: 'fixed',
   width: '10vw',
   height: '4.8vh',
   bottom: '0',
@@ -24,8 +24,16 @@ const StyledButton = styled(Button, {
   },
 });
 
-const Manifesto = () => {
-  return <StyledButton>MANIFESTO</StyledButton>;
+type Props = ButtonProps & {
+  isSelected?: boolean;
 };
 
-export { Manifesto };
+const ManifestoButton = ({ href, isSelected }: Props) => {
+  return (
+    <StyledButton disableElevation disableFocusRipple disableRipple>
+      <CustomLink href={href}>MANIFESTO</CustomLink>
+    </StyledButton>
+  );
+};
+
+export { ManifestoButton };

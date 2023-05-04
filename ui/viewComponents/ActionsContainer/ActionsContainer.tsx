@@ -3,7 +3,7 @@ import { MenuButton } from '@ui/core';
 import { styled } from '@stitches/react';
 
 const Container = styled('div', {
-  position: 'absolute',
+  position: 'fixed',
   marginTop: '6.2vh',
   right: 0,
   marginRight: '4vw',

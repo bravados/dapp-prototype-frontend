@@ -1,36 +1,24 @@
 import React from 'react';
-import Link from 'next/link';
 import { styled } from '@stitches/react';
-import {
-  KirunaButton,
-  Props as KirunaButtonProps,
-} from '../../core/KirunaButton';
+import { Button, ButtonProps } from '@mui/material';
+import { CustomLink } from '../../core/CustomLink';
 
-const withLink = (href: string, children: React.ReactNode) => {
-  return <Link href={href}>{children}</Link>;
-};
-
-const StyledButton = styled(KirunaButton, {
+const StyledButton = styled(Button, {
   textTransform: 'none',
-  boxShadow: 'none',
-  backgroundColor: 'transparent',
-  outline: 'none',
   '&:hover': {
     backgroundColor: 'transparent',
   },
 });
 
-type MenuButtonProps = KirunaButtonProps & {
+type Props = ButtonProps & {
   isSelected?: boolean;
 };
 
-const MenuButton = ({
-  href,
-  isSelected = false,
-  children,
-}: MenuButtonProps) => {
+const MenuButton = ({ href, isSelected = false, children }: Props) => {
   return (
-    <StyledButton>{href ? withLink(href, children) : children}</StyledButton>
+    <StyledButton disableElevation disableRipple disableFocusRipple>
+      <CustomLink href={href}>{children}</CustomLink>
+    </StyledButton>
   );
 };
 

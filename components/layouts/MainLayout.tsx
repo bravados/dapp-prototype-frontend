@@ -4,7 +4,7 @@ import { FullLogo } from '@ui/core/FullLogo';
 import { SocialMedia } from '@ui/viewComponents/SocialMedia';
 import styles from './MainLayout.module.scss';
 import { ActionsContainer } from '@ui/viewComponents/ActionsContainer';
-import { Manifesto } from '@ui/viewComponents/Manifesto';
+import { ManifestoButton } from '@ui/viewComponents/ManifestoButton';
 
 type MainLayoutProps = {
   children: React.ReactNode;
@@ -23,7 +23,7 @@ const MainLayout = ({ children }: MainLayoutProps) => {
         <FullLogo />
         <ActionsContainer />
         <SocialMedia />
-        <Manifesto />
+        <ManifestoButton />
         {children}
       </main>
     </div>

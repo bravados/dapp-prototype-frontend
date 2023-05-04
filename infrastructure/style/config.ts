@@ -8,7 +8,8 @@ const {
     reset,
     config
 } = createStitches({
-    prefix: 'kiruna-labs',
+    prefix: 'kirunalabs',
+    
 });
 
 const getCssAndReset = () => {

@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 
 const StyledButton = styled(Button, {
   position: 'fixed',
-  width: '10vw',
+  minWidth: '10vw',
   height: '4.8vh',
   bottom: '0',
   right: '0',
@@ -37,12 +37,7 @@ const ManifestoButton = () => {
   const { asPath } = useRouter();
 
   return (
-    <StyledButton
-      isSelected={asPath === '/manifesto'}
-      disableElevation
-      disableFocusRipple
-      disableRipple
-    >
+    <StyledButton isSelected={asPath === '/manifesto'}>
       <CustomLink href="/manifesto">MANIFESTO</CustomLink>
     </StyledButton>
   );

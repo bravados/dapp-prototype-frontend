@@ -1,14 +1,10 @@
-import { styled } from '@stitches/react';
+import { Home } from '@ui/viewComponents';
 import { MainLayout } from 'components/layouts';
 
-const HomePage = styled('div', { height: '100vh', backgroundColor: 'red' });
-const HomePage2 = styled('div', { height: '100vh', backgroundColor: 'blue' });
-
-export default function Home() {
+export default function HomePage() {
   return (
     <MainLayout>
-      <HomePage>HomePage</HomePage>
-      <HomePage2>HomePage2</HomePage2>
+      <Home />
     </MainLayout>
   );
 }

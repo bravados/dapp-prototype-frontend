@@ -2,8 +2,34 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const theme = createTheme({
     typography: {
-        fontFamily: 'Montserrat-Regular',
-        fontSize: 24,
+        h1: {
+          fontSize: 48,
+          fontWeight: 'bolder',
+        },
+        h2: {
+          fontSize: 48,
+          fontWeight: 'bold',
+        },
+        h3: {
+          fontSize: 40,
+          fontWeight: 'bold',
+        },
+        h5: {
+          fontSize: 20,
+          fontWeight: 'bold',
+        },
+        body1: {
+          fontSize: 20,
+          fontWeight: 'normal',
+        },
+        body2: {
+          fontSize: 22,
+          fontWeight: 'lighter',
+        },
+        allVariants: {
+          color: '#FFFFFF',
+          fontFamily: 'Montserrat-Regular',
+        }
     },
     palette: {
         primary: {
@@ -13,19 +39,19 @@ const theme = createTheme({
     components: {
         MuiButtonBase: {
             defaultProps: {
-              // The props to change the default for.
               disableRipple: true, // No more ripple, on the whole application 💣!
             },
 
         },
         MuiButton: {
             styleOverrides: {
-              // Name of the slot
               root: {
                 textTransform: 'none',
                 ":hover": {
                     backgroundColor: 'transparent',
-                }
+                },
+                fontSize: 24,
+                fontWeight: 'normal',
               },
             },
           },

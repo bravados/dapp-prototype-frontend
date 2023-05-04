@@ -1,5 +1,6 @@
 import { styled } from '@stitches/react';
 import { Button } from '@mui/material';
+import { CustomLink } from '../CustomLink';
 
 const StyledButton = styled(Button, {
   width: '15vw',
@@ -11,7 +12,9 @@ const StyledButton = styled(Button, {
 const FullLogo = () => {
   return (
     <StyledButton>
-      <img src="/full-logo-white-grey.svg" alt="Logo" />
+      <CustomLink href="/">
+        <img src="/full-logo-white-grey.svg" alt="Logo" />
+      </CustomLink>
     </StyledButton>
   );
 };

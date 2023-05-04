@@ -19,9 +19,6 @@ const StyledButton = styled(Button, {
   paddingRight: '30px',
   fontSize: '20px',
   fontWeight: 'bold',
-  '&:hover': {
-    backgroundColor: 'transparent',
-  },
 });
 
 type Props = ButtonProps & {

@@ -5,4 +5,4 @@ export * from './CreateNftForm';
 export * from './PublishNftForm';
 export * from './ImageUploader';
 export * from './KirunaDialog';
-export * from './ActionsContainer';
+export * from '../../screens/ActionsContainer';

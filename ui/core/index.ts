@@ -1,2 +1,2 @@
-export * from '../viewComponents/MenuButton';
+export * from '../../screens/MenuButton';
 export * from './WaiterButton';

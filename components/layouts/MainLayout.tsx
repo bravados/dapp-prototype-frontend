@@ -3,7 +3,7 @@ import 'reflect-metadata';
 import { FullLogo } from '@ui/core/FullLogo';
 import { SocialMedia } from '@ui/viewComponents/SocialMedia';
 import styles from './MainLayout.module.scss';
-import { ActionsContainer } from '@ui/viewComponents/ActionsContainer';
+import { ActionsContainer } from '@screens/ActionsContainer';
 import { ManifestoButton } from '@ui/viewComponents/ManifestoButton';
 
 type MainLayoutProps = {

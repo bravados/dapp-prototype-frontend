@@ -1,6 +1,7 @@
 import { Button, ButtonProps } from '@mui/material';
 import { styled } from '@stitches/react';
 import { CustomLink } from '@ui/core/CustomLink';
+import { useRouter } from 'next/router';
 
 const StyledButton = styled(Button, {
   position: 'fixed',
@@ -12,23 +13,37 @@ const StyledButton = styled(Button, {
   marginRight: '4vw',
   border: '1px solid',
   borderRadius: '27px',
-  borderColor: '#FFFFFF',
   paddingTop: '18px',
   paddingBottom: '18px',
   paddingLeft: '30px',
   paddingRight: '30px',
   fontSize: '20px',
   fontWeight: 'bold',
+  variants: {
+    isSelected: {
+      true: {
+        borderColor: '#4F4F4F',
+        backgroundColor: '#313131',
+      },
+      false: {
+        borderColor: '#FFFFFF',
+        backgroundColor: 'transparent',
+      },
+    },
+  },
 });
 
-type Props = ButtonProps & {
-  isSelected?: boolean;
-};
+const ManifestoButton = () => {
+  const { asPath } = useRouter();
 
-const ManifestoButton = ({ href, isSelected }: Props) => {
   return (
-    <StyledButton disableElevation disableFocusRipple disableRipple>
-      <CustomLink href={href}>MANIFESTO</CustomLink>
+    <StyledButton
+      isSelected={asPath === '/manifesto'}
+      disableElevation
+      disableFocusRipple
+      disableRipple
+    >
+      <CustomLink href="/manifesto">MANIFESTO</CustomLink>
     </StyledButton>
   );
 };

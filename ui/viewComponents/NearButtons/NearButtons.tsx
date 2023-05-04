@@ -1,5 +1,5 @@
 import { Fragment } from 'react';
-import { MenuButton } from '@ui/viewComponents/MenuButton';
+import { MenuButton } from '@screens/MenuButton';
 
 type Props = {
   isSignedIn: boolean;

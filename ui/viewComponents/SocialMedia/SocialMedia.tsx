@@ -2,8 +2,8 @@ import { styled } from '@stitches/react';
 import { MenuButton } from '@ui/core';
 
 const StyledImg = styled('img', {
-  width: '2vw',
-  height: '2vw',
+  width: '39px',
+  height: '39px',
   marginRight: '1.5vw',
 });
 

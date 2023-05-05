@@ -3,8 +3,8 @@ import { styled } from '@stitches/react';
 import { CustomLink } from '@ui/core/CustomLink';
 
 const MainDiv = styled('div', {
-  width: '100vw',
-  height: '100vh',
+  width: 'auto',
+  height: 'auto',
 });
 
 const StyledGrid = styled(Grid, {
@@ -58,16 +58,24 @@ const Video = styled('video', {
   filter: 'brightness(0.5)',
 });
 
+const Circunferences = styled('img', {
+  position: 'absolute',
+  bottom: '0',
+  right: '0',
+});
+
 const Home = () => {
   return (
     <MainDiv>
-      <Video
-        src={`${process.env.NEXT_PUBLIC_CLOUDFRONT_DISTRIBUTION_DOMAIN}/mangrove.mp4`}
-        autoPlay
-        loop
-        muted
-        playsInline
-      />
+      <Hidden mdDown>
+        <Video
+          src={`${process.env.NEXT_PUBLIC_CLOUDFRONT_DISTRIBUTION_DOMAIN}/mangrove.mp4`}
+          autoPlay
+          loop
+          muted
+          playsInline
+        />
+      </Hidden>
       <StyledGrid
         container
         direction="row"
@@ -108,6 +116,7 @@ const Home = () => {
           </Typography>
           <ThreeTimesLogo src="/replicated-logo.svg" />
         </Grid>
+        <Circunferences src="/circunferences.svg" />
       </StyledGrid>
     </MainDiv>
   );

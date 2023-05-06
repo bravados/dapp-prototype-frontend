@@ -14,9 +14,15 @@ const theme = createTheme({
           fontSize: 40,
           fontWeight: 'bold',
         },
-        h5: {
+        h4: {
           fontSize: 20,
           fontWeight: 'bold',
+          color: '#D9D9D9',
+        },
+        h5: {
+          fontSize: 20,
+          fontWeight: 'regular',
+          color: '#888888',
         },
         body1: {
           fontSize: 20,

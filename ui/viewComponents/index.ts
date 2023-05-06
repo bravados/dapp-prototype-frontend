@@ -7,3 +7,4 @@ export * from './ImageUploader';
 export * from './KirunaDialog';
 export * from './Home';
 export * from './Manifesto';
+export * from './AboutUs';

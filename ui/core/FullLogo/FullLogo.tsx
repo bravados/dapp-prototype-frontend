@@ -7,6 +7,7 @@ const StyledButton = styled(Button, {
   marginTop: '6.2vh',
   marginLeft: '4vw',
   position: 'fixed',
+  zIndex: 1,
 });
 
 const FullLogo = () => {

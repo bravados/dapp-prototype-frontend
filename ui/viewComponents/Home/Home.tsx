@@ -5,9 +5,6 @@ import { CustomLink } from '@ui/core/CustomLink';
 const MainDiv = styled('div', {
   width: 'auto',
   height: 'auto',
-});
-
-const StyledGrid = styled(Grid, {
   paddingTop: '32vh',
   paddingBottom: '32vh',
   paddingLeft: '14vw',
@@ -51,10 +48,12 @@ const ThreeTimesLogo = styled('img', {
 
 const Video = styled('video', {
   objectFit: 'cover',
+  top: 0,
+  left: 0,
   position: 'absolute',
   zIndex: -1,
-  width: '100%',
-  height: '100%',
+  width: '100vw',
+  height: '100vh',
   filter: 'brightness(0.5)',
 });
 
@@ -76,7 +75,7 @@ const Home = () => {
           playsInline
         />
       </Hidden>
-      <StyledGrid
+      <Grid
         container
         direction="row"
         justifyContent="center"
@@ -117,7 +116,7 @@ const Home = () => {
           <ThreeTimesLogo src="/replicated-logo.svg" />
         </Grid>
         <Circunferences src="/circunferences.svg" />
-      </StyledGrid>
+      </Grid>
     </MainDiv>
   );
 };

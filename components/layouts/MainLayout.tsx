@@ -62,9 +62,7 @@ const MainLayout = ({ children }: MainLayoutProps) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <Hidden mdUp>
-          <Background />
-        </Hidden>
+        <Background />
         <TopBar />
         <FullLogo />
         <ActionsContainer />

@@ -13,6 +13,7 @@ const Container = styled('div', {
   bottom: '0',
   marginLeft: '4vw',
   marginBottom: '6.2vh',
+  zIndex: 1,
 });
 
 const SocialMedia = () => {

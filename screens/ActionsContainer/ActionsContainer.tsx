@@ -8,6 +8,7 @@ const Container = styled('div', {
   marginTop: '6.2vh',
   right: 0,
   marginRight: '4vw',
+  zIndex: 1,
 });
 
 const ActionsContainer = () => {

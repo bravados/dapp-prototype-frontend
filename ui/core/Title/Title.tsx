@@ -1,7 +1,7 @@
 import { Typography } from '@mui/material';
 import { styled } from '@stitches/react';
 
-const StyledTypography = styled(Typography, {
+const Container = styled('div', {
   position: 'relative',
   marginBottom: '5.4vh',
 });
@@ -11,7 +11,11 @@ type Props = {
 };
 
 const Title = ({ children }: Props) => {
-  return <StyledTypography variant="h3">{children}</StyledTypography>;
+  return (
+    <Container>
+      <Typography variant="h3">{children}</Typography>
+    </Container>
+  );
 };
 
 export { Title };

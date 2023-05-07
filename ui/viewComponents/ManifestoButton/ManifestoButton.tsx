@@ -1,22 +1,20 @@
-import { Button, ButtonProps } from '@mui/material';
+import { Typography } from '@mui/material';
 import { styled } from '@stitches/react';
 import { CustomLink } from '@ui/core/CustomLink';
 import { useRouter } from 'next/router';
 
-const StyledButton = styled(Button, {
+const Container = styled('div', {
   position: 'fixed',
-  minWidth: '10vw',
-  height: '4.8vh',
   bottom: '0',
   right: '0',
   marginBottom: '6.2vh',
   marginRight: '4vw',
   border: '1px solid',
-  borderRadius: '27px',
-  paddingTop: '18px',
-  paddingBottom: '18px',
-  paddingLeft: '30px',
-  paddingRight: '30px',
+  borderRadius: '35px',
+  paddingTop: '5px',
+  paddingBottom: '5px',
+  paddingLeft: '25px',
+  paddingRight: '25px',
   fontSize: '20px',
   fontWeight: 'bold',
   variants: {
@@ -38,9 +36,11 @@ const ManifestoButton = () => {
   const { asPath } = useRouter();
 
   return (
-    <StyledButton isSelected={asPath === '/manifesto'}>
-      <CustomLink href="/manifesto">MANIFESTO</CustomLink>
-    </StyledButton>
+    <Container isSelected={asPath === '/manifesto'}>
+      <CustomLink href="/manifesto">
+        <Typography>MANIFESTO</Typography>
+      </CustomLink>
+    </Container>
   );
 };
 

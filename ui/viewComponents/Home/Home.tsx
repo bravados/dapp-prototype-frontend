@@ -26,7 +26,8 @@ const StyledVerticalSeparator = styled('div', {
   marginBottom: '20px',
 });
 
-const ExploreButton = styled(Button, {
+const ExploreButton = styled('div', {
+  position: 'absolute',
   fontSize: '18px',
   fontWeight: 'bolder',
   paddingTop: '1.6vh',
@@ -34,8 +35,7 @@ const ExploreButton = styled(Button, {
   paddingLeft: '2.9vw',
   paddingRight: '2.9vw',
   borderRadius: '25px',
-  border: '4px solid',
-  minWidth: '12.6vw',
+  border: '4px solid white',
   marginTop: '7.9vh',
 });
 
@@ -84,7 +84,9 @@ const Home = () => {
             Discover, collect and sell extraordinary NTFs
           </Typography>
           <ExploreButton>
-            <CustomLink href="/">EXPLORE</CustomLink>
+            <CustomLink href="/">
+              <Typography>EXPLORE</Typography>
+            </CustomLink>
           </ExploreButton>
         </Grid>
 

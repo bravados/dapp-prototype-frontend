@@ -1,7 +1,7 @@
 import { Typography } from '@mui/material';
 import { styled } from '@stitches/react';
 
-const StyledTypography = styled(Typography, {
+const Container = styled('div', {
   position: 'relative',
   left: '0',
   marginLeft: '16.4vw',
@@ -15,9 +15,11 @@ type Props = {
 
 const Paragraph = ({ children }: Props) => {
   return (
-    <StyledTypography variant="body1" textAlign={'center'}>
-      {children}
-    </StyledTypography>
+    <Container>
+      <Typography variant="body1" textAlign={'center'}>
+        {children}
+      </Typography>
+    </Container>
   );
 };
 

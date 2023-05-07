@@ -25,7 +25,7 @@ const ActionsContainer = () => {
       <MenuButton href="/contacts" isSelected={asPath === '/contacts'}>
         Contacts
       </MenuButton>
-      <BlockchainButtons />
+      {/* <BlockchainButtons /> */}
     </Container>
   );
 };

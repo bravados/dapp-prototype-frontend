@@ -8,3 +8,4 @@ export * from './KirunaDialog';
 export * from './Home';
 export * from './Manifesto';
 export * from './AboutUs';
+export * from './Artworks';

@@ -40,10 +40,8 @@ const ExploreButton = styled(Button, {
 });
 
 const ThreeTimesLogo = styled('img', {
-  width: '28.9vw',
-  height: '14vh',
-  marginTop: '6.2vh',
-  marginLeft: '-50px',
+  position: 'absolute',
+  marginTop: '20vh',
 });
 
 const Video = styled('video', {

@@ -71,6 +71,7 @@ const AboutUs = () => {
           alignItems={'center'}
           justifyContent={'center'}
           alignContent={'center'}
+          spacing={7}
         >
           <Grid xs={12} md={4}>
             <StyledStack direction={'column'}>

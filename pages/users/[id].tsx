@@ -3,18 +3,24 @@ import { ParsedUrlQuery } from 'querystring';
 import { User } from '@domain/user';
 import { UserAdapter } from '@services/users/user.adapter';
 import { UserScreen } from '@screens/UserProfile';
-import { MainLayout } from 'components/layouts';
+import { MainLayout } from '@ui/layouts';
 
 interface Params extends ParsedUrlQuery {
   id: string;
 }
 
 export const getStaticPaths: GetStaticPaths<Params> = async () => {
-  const userIds = await new UserAdapter().getUserIds();
+  let userIds: number[] = [];
+
+  try {
+    userIds = await new UserAdapter().getUserIds();
+  } catch (e) {
+    console.log(e);
+  }
 
   return {
     paths: userIds.map((id) => ({ params: { id: id.toString() } })),
-    fallback: false,
+    fallback: true,
   };
 };
 

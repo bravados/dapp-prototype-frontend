@@ -1,5 +1,5 @@
 import { Manifesto } from '@ui/viewComponents';
-import { MainLayout } from 'components/layouts';
+import { MainLayout } from '@ui/layouts';
 
 export default function ManifestoPage() {
   return (

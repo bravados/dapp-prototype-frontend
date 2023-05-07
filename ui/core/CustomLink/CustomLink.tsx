@@ -1,13 +1,8 @@
 import Link from 'next/link';
 import { Fragment } from 'react';
-import { styled } from '@stitches/react';
 
-const StyledLink = styled(Link, {
-  color: '#FFFFFF',
-});
-
-const withLink = (href: string, children: React.ReactNode) => {
-  return <StyledLink href={href}>{children}</StyledLink>;
+const WithLink = (href: string, children: React.ReactNode) => {
+  return <Link href={href}>{children}</Link>;
 };
 
 type Props = {
@@ -16,7 +11,7 @@ type Props = {
 };
 
 const CustomLink = ({ href, children }: Props) => {
-  return <Fragment>{href ? withLink(href, children) : children}</Fragment>;
+  return <Fragment>{href ? WithLink(href, children) : children}</Fragment>;
 };
 
 export { CustomLink };

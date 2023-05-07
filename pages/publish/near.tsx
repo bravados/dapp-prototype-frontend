@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { MainLayout } from 'components/layouts';
+import { MainLayout } from '@ui/layouts';
 import { PublishNft } from '@screens/PublishNft';
 import { WalletConnectedRoute } from '@screens/WalletConnectedRoute';
 

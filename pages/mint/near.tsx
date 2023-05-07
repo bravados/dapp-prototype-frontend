@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { CreateNft } from '@screens/CreateNft/near';
-import { MainLayout } from 'components/layouts';
+import { MainLayout } from '@ui/layouts';
 import { CreateNftFallback } from '@screens/CreateNftFallback/near';
 import { WalletConnectedRoute } from '@screens/WalletConnectedRoute';
 

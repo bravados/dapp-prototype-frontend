@@ -1,4 +1,4 @@
-export * from '../../screens/MenuButton';
+export * from './ActionButton';
 export * from './WaiterButton';
 export * from './Title';
 export * from './Paragraph';

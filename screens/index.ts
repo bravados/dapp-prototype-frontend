@@ -1,4 +1,4 @@
-export * from './BlockchainButtons';
+export * from './UserMenu';
 export * from './CreateNft';
 export * from './PublishNft';
 export * from './UserProfileData';

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, ButtonProps } from '@mui/material';
 import { styled } from '@stitches/react';
-import { CustomLink } from '../../ui/core/CustomLink';
+import { CustomLink } from '../CustomLink';
 
 const StyledButton = styled(Button, {
   variants: {
@@ -20,7 +20,7 @@ type Props = ButtonProps & {
   isSelected?: boolean;
 };
 
-const MenuButton = ({ href, isSelected = false, onClick, children }: Props) => {
+const ActionButton = ({ href, isSelected = false, onClick, children }: Props) => {
   return (
     <StyledButton
       isSelected={isSelected}
@@ -34,4 +34,4 @@ const MenuButton = ({ href, isSelected = false, onClick, children }: Props) => {
   );
 };
 
-export { MenuButton };
+export { ActionButton };

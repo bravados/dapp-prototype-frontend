@@ -1,6 +1,6 @@
 export * from './ComingSoon';
 export * from './TermsAndConditions';
-export * from './NearButtons';
+export * from './NearMenuItems';
 export * from './CreateNftForm';
 export * from './PublishNftForm';
 export * from './ImageUploader';

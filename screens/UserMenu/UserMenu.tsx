@@ -1,15 +1,28 @@
-import { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useNear } from '@infrastructure/blockchain/near';
 import { useCreateUser, useGetUser } from '@application/user';
 import { TermsAndConditions } from 'ui/viewComponents';
-import { NearButtons } from 'ui/viewComponents/NearButtons';
+import { NearMenuItems } from '@ui/viewComponents/NearMenuItems';
 import { useKirunalabs } from 'screens/KirunalabsContext';
+import { Avatar, Divider, IconButton, Menu, MenuItem } from '@mui/material';
+import { ActionButton } from '@ui/core';
 
-const BlockchainButtons = () => {
+const UserMenu = () => {
+  // UI logic
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  // Business logic
   const { user, setUser, deleteUser } = useKirunalabs();
 
-  const { isSignedIn, signIn, signOut, address } = useNear();
+  const { isSignedIn, signOut, address } = useNear();
 
   const {
     user: existingUser,
@@ -69,11 +82,8 @@ const BlockchainButtons = () => {
     }
   }, [newUser, createUserError, user, setUser]);
 
-  const onSignIn = () => {
-    signIn();
-  };
-
   const onSignOut = () => {
+    setAnchorEl(null);
     signOut();
     deleteUser();
   };
@@ -88,21 +98,41 @@ const BlockchainButtons = () => {
 
   return (
     <Fragment>
-      <NearButtons
-        isSignedIn={isSignedIn}
-        isMintButtonVisible={user?.type === 'ARTIST'}
-        isMintButtonSelected={asPath === '/mint/near'}
-        onSignIn={onSignIn}
-        onSignOut={onSignOut}
-      />
+      <IconButton
+        onClick={handleClick}
+        size="small"
+        sx={{ ml: 2 }}
+      >
+        <Avatar sx={{ width: 32, height: 32 }}>
+          <img src={user?.avatar} width={32} />
+        </Avatar>
+      </IconButton>
+      <Menu
+        anchorEl={anchorEl}
+        id="user-menu"
+        open={open}
+        onClose={handleClose}
+        onClick={handleClose}>
+        <MenuItem onClick={handleClose}>
+          <ActionButton href={`/users/${user?.id}`}>
+            Profile
+          </ActionButton>
+        </MenuItem>
+        <Divider />
+        <NearMenuItems
+          isMintButtonVisible={user?.type === 'ARTIST'}
+          isMintButtonSelected={asPath === '/mint/near'}
+          onSignOut={onSignOut}
+        />
 
-      <TermsAndConditions
-        isVisible={isTermsAndConditionsVisible}
-        onAccept={onAcceptTermsAndConditions}
-        onReject={onRejectTermsAndConditions}
-      />
-    </Fragment>
+        <TermsAndConditions
+          isVisible={isTermsAndConditionsVisible}
+          onAccept={onAcceptTermsAndConditions}
+          onReject={onRejectTermsAndConditions}
+        />
+      </Menu>
+    </Fragment >
   );
 };
 
-export { BlockchainButtons };
+export { UserMenu };

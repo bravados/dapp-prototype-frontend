@@ -1,7 +1,8 @@
-import { BlockchainButtons } from '@screens/BlockchainButtons';
-import { MenuButton } from '@ui/core';
+import { UserMenu } from '@screens/UserMenu';
+import { ActionButton } from '@ui/core';
 import { styled } from '@stitches/react';
 import { useRouter } from 'next/router';
+import { useNear } from '@infrastructure/blockchain/near';
 
 const Container = styled('div', {
   position: 'fixed',
@@ -14,18 +15,25 @@ const Container = styled('div', {
 const ActionsContainer = () => {
   const { asPath } = useRouter();
 
+  const { isSignedIn, signIn } = useNear();
+
+  const onSignIn = () => {
+    signIn();
+  };
+
   return (
     <Container>
-      <MenuButton href="/about-us" isSelected={asPath === '/about-us'}>
+      <ActionButton href="/about-us" isSelected={asPath === '/about-us'}>
         About us
-      </MenuButton>
-      <MenuButton href="/artworks" isSelected={asPath === '/artworks'}>
+      </ActionButton>
+      <ActionButton href="/artworks" isSelected={asPath === '/artworks'}>
         Artworks
-      </MenuButton>
-      <MenuButton href="/contacts" isSelected={asPath === '/contacts'}>
+      </ActionButton>
+      <ActionButton href="/contacts" isSelected={asPath === '/contacts'}>
         Contacts
-      </MenuButton>
-      {/* <BlockchainButtons /> */}
+      </ActionButton>
+      {!isSignedIn && <ActionButton onClick={onSignIn}>Sign In</ActionButton>}
+      {isSignedIn && <UserMenu />}
     </Container>
   );
 };

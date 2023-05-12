@@ -1,5 +1,5 @@
 import { styled } from '@stitches/react';
-import { MenuButton } from '@ui/core';
+import { ActionButton } from '@ui/core';
 
 const StyledImg = styled('img', {
   width: '39px',
@@ -19,15 +19,15 @@ const Container = styled('div', {
 const SocialMedia = () => {
   return (
     <Container>
-      <MenuButton>
+      <ActionButton>
         <StyledImg src="/instagram-negative.svg" />
-      </MenuButton>
-      <MenuButton>
+      </ActionButton>
+      <ActionButton>
         <StyledImg src="/facebook-negative.svg" />
-      </MenuButton>
-      <MenuButton>
+      </ActionButton>
+      <ActionButton>
         <StyledImg src="/linkedin-negative.svg" />
-      </MenuButton>
+      </ActionButton>
     </Container>
   );
 };

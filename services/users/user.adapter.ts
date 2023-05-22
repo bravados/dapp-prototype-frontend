@@ -1,5 +1,4 @@
 import { User } from '@domain/user';
-import { Blockchain } from '@domain/wallet/wallet';
 import { HTTPError, useMutation, useQuery, request as httpRequest, QueryOptions } from '@infrastructure/http';
 import { Scalars } from '@infrastructure/scalars';
 import { UploadAvatarResponse, UserIdsResponse, UserResponse } from '@interfaces/backend/UserResponse';
@@ -7,6 +6,7 @@ import {
   CreateUserPayload,
   CreateUserResponse,
   GetUserIdsResponse,
+  GetUserPayload,
   GetUserResponse,
   RemoveUserAvatarResponse,
   UpdateUserAvatarRequestPayload,
@@ -15,8 +15,6 @@ import {
   UpdateUserProfileResponse,
   UserService,
 } from './user.port';
-
-type Address = Scalars['Address'];
 
 const baseUrl = process.env.NEXT_PUBLIC_KIRUNALABS_API_URL;
 
@@ -42,16 +40,21 @@ class UserAdapter implements UserService {
     ];
   }
   
-  getUser(blockchain: Blockchain, address: Address, options?: QueryOptions): GetUserResponse {
-    const uri = `${baseUrl}/users/${blockchain.toLowerCase()}/${address}`;
+  getUser(options?: QueryOptions): GetUserResponse {
+    const uri = `${baseUrl}/users`;
     
     const [request, { loading, error, data }] = useQuery<
     UserResponse,
     HTTPError
     >(uri, options);
+
+    const requestWrapper = ({blockchain, address}: GetUserPayload) => {
+      const path = `/${blockchain.toLowerCase()}/${address}`
+      request({ path });
+    }
     
     return [
-      request,
+      requestWrapper,
       { loading, error, data: data ? User.fromData(data) : data },
     ];
   }

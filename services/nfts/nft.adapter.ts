@@ -1,13 +1,15 @@
-import { Nft, NftBackend } from '@domain/nft/nft';
+import { NftBackend } from '@domain/nft/nft';
 import {
   CreateNftPayload,
   CreateNftResponse,
+  GetNftIdsResponse,
   GetNftPayload,
   GetNftResponse,
   NftService,
 } from './nft.port';
-import { NftBackendResponse } from '@interfaces/backend/NftResponse';
-import { useMutation, useQuery } from '@infrastructure/http';
+import { NftBackendResponse, NftIdsResponse } from '@interfaces/backend/NftResponse';
+import { request as httpRequest, useMutation, useQuery } from '@infrastructure/http';
+import { Blockchain } from '@domain/wallet';
 
 const baseUrl = process.env.NEXT_PUBLIC_KIRUNALABS_API_URL;
 
@@ -50,6 +52,37 @@ class NftAdapter implements NftService {
       requestWrapper,
       { loading, error, data: data ? NftBackend.fromData(data) : data },
     ];
+  }
+
+  // Not using useQuery here because it's called on the server side (no hooks)
+  async getNftByBlockchainById(blockchain: Blockchain, id: string): Promise<NftBackend> {
+    const uri = `${baseUrl}/nfts/${blockchain.toLowerCase()}/${id}`;
+
+    try {
+      const response = await httpRequest(uri, { method: 'GET' }) as NftBackendResponse
+      const nft = NftBackend.fromData(response);
+
+      return nft;
+    }
+    catch (error) {
+      console.log(error)
+      throw new Error('nft.adapter.getNftByBlockchainById: request failed');
+    }
+  }
+
+  // Not using useQuery here because it's called on the server side (no hooks)
+  async getNftIds(blockchain: Blockchain): Promise<GetNftIdsResponse> {
+    const uri = `${baseUrl}/nfts/${blockchain.toLowerCase()}`;
+
+    try {
+      const response = await httpRequest(uri, { method: 'GET' }) as NftIdsResponse
+
+      return response.ids;
+    }
+    catch (error) {
+      console.log(error)
+      throw new Error('nft.adapter.getNftIds: request failed');
+    }
   }
 }
 

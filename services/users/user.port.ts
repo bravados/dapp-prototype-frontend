@@ -7,7 +7,19 @@ const GET_KIRUNALABS_USER_QUERY = 'kirunalabs_user_query';
 
 type Address = Scalars['Address'];
 
-type GetUserResponse = QueryResponse<User, HTTPError>;
+type GetUserPayload = {
+  blockchain: Blockchain;
+  address: Address;
+};
+
+type GetUserResponse = [
+  (payload: GetUserPayload) => void,
+  {
+    loading: boolean;
+    error?: HTTPError;
+    data?: User;
+  }
+]
 
 type GetUserIdsResponse = number[];
 
@@ -58,7 +70,7 @@ type UpdateUserProfileResponse = [
 
 interface UserService {
   createUser(payload: CreateUserPayload): CreateUserResponse;
-  getUser(blockchain: Blockchain, address: Address, options?: QueryOptions): GetUserResponse;
+  getUser(options?: QueryOptions): GetUserResponse;
   getUserIds(): Promise<GetUserIdsResponse>;
   getUserById(id: number): Promise<User>;
   removeUserAvatar(id: number): RemoveUserAvatarResponse;
@@ -70,6 +82,7 @@ export { GET_KIRUNALABS_USER_QUERY }
 
 export type {
   UserService,
+  GetUserPayload,
   GetUserResponse,
   GetUserIdsResponse,
   GetUserByIdResponse,

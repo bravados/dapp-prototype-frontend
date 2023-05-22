@@ -31,6 +31,7 @@ type WalletContext = {
   isSignedIn: boolean;
   signIn: (successUrl?: string) => void;
   signOut: () => void;
+  accountBalance?: string;
   address?: string;
 };
 
@@ -43,10 +44,10 @@ type BlockchainContext = WalletContext & {
   unpublishNft: (params: UnpublishParams) => void;
   useGetNft: () => [
     (tokenId: string) => void,
-    { error?: { status: number }; data?: Nft },
+    { error?: { status: number }; data?: NftNear },
   ];
-  useGetNftsByOwner: () => [(address: string) => void, { data?: Nft[] }];
-  useGetSale: () => [(nftId: string) => void, { data: any }];
+  useGetNftsByOwner: () => [(address: string) => void, { data?: NftNear[] }];
+  useGetSale: () => [(nftId: string) => void, { error: any; data: Sale }];
 };
 
 type MintParams = {
@@ -66,6 +67,11 @@ type PublishParams = {
 type UnpublishParams = {
   tokenId: string;
   callbackUrl?: string;
+};
+
+type Sale = {
+  ownerAddress: string;
+  price: string;
 };
 
 const NearContext = createContext<BlockchainContext | null>(null);
@@ -96,6 +102,8 @@ const NearProvider = ({ children }: { children: React.ReactNode }) => {
   const [nftContract, setNftContract] = useState<any>();
 
   const [marketContract, setMarketContract] = useState<any>();
+
+  const [accountBalance, setAccountBalance] = useState<string>();
 
   useEffect(() => {
     if (!keyStore) {
@@ -168,6 +176,14 @@ const NearProvider = ({ children }: { children: React.ReactNode }) => {
         },
       );
       setMarketContract(marketContract);
+
+      // account balance
+      walletConnection
+        .account()
+        .getAccountBalance()
+        .then((balance) => {
+          setAccountBalance(balance.total);
+        });
     }
   }, [walletConnection]);
 
@@ -204,21 +220,26 @@ const NearProvider = ({ children }: { children: React.ReactNode }) => {
 
   const useGetNft = (): [
     (tokenId: string) => void,
-    { error?: { status: number }; data?: Nft },
+    { error?: { status: number }; data?: NftNear },
   ] => {
-    const [nft, setNft] = useState<Nft>();
+    const [nft, setNft] = useState<NftNear>();
     const [error, setError] = useState<any>();
 
-    const requestGetNft = (tokenId: string) => {
-      nftContract
-        .nft_token({
-          token_id: tokenId,
-        })
-        .then((nft: any) => {
-          const deserializedNft = nft ? NftNear.fromData(nft) : nft;
-          setNft(deserializedNft);
-        });
-    };
+    const requestGetNft = useCallback(
+      (tokenId: string) => {
+        if (nftContract) {
+          nftContract
+            .nft_token({
+              token_id: tokenId,
+            })
+            .then((nft: any) => {
+              const deserializedNft = nft ? NftNear.fromData(nft) : nft;
+              setNft(deserializedNft);
+            });
+        }
+      },
+      [nftContract],
+    );
 
     useEffect(() => {
       if (nft === null) {
@@ -231,9 +252,9 @@ const NearProvider = ({ children }: { children: React.ReactNode }) => {
 
   const useGetNftsByOwner = (): [
     (address: string) => void,
-    { data?: Nft[] },
+    { data?: NftNear[] },
   ] => {
-    const [nfts, setNfts] = useState<Nft[]>();
+    const [nfts, setNfts] = useState<NftNear[]>();
 
     const requestGetNftsByOwner = useCallback(
       (address: string) => {
@@ -257,20 +278,36 @@ const NearProvider = ({ children }: { children: React.ReactNode }) => {
     return [requestGetNftsByOwner, { data: nfts }];
   };
 
-  const useGetSale = (): [(tokenId: string) => void, { data: any }] => {
-    const [sale, setSale] = useState<boolean>(false);
+  const useGetSale = (): [
+    (tokenId: string) => void,
+    { error: any; data: any },
+  ] => {
+    const [sale, setSale] = useState<Sale>();
+    const [error, setError] = useState<any>();
 
-    const requestIsPublished = (tokenId: string) => {
-      marketContract
-        .get_sale({
-          nft_contract_token: `${getConfig().nftContractName}.${tokenId}`,
-        })
-        .then((sale: any) => {
-          setSale(sale);
-        });
-    };
+    const request = useCallback(
+      (tokenId: string) => {
+        if (marketContract) {
+          try {
+            marketContract
+              .get_sale({
+                nft_contract_token: `${getConfig().nftContractName}.${tokenId}`,
+              })
+              .then((sale: { owner_id: string; sale_conditions: string }) => {
+                setSale({
+                  ownerAddress: sale.owner_id,
+                  price: sale.sale_conditions,
+                });
+              });
+          } catch (e) {
+            setError(e);
+          }
+        }
+      },
+      [marketContract],
+    );
 
-    return [requestIsPublished, { data: sale }];
+    return [request, { error, data: sale }];
   };
 
   const mint = useCallback(
@@ -327,6 +364,7 @@ const NearProvider = ({ children }: { children: React.ReactNode }) => {
 
   const memoizedContext = useMemo<BlockchainContext>(
     () => ({
+      accountBalance,
       address,
       formatAmount,
       gasFees,
@@ -342,7 +380,7 @@ const NearProvider = ({ children }: { children: React.ReactNode }) => {
       useGetSale,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [address, gasFees, isSignedIn, mint, signIn, signOut],
+    [accountBalance, address, gasFees, isSignedIn, mint, signIn, signOut],
   );
 
   return (

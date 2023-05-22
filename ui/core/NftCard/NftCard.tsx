@@ -16,8 +16,6 @@ export type Props = {
 
 const MEDIUM_SIZE = 352;
 
-const ipfsUrl = 'https://cloudflare-ipfs.com/ipfs';
-
 const NftCard = ({ id, title, media, price, blockchain, onClick }: Props) => {
   return (
     <Card square={true} sx={{ width: MEDIUM_SIZE }}>
@@ -26,7 +24,7 @@ const NftCard = ({ id, title, media, price, blockchain, onClick }: Props) => {
           onClick(blockchain, id);
         }}
       >
-        <CardMedia component="img" image={`${ipfsUrl}/${media}`} alt={title} />
+        <CardMedia component="img" image={`${media}`} alt={title} />
         <CardContent>
           <Grid container>
             <Typography

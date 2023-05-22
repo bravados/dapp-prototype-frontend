@@ -7,7 +7,7 @@ import { UserResponse } from '@interfaces/backend/UserResponse';
 import { Wallet } from '../wallet/wallet';
 import { IsValidUserType } from './userType.validator';
 import { Royalty } from '@domain/royalty/royalty';
-import { Nft, NftBackend } from '@domain/nft/nft';
+import { NftBackend } from '@domain/nft/nft';
 
 type UserType = 'INDIVIDUAL' | 'ARTIST' | 'ADMIN';
 
@@ -77,7 +77,7 @@ class User implements UserResponse {
   @Expose()
   @IsOptional()
   @Type(() => NftBackend)
-  nfts: Nft[];
+  nfts: NftBackend[];
 }
 
 export { User };

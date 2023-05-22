@@ -5,6 +5,16 @@ interface NftBackendResponse {
   media: string;
   price: string;
   blockchain: string;
+  creator: {
+    id: number;
+    name: string;
+    email: Maybe<string>;
+    avatar: Maybe<string>;
+  };
 }
 
-export type { NftBackendResponse };
+interface NftIdsResponse {
+  ids: string[];
+}
+
+export type { NftBackendResponse, NftIdsResponse };

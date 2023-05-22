@@ -2,7 +2,7 @@ import { Nft } from '@domain/nft/nft';
 import { Blockchain } from '@domain/wallet';
 import { HTTPError } from '@infrastructure/http';
 
-type CreateNftPayload = Nft & {creator: {id: number}};
+type CreateNftPayload = Nft & { creator: { id: number } };
 
 type CreateNftResponse = [
   (payload: CreateNftPayload) => void,
@@ -27,9 +27,13 @@ type GetNftResponse = [
   },
 ];
 
+type GetNftIdsResponse = string[];
+
 interface NftService {
   createNft: () => CreateNftResponse;
   getNft: () => GetNftResponse;
+  getNftByBlockchainById: (blockchain: Blockchain, id: string) => Promise<Nft>;
+  getNftIds(blockchain: Blockchain): Promise<GetNftIdsResponse>;
 }
 
 export type {
@@ -38,4 +42,5 @@ export type {
   CreateNftResponse,
   GetNftPayload,
   GetNftResponse,
+  GetNftIdsResponse,
 };

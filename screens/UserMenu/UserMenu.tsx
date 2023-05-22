@@ -24,11 +24,10 @@ const UserMenu = () => {
 
   const { isSignedIn, signOut, address } = useNear();
 
-  const {
-    user: existingUser,
-    request: requestExistingUser,
-    error: requestExistingUserError,
-  } = useGetUser('NEAR', address!);
+  const [
+    requestExistingUser,
+    { error: requestExistingUserError, data: existingUser },
+  ] = useGetUser();
 
   const {
     user: newUser,
@@ -48,11 +47,12 @@ const UserMenu = () => {
   useEffect(() => {
     if (
       isSignedIn &&
+      address &&
       requestExistingUser &&
       !existingUser &&
       !requestExistingUserError
     ) {
-      requestExistingUser();
+      requestExistingUser({ blockchain: 'NEAR', address });
     }
   }, [isSignedIn, requestExistingUser, existingUser, requestExistingUserError]);
 
@@ -98,11 +98,7 @@ const UserMenu = () => {
 
   return (
     <Fragment>
-      <IconButton
-        onClick={handleClick}
-        size="small"
-        sx={{ ml: 2 }}
-      >
+      <IconButton onClick={handleClick} size="small" sx={{ ml: 2 }}>
         <Avatar sx={{ width: 32, height: 32 }}>
           <img src={user?.avatar} width={32} />
         </Avatar>
@@ -112,11 +108,10 @@ const UserMenu = () => {
         id="user-menu"
         open={open}
         onClose={handleClose}
-        onClick={handleClose}>
+        onClick={handleClose}
+      >
         <MenuItem onClick={handleClose}>
-          <ActionButton href={`/users/${user?.id}`}>
-            Profile
-          </ActionButton>
+          <ActionButton href={`/users/${user?.id}`}>Profile</ActionButton>
         </MenuItem>
         <Divider />
         <NearMenuItems
@@ -131,7 +126,7 @@ const UserMenu = () => {
           onReject={onRejectTermsAndConditions}
         />
       </Menu>
-    </Fragment >
+    </Fragment>
   );
 };
 

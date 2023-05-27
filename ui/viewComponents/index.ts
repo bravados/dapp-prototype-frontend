@@ -9,3 +9,4 @@ export * from './Home';
 export * from './Manifesto';
 export * from './AboutUs';
 export * from './Artworks';
+export * from './UserInfo';

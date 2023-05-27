@@ -80,5 +80,5 @@ class User implements UserResponse {
   nfts: NftBackend[];
 }
 
-export { User };
+export { User, buildAvatarUrl };
 export type { UserType };

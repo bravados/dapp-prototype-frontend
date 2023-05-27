@@ -294,10 +294,12 @@ const NearProvider = ({ children }: { children: React.ReactNode }) => {
                 nft_contract_token: `${getConfig().nftContractName}.${tokenId}`,
               })
               .then((sale: { owner_id: string; sale_conditions: string }) => {
-                setSale({
-                  ownerAddress: sale.owner_id,
-                  price: sale.sale_conditions,
-                });
+                if (sale) {
+                  setSale({
+                    ownerAddress: sale.owner_id,
+                    price: sale.sale_conditions,
+                  });
+                }
               });
           } catch (e) {
             setError(e);

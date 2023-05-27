@@ -4,7 +4,7 @@ import { Expose } from '@infrastructure/domain';
 import { Scalars } from '@infrastructure/scalars';
 import { NftBackendResponse } from '@interfaces/backend/NftResponse';
 import { NftNearResponse } from '@interfaces/blockchain/near/NftResponse';
-import { Blockchain, IsValidBlockchain } from '..';
+import { Blockchain, IsValidBlockchain, buildAvatarUrl } from '..';
 import { Transform, instanceToPlain } from 'class-transformer';
 
 const mediaBaseUrl = process.env.NEXT_PUBLIC_IPFS_URL;
@@ -16,6 +16,16 @@ const buildMediaUrl = (media: string) => {
     return media;
   }
   return `${mediaBaseUrl}/${media}`;
+}
+
+const buildCreator = (creator: Creator) => {
+  const { id, name, avatar } = creator;
+
+  return {
+    id,
+    name,
+    avatar: buildAvatarUrl(avatar),
+  }
 }
 
 interface Nft {
@@ -33,7 +43,6 @@ interface Nft {
 type Creator = {
   id: number;
   name: string;
-  email: Maybe<string>;
   avatar: string;
 };
 
@@ -46,16 +55,12 @@ class NftBackend implements NftWithCreator {
     const nft = transformAndValidateSync(NftBackend, data, {
       transformer: { strategy: 'excludeAll' },
     });
-    //nft.creator = data.creator;
 
     return nft;
   }
 
   static toPlain(nft: NftBackend) {
-    let plainNft = instanceToPlain(nft);
-    plainNft.creator = nft.creator;// TODO maybe this is not necessary
-
-    return plainNft;
+    return instanceToPlain(nft);
   }
 
   @Expose()
@@ -78,6 +83,7 @@ class NftBackend implements NftWithCreator {
   blockchain: Blockchain;
 
   @Expose()
+  @Transform(({ obj }) => buildCreator(obj.creator))
   creator: Creator;
 }
 

@@ -10,6 +10,10 @@ type NftOwner = {
   avatar?: string;
 };
 
+const defaultOwner: NftOwner = {
+  name: 'Unknown',
+};
+
 type Props = {
   preloadedNft: NftBackend;
 };
@@ -18,7 +22,7 @@ const NearNftScreen = ({ preloadedNft }: Props) => {
   const { creator } = preloadedNft;
 
   // get the current owner of the NFT according to the contract
-  const [owner, setOwner] = useState<NftOwner>();
+  const [owner, setOwner] = useState<NftOwner>(defaultOwner);
   const { useGetNft } = useNear();
   const [requestGetNft, { error: getNftError, data: nearNft }] = useGetNft();
 

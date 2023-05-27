@@ -24,6 +24,11 @@ const theme = createTheme({
       fontWeight: 'regular',
       color: '#888888',
     },
+    h6: {
+      fontSize: 18,
+      fontWeight: 'regular',
+      color: '#D9D9D9',
+    },
     body1: {
       fontSize: 20,
       fontWeight: 'normal',

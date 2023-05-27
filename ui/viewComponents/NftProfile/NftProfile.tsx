@@ -1,5 +1,12 @@
-import { CardMedia } from '@mui/material';
-import Grid2 from '@mui/material/Unstable_Grid2';
+import { Fragment } from 'react';
+import { CardMedia, Grid, Typography } from '@mui/material';
+import { styled } from '@stitches/react';
+import { UserInfo } from '../UserInfo';
+
+const MediaContainer = styled('div', {
+  width: '50vw',
+  margin: 'auto',
+});
 
 type Props = {
   title: string;
@@ -29,9 +36,68 @@ const NftProfile = ({
   price,
 }: Props) => {
   return (
-    <Grid2 xs={12} md={6}>
-      <CardMedia component="img" src={media} />
-    </Grid2>
+    <Fragment>
+      <Grid item xs={12}>
+        <MediaContainer>
+          <CardMedia
+            component="img"
+            src={media}
+            sx={{ objectFit: 'contain' }}
+          />
+        </MediaContainer>
+      </Grid>
+
+      <Grid
+        container
+        direction="row"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Grid
+          container
+          direction="column"
+          justifyContent="center"
+          alignItems="center"
+          xs={12}
+          md={6}
+        >
+          <div>
+            <Typography variant="h1" gutterBottom>
+              {title}
+            </Typography>
+            <Typography variant="h3" gutterBottom>
+              {description}
+            </Typography>
+          </div>
+        </Grid>
+
+        <Grid
+          container
+          direction="row"
+          justifyContent="center"
+          alignItems="center"
+          xs={12}
+          md={6}
+        >
+          <div>
+            <UserInfo
+              title={'Artist'}
+              id={creator.id}
+              name={creator.name}
+              avatar={creator.avatar}
+            />
+          </div>
+          <div>
+            <UserInfo
+              title={'Owner'}
+              id={owner.id}
+              name={owner.name}
+              avatar={owner.avatar}
+            />
+          </div>
+        </Grid>
+      </Grid>
+    </Fragment>
   );
 };
 

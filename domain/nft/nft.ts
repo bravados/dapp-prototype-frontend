@@ -118,6 +118,7 @@ class NftNear implements Nft {
   blockchain: Blockchain;
 
   @Expose()
+  @Transform(({obj}) => obj.owner_id)
   owner: Scalars['String'];
 }
 

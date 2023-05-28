@@ -25,7 +25,7 @@ import {
   parseAmount,
   parseRoyalties,
 } from './helper';
-import { Nft, NftNear } from '@domain/nft/nft';
+import { NftNear } from '@domain/nft/nft';
 
 type WalletContext = {
   isSignedIn: boolean;
@@ -36,6 +36,7 @@ type WalletContext = {
 };
 
 type BlockchainContext = WalletContext & {
+  buyNft: (params: BuyParams) => void;
   gasFees?: string;
   formatAmount: (amount: string) => string;
   mint: (params: MintParams) => any;
@@ -48,6 +49,12 @@ type BlockchainContext = WalletContext & {
   ];
   useGetNftsByOwner: () => [(address: string) => void, { data?: NftNear[] }];
   useGetSale: () => [(nftId: string) => void, { error: any; data: Sale }];
+};
+
+type BuyParams = {
+  tokenId: string;
+  price: string;
+  callbackUrl?: string;
 };
 
 type MintParams = {
@@ -140,6 +147,16 @@ const NearProvider = ({ children }: { children: React.ReactNode }) => {
       const address = walletConnection.getAccountId();
       setAddress(address);
 
+      // account balance
+      if (address) {
+        walletConnection
+          .account()
+          .getAccountBalance()
+          .then((balance) => {
+            setAccountBalance(balance.total);
+          });
+      }
+
       // gas fees
       const setFees = async () => {
         const fees = await calculateFees(walletConnection);
@@ -172,24 +189,28 @@ const NearProvider = ({ children }: { children: React.ReactNode }) => {
             'get_sales_by_nft_contract_id',
             'get_supply_by_nft_contract_id',
           ],
-          changeMethods: ['offer', 'remove_sale'],
+          changeMethods: ['remove_sale', 'offer'],
         },
       );
       setMarketContract(marketContract);
-
-      // account balance
-      walletConnection
-        .account()
-        .getAccountBalance()
-        .then((balance) => {
-          setAccountBalance(balance.total);
-        });
     }
   }, [walletConnection]);
 
   useEffect(() => {
     setIsSignedIn(walletConnection?.isSignedIn() ?? false);
   }, [walletConnection]);
+
+  const buyNft = ({ tokenId, price, callbackUrl }: BuyParams) => {
+    marketContract.offer({
+      args: {
+        nft_contract_id: getConfig().nftContractName,
+        token_id: tokenId,
+      },
+      gas: BOATLOAD_OF_GAS,
+      amount: parseAmount(price),
+      callbackUrl: callbackUrl,
+    });
+  };
 
   const publishNft = ({ tokenId, price, callbackUrl }: PublishParams) => {
     const parsedPrice = parseAmount(price);
@@ -288,22 +309,20 @@ const NearProvider = ({ children }: { children: React.ReactNode }) => {
     const request = useCallback(
       (tokenId: string) => {
         if (marketContract) {
-          try {
-            marketContract
-              .get_sale({
-                nft_contract_token: `${getConfig().nftContractName}.${tokenId}`,
-              })
-              .then((sale: { owner_id: string; sale_conditions: string }) => {
-                if (sale) {
-                  setSale({
-                    ownerAddress: sale.owner_id,
-                    price: sale.sale_conditions,
-                  });
-                }
-              });
-          } catch (e) {
-            setError(e);
-          }
+          marketContract
+            .get_sale({
+              nft_contract_token: `${getConfig().nftContractName}.${tokenId}`,
+            })
+            .then((sale: { owner_id: string; sale_conditions: string }) => {
+              if (sale) {
+                setSale({
+                  ownerAddress: sale.owner_id,
+                  price: sale.sale_conditions,
+                });
+              } else {
+                setError({ status: 404, message: 'Sale not found' });
+              }
+            });
         }
       },
       [marketContract],
@@ -368,6 +387,7 @@ const NearProvider = ({ children }: { children: React.ReactNode }) => {
     () => ({
       accountBalance,
       address,
+      buyNft,
       formatAmount,
       gasFees,
       isSignedIn,
@@ -382,7 +402,16 @@ const NearProvider = ({ children }: { children: React.ReactNode }) => {
       useGetSale,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [accountBalance, address, gasFees, isSignedIn, mint, signIn, signOut],
+    [
+      accountBalance,
+      address,
+      buyNft,
+      gasFees,
+      isSignedIn,
+      mint,
+      signIn,
+      signOut,
+    ],
   );
 
   return (

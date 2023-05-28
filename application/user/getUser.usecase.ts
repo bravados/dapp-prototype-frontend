@@ -14,10 +14,14 @@ class GetUserUseCase {
   }
 }
 
-function useGetUser() {
+function useGetKirunalabsUser() {
   return new GetUserUseCase().getUser(
     { key: GET_KIRUNALABS_USER_QUERY }
   );
 }
 
-export { useGetUser };
+function useGetUser() {
+  return new GetUserUseCase().getUser();
+}
+
+export { useGetKirunalabsUser, useGetUser };

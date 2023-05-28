@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useNear } from '@infrastructure/blockchain/near';
-import { useCreateUser, useGetUser } from '@application/user';
+import { useCreateUser, useGetKirunalabsUser } from '@application/user';
 import { TermsAndConditions } from 'ui/viewComponents';
 import { NearMenuItems } from '@ui/viewComponents/NearMenuItems';
 import { useKirunalabs } from 'screens/KirunalabsContext';
@@ -27,7 +27,7 @@ const UserMenu = () => {
   const [
     requestExistingUser,
     { error: requestExistingUserError, data: existingUser },
-  ] = useGetUser();
+  ] = useGetKirunalabsUser();
 
   const {
     user: newUser,
@@ -72,7 +72,7 @@ const UserMenu = () => {
 
   // set user if new user is created
   useEffect(() => {
-    if (newUser) {
+    if (newUser && !user) {
       setUser(newUser);
       setIsTermsAndConditionsVisible(false);
     } else {
@@ -80,7 +80,7 @@ const UserMenu = () => {
         console.error(createUserError);
       }
     }
-  }, [newUser, createUserError, user, setUser]);
+  }, [newUser, createUserError, setUser]);
 
   const onSignOut = () => {
     setAnchorEl(null);

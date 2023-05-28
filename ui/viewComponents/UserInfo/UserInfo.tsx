@@ -29,9 +29,13 @@ const UserInfo = ({ title, id, name, avatar }: Props) => {
       >
         <div>
           <Typography variant="h6">{title}</Typography>
-          <Link href={`/users/${id}`}>
+          {id ? (
+            <Link href={`/users/${id}`}>
+              <Typography variant="h4">{name}</Typography>
+            </Link>
+          ) : (
             <Typography variant="h4">{name}</Typography>
-          </Link>
+          )}
         </div>
       </Grid>
     </Grid>

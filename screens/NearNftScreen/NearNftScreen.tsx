@@ -1,8 +1,14 @@
 import { useEffect, useState } from 'react';
+import * as Big from 'big-ts';
 import { NftBackend } from '@domain/nft/nft';
 import { useNear } from '@infrastructure/blockchain/near';
 import { useGetUser } from '@application/user';
 import { NftProfile } from '@ui/viewComponents/NftProfile';
+import { useKirunalabs } from '@screens/KirunalabsContext';
+
+const kirunalabsUrl = process.env.NEXT_PUBLIC_KIRUNALABS_FALLBACK_URL;
+
+const fallbackUrl = `${kirunalabsUrl}/nfts/near`;
 
 type NftOwner = {
   id?: number;
@@ -19,8 +25,6 @@ type Props = {
 };
 
 const NearNftScreen = ({ preloadedNft }: Props) => {
-  const { creator } = preloadedNft;
-
   // get the current owner of the NFT according to the contract
   const [owner, setOwner] = useState<NftOwner>(defaultOwner);
   const { useGetNft } = useNear();
@@ -29,7 +33,7 @@ const NearNftScreen = ({ preloadedNft }: Props) => {
   useEffect(() => {
     if (preloadedNft && !nearNft && !getNftError)
       requestGetNft(preloadedNft.id);
-  }, [preloadedNft]);
+  }, [preloadedNft, requestGetNft]);
 
   useEffect(() => {
     if (getNftError) {
@@ -56,7 +60,7 @@ const NearNftScreen = ({ preloadedNft }: Props) => {
       );
       setOwner({ name: nearNft!.owner });
     }
-  }, [nearNft]);
+  }, [nearNft, requestOwnerError]);
 
   useEffect(() => {
     if (ownerProfile && !owner?.id) {
@@ -82,11 +86,13 @@ const NearNftScreen = ({ preloadedNft }: Props) => {
   const [price, setPrice] = useState<string>();
 
   const { useGetSale } = useNear();
-  const [requestGetSale, { data: sale }] = useGetSale();
+  const [requestGetSale, { error: getSaleError, data: sale }] = useGetSale();
 
   useEffect(() => {
-    if (preloadedNft) requestGetSale(preloadedNft.id);
-  }, [preloadedNft]);
+    if (preloadedNft) {
+      requestGetSale(preloadedNft.id);
+    }
+  }, [preloadedNft, requestGetSale]);
 
   useEffect(() => {
     if (sale) {
@@ -94,15 +100,82 @@ const NearNftScreen = ({ preloadedNft }: Props) => {
     }
   }, [sale, formatAmount]);
 
+  // decide what is the button CTA to show (make offer, publish, unpublish)
+  const { isSignedIn, buyNft, gasFees, parseAmount } = useNear();
+  const { user } = useKirunalabs();
+
+  const [offerAmount, setOfferAmount] = useState<string>('0');
+  const [offerAmountWithFees, setOfferAmountWithFees] = useState<string>('0');
+
+  const [isMakeOfferDialogOpen, setIsMakeOfferDialogOpen] =
+    useState<boolean>(false);
+
+  const { creator } = preloadedNft;
+
+  const [isBuyButtonVisible, setIsBuyButtonVisible] = useState<boolean>(false);
+  const [isGoToPublishButtonVisible, setIsGoToPublishButtonVisible] =
+    useState<boolean>(false);
+
+  useEffect(() => {
+    if (isSignedIn) {
+      if (user?.id === owner.id) {
+        setIsBuyButtonVisible(false);
+        setIsGoToPublishButtonVisible(true);
+      } else {
+        setIsBuyButtonVisible(!!sale);
+        setIsGoToPublishButtonVisible(false);
+      }
+    }
+  }, [isSignedIn, sale, user, creator, owner]);
+
+  const handleAmountChange = (amount: string) => {
+    const parsedAmount = parseAmount(amount || '0');
+
+    const amountNumber = Big.parse(parsedAmount);
+    const gasFeesNumber = Big.parse(gasFees || '0');
+    const totalAmountNumber = Big.add(amountNumber)(gasFeesNumber);
+
+    const totalAmountFixed = Big.toFixed({ rm: Big.RoundingMode.Up, dp: 0 })(
+      totalAmountNumber,
+    );
+    const totalAmountFormatted = formatAmount(totalAmountFixed);
+
+    setOfferAmount(amount);
+    setOfferAmountWithFees(totalAmountFormatted);
+  };
+
+  const handleBuy = (amount: string) => {
+    buyNft({
+      tokenId: preloadedNft.id,
+      price: amount,
+      callbackUrl: `${fallbackUrl}/${preloadedNft.id}`,
+    });
+  };
+
   return (
     <NftProfile
+      tokenId={preloadedNft.id}
       title={preloadedNft.title}
       description={preloadedNft.description}
       media={preloadedNft.media}
       creator={preloadedNft.creator}
       owner={owner!}
-      accountBalance={balance!}
-      price={price}
+      accountBalance={balance || 'loading...'}
+      currencyName="Near"
+      price={price || '0'}
+      isMakeOfferDialogOpen={isMakeOfferDialogOpen}
+      offerAmount={offerAmount}
+      offerAmountWithFees={offerAmountWithFees}
+      isBuyButtonVisible={isBuyButtonVisible}
+      isGoToPublishButtonVisible={isGoToPublishButtonVisible}
+      onBuy={handleBuy}
+      onAmountChange={handleAmountChange}
+      onOpenBuyDialog={() => {
+        setIsMakeOfferDialogOpen(true);
+      }}
+      onCloseBuyDialog={() => {
+        setIsMakeOfferDialogOpen(false);
+      }}
     />
   );
 };

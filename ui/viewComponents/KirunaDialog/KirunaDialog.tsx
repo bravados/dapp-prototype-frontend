@@ -8,15 +8,15 @@ import {
 
 type KirunaDialogProps = {
   isOpen: boolean;
-  titleText: string;
-  contentText: string;
+  title: string;
+  content: React.ReactNode;
   children?: React.ReactNode;
 };
 
 const KirunaDialog = ({
   isOpen,
-  titleText,
-  contentText,
+  title: titleText,
+  content: contentText,
   children,
 }: KirunaDialogProps) => {
   return (

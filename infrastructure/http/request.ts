@@ -64,7 +64,7 @@ const request = async (
   const response = await fetch(url, fetchOptions);
 
   if (!response.ok) {
-    throw new HTTPError('Invalid request', response.status);
+    throw new HTTPError('Response is not 200', response.status);
   }
 
   try {

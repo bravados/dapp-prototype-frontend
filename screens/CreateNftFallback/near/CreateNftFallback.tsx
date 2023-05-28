@@ -88,8 +88,8 @@ const CreateNftFallback = ({ isError, tokenId }: CreateNftFallbackProps) => {
   return (
     <KirunaDialog
       isOpen={isDialogOpen}
-      titleText={dialogTitle}
-      contentText={dialogMessage}
+      title={dialogTitle}
+      content={dialogMessage}
     >
       <Button onClick={handleDialogClose}>Close</Button>
     </KirunaDialog>

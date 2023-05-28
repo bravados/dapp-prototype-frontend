@@ -103,8 +103,8 @@ const CreateNft = () => {
     <Fragment>
       <KirunaDialog
         isOpen={!!dialogMessage}
-        titleText="An error occured"
-        contentText={dialogMessage}
+        title="An error occured"
+        content={dialogMessage}
       />
       <CreateNftForm
         fileUrl={fileUrl}

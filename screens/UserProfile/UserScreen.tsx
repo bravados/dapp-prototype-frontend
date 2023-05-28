@@ -136,7 +136,7 @@ const UserScreen = ({ preloadedUser }: Props) => {
 
   // handle NFT click
   const handleNftClick = (blockchain: string, id: string): void => {
-    window.location.href = `/nfts/${blockchain}/${id}`;
+    window.location.href = `/nfts/${blockchain.toLowerCase()}/${id}`;
   };
 
   const handleDialogClose = () => {
@@ -147,8 +147,8 @@ const UserScreen = ({ preloadedUser }: Props) => {
     <Fragment>
       <KirunaDialog
         isOpen={isDialogOpen}
-        titleText={'Error'}
-        contentText={dialogMessage}
+        title={'Error'}
+        content={dialogMessage}
       >
         <Button onClick={handleDialogClose}>Close</Button>
       </KirunaDialog>

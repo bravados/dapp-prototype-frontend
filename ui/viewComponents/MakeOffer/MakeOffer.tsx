@@ -1,3 +1,4 @@
+import * as React from 'react';
 import Button from '@mui/material/Button';
 import CardMedia from '@mui/material/CardMedia';
 import Dialog from '@mui/material/Dialog';
@@ -12,22 +13,20 @@ import Grid from '@mui/material/Grid';
 import InputAdornment from '@mui/material/InputAdornment';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import * as Big from 'big-ts';
-import { useEffect, useState } from 'react';
-import * as React from 'react';
 import { AmountField } from '@ui/core/AmountField';
 
-interface MakeOfferProps {
+interface Props {
   title: string;
   media: string;
-  price?: string;
+  price: string;
   currencyName: string;
   balance?: string;
-  gasFees?: string;
-  formatAmount: Function;
-  parseAmount: Function;
-  open: boolean;
-  onClose: (offer?: string) => void;
+  isOpen: boolean;
+  amount: string;
+  amountWithFees: string;
+  onAmountChange: (amount: string) => void;
+  onBuy: (amount: string) => void;
+  onClose: () => void;
 }
 
 export const MakeOffer = ({
@@ -36,56 +35,22 @@ export const MakeOffer = ({
   price,
   currencyName,
   balance,
-  gasFees,
-  formatAmount,
-  parseAmount,
-  open,
+  isOpen,
+  amount,
+  amountWithFees,
+  onAmountChange,
+  onBuy,
   onClose,
-}: MakeOfferProps) => {
-  const [formattedBalance, setFormattedBalance] = useState('0');
-  const [myOffer, setMyOffer] = useState('');
-  const [totalAmount, setTotalAmount] = useState('0');
-
-  useEffect(() => {
-    if (price && balance && formatAmount && parseAmount) {
-      setFormattedBalance(formatAmount(balance));
-
-      const priceParsed = parseAmount(price);
-      setMyOffer(formatAmount(priceParsed));
-    }
-  }, [price, balance, formatAmount, parseAmount]);
-
-  useEffect(() => {
-    if (gasFees && parseAmount && formatAmount) {
-      const myOfferParsed = parseAmount(myOffer || '0');
-      const myOfferNumber = Big.parse(myOfferParsed);
-      const gasFeesNumber = Big.parse(gasFees);
-
-      const totalAmountNumber = Big.add(myOfferNumber)(gasFeesNumber);
-      const totalAmountFixed = Big.toFixed({ rm: Big.RoundingMode.Up, dp: 0 })(
-        totalAmountNumber,
-      );
-      const totalAmountFormatted = formatAmount(totalAmountFixed);
-      setTotalAmount(totalAmountFormatted);
-    }
-  }, [myOffer, gasFees, parseAmount, formatAmount]);
-
+}: Props) => {
   const theme = useTheme();
   const md = useMediaQuery(theme.breakpoints.down('md'));
 
   const isOfferButtonDisabled = () => {
-    return !myOffer || !price || parseFloat(myOffer) < parseFloat(price);
+    return !amount || !price || parseFloat(amount) < parseFloat(price);
   };
 
   return (
-    <Dialog
-      fullScreen={md}
-      open={open}
-      onClose={() => {
-        onClose();
-      }}
-      aria-labelledby="responsive-dialog-title"
-    >
+    <Dialog fullScreen={md} open={isOpen} onClose={onClose}>
       <DialogTitle id="responsive-dialog-title">
         {'Make an Offer on '}
         {title}
@@ -111,8 +76,8 @@ export const MakeOffer = ({
             >
               <FormControl sx={{ width: '150px' }} variant="standard">
                 <AmountField
-                  value={myOffer}
-                  onChange={(value) => setMyOffer(value)}
+                  value={amount}
+                  onChange={onAmountChange}
                   endAdornment={
                     <InputAdornment position="end">
                       {currencyName}
@@ -128,10 +93,10 @@ export const MakeOffer = ({
               </FormControl>
 
               <DialogContentText variant="subtitle1" mt={3}>
-                Your balance is {formattedBalance} {currencyName}
+                Your balance is {balance} {currencyName}
               </DialogContentText>
               <DialogContentText variant="subtitle1" mt={3}>
-                Total offer amount: {totalAmount} {currencyName}
+                Total offer amount: {amountWithFees} {currencyName}
               </DialogContentText>
               <DialogContentText variant="subtitle1" mt={3}>
                 The fees are an estimation. Any extra fee amount will be funded
@@ -142,19 +107,13 @@ export const MakeOffer = ({
         </Grid>
       </DialogContent>
       <DialogActions>
-        <Button
-          variant="outlined"
-          autoFocus
-          onClick={() => {
-            onClose();
-          }}
-        >
+        <Button variant="outlined" autoFocus onClick={onClose}>
           Decide later
         </Button>
         <Button
           variant="contained"
           onClick={() => {
-            onClose(totalAmount);
+            onBuy(amount);
           }}
           autoFocus
           disabled={isOfferButtonDisabled()}

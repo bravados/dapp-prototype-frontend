@@ -75,8 +75,8 @@ const PublishNft = ({ tokenId }: Props) => {
     <Fragment>
       <KirunaDialog
         isOpen={isDialogOpen}
-        titleText={dialogTitle}
-        contentText={dialogMessage}
+        title={dialogTitle}
+        content={dialogMessage}
       >
         <Button onClick={handleDialogClose}>Close</Button>
       </KirunaDialog>

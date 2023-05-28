@@ -76,6 +76,13 @@ const theme = createTheme({
         }
       }
     },
+    MuiDialog: {
+      styleOverrides: {
+        paper: {
+          backgroundColor: '#888888',
+        }
+      }
+    },
   },
 });
 

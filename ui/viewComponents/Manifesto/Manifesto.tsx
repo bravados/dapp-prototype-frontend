@@ -58,52 +58,69 @@ const Manifesto = () => {
           alignItems="center"
         >
           <Grid>
-            <Title>MANIFESTO</Title>
+            <Title>KIRUNA LABS MANIFESTO</Title>
           </Grid>
           <Grid>
             <Paragraph>
-              Green Light è una startup innovativa dedicata alla curatela e
-              vendita di crypto art che si propone come piattaforma promotrice
-              di arte e cultura. Operando come ponte tra sostenibilità e digital
-              arts, l’obiettivo è quello di instaurare un dialogo tra presente e
-              futuro, tra “crypto” e “reale”.{' '}
+              DIGITALIZATION, SUSTAINABLE DEVELOPMENT, COMMUNITY
             </Paragraph>
           </Grid>
           <Grid>
             <Paragraph>
-              La realtà virtuale e realtà aumentata stanno trasformando il modo
-              di percepire e conoscere la vita. La realtà umana come l’abbiamo
-              fino ad ora conosciuta si sta sempre più ibridando in una
-              dimensione alternativa e parallela. Stiamo compiendo un percorso
-              di sostituzione e ampliamento di esperienze sensoriali più
-              immersive, che sono però lontane dalla nostra natura di essere
-              umani. La tecnologia rivoluziona il concetto di vita umana legato
-              unicamente al suo ambiente e lo sposta verso una percezione
-              sensoriale connessa a informazioni multimediali aggiuntive e
-              manipolate.
+              In compliance with the seventeen sustainable development goals
+              expressed by the United Nations, our will is to participate in the
+              achievement of these goals by working closely with non-profit
+              organizations engaged in the implementation of projects interested
+              in improving social and environmental conditions of communities in
+              specific areas. Our commitment is to enhance artists linked to
+              these contexts, supporting their digitization and providing them
+              access to the international market. We believe in the importance
+              of artistic expression that elaborates different perspectives on
+              reality and the achievement of a dialogue between them.
             </Paragraph>
           </Grid>
           <Paragraph>
-            In questo contesto dobbiamo costruire un ponte tra realtà e nuova
-            realtà che ci permetta di affrontare questa transizione in modo
-            cosciente e responsabile, consapevoli della nostra natura di essere
-            umani. Dobbiamo riconsiderare l’idea di uomo come unità di misura e
-            assumere la concezione più olistica di essere ecologico, per evitare
-            di subire il progresso tecnologico.
+            Virtual reality and augmented reality are transforming the way we
+            perceive and learn about life. Human reality as we have known it
+            until now is increasingly hybridizing in an alternative and parallel
+            dimension. We are on a path of replacing and expanding more
+            immersive sensory experiences, which are however far from our nature
+            as human beings. Technology revolutionizes the concept of human life
+            linked solely to its environment and shifts it towards a sensory
+            perception connected to additional and manipulated multimedia
+            information.
           </Paragraph>
           <Grid>
             <Paragraph>
-              In una cultura di tipo prevalentemente tecnico-industriale non
-              attenta a tutti i contesti naturali e sociali e che mette a
-              rischio l’esistenza delle future generazioni, dobbiamo trovare la
-              capacità di sviluppare progetti etico- culturali che ci orientino
-              verso una società più attenta con un radicato senso di comunità.
-              In questo contesto l’arte, con la sua capacità multisensoriale di
-              coinvolgere e comunicare, riprende valore e assume un ruolo chiave
-              per l’assunzione, l’assorbimento e l’assimilazione di questi
-              valori. L’arte è in grado di esprimere e monitorare le sensazioni
-              e le tendenze profonde di una società e sviluppa una coscienza
-              critica indispensabile per lo sviluppo.
+              In this context we must build a bridge between reality and new
+              reality that allows us to face this transition in a conscious and
+              responsible way, aware of our nature as human beings. We must
+              reconsider the idea of man as unit of measurement and take on the
+              more holistic conception of being ecological in order to avoid
+              being subjected to the technological progress.
+            </Paragraph>
+          </Grid>
+          <Grid>
+            <Paragraph>
+              In a predominantly technical-industrial culture that is not
+              attentive to all natural and social contexts that puts the
+              existence of future generations at risk, we must find the ability
+              to develop ethical-cultural projects that orient us towards a more
+              committed society with a deep-rooted sense of community.
+            </Paragraph>
+          </Grid>
+          <Grid>
+            <Paragraph>
+              In this context, art, with its multisensory ability to involve and
+              communicate, regains value and assumes a key role for the
+              assumption, absorption and assimilation of these values.
+            </Paragraph>
+          </Grid>
+          <Grid>
+            <Paragraph>
+              Art is able to express and monitor the deep feelings and
+              tendencies of a society and develops a critical consciousness
+              indispensable for development.
             </Paragraph>
           </Grid>
         </Grid>
@@ -117,10 +134,9 @@ const Manifesto = () => {
           <LeftBorderedGrid xs={6}>
             <DescriptionTextContainer>
               <DescriptionText variant="h4" textAlign="left">
-                Occorre intendere l’arte digitale come mezzo di divulgazione
-                culturale e generatore di esperienze sensoriali: sviluppo
-                necessario per una continuità di ricerca artistica
-                generazionale.
+                It is necessary to interpret digital art as a means of cultural
+                dissemination and generator of sensory experiences: development
+                necessary for a continuity of generational artistic research.
               </DescriptionText>
             </DescriptionTextContainer>
           </LeftBorderedGrid>
@@ -128,10 +144,9 @@ const Manifesto = () => {
           <RightBorderedGrid xs={6}>
             <DescriptionTextContainer>
               <DescriptionText variant="h4" textAlign="right">
-                Occorre intendere l’arte digitale come mezzo di divulgazione
-                culturale e generatore di esperienze sensoriali: sviluppo
-                necessario per una continuità di ricerca artistica
-                generazionale.
+                It is necessary to think about artistic practices and cultural
+                investments with the aim of mobilizing an organic interest on
+                aspects of sustainable development.
               </DescriptionText>
             </DescriptionTextContainer>
           </RightBorderedGrid>
@@ -145,10 +160,9 @@ const Manifesto = () => {
           <LeftBorderedGrid xs={6}>
             <DescriptionTextContainer>
               <DescriptionText variant="h4" textAlign="left">
-                Occorre intendere l’arte digitale come mezzo di divulgazione
-                culturale e generatore di esperienze sensoriali: sviluppo
-                necessario per una continuità di ricerca artistica
-                generazionale.
+                We must take on a cultural responsibility through the social
+                function of art understood as a component of cultural
+                enhancement and vitality, that is not exclusively financial.
               </DescriptionText>
             </DescriptionTextContainer>
           </LeftBorderedGrid>
@@ -156,10 +170,9 @@ const Manifesto = () => {
           <RightBorderedGrid xs={6}>
             <DescriptionTextContainer>
               <DescriptionText variant="h4" textAlign="right">
-                Occorre intendere l’arte digitale come mezzo di divulgazione
-                culturale e generatore di esperienze sensoriali: sviluppo
-                necessario per una continuità di ricerca artistica
-                generazionale.
+                We must actively participate in the ecological transition,
+                adopting governance in compliance with the sustainable
+                development goals.
               </DescriptionText>
             </DescriptionTextContainer>
           </RightBorderedGrid>
@@ -173,10 +186,10 @@ const Manifesto = () => {
           <LeftBorderedGrid xs={6}>
             <DescriptionTextContainer>
               <DescriptionText variant="h4" textAlign="left">
-                Occorre intendere l’arte digitale come mezzo di divulgazione
-                culturale e generatore di esperienze sensoriali: sviluppo
-                necessario per una continuità di ricerca artistica
-                generazionale.
+                Sustainability from a long-term perspective that reconciles the
+                interests of current generations with those of future
+                generations and that considers the interdependent four
+                dimensions: people, profit, planet and progress.
               </DescriptionText>
             </DescriptionTextContainer>
           </LeftBorderedGrid>
@@ -184,10 +197,9 @@ const Manifesto = () => {
           <RightBorderedGrid xs={6}>
             <DescriptionTextContainer>
               <DescriptionText variant="h4" textAlign="right">
-                Occorre intendere l’arte digitale come mezzo di divulgazione
-                culturale e generatore di esperienze sensoriali: sviluppo
-                necessario per una continuità di ricerca artistica
-                generazionale.
+                We must aim to create a sense of active and sensitive community
+                through principles of solidarity and non-exclusive but
+                participatory belonging.
               </DescriptionText>
             </DescriptionTextContainer>
           </RightBorderedGrid>
@@ -201,10 +213,8 @@ const Manifesto = () => {
           <LeftBorderedGrid xs={6}>
             <DescriptionTextContainer>
               <DescriptionText variant="h4" textAlign="left">
-                Occorre intendere l’arte digitale come mezzo di divulgazione
-                culturale e generatore di esperienze sensoriali: sviluppo
-                necessario per una continuità di ricerca artistica
-                generazionale.
+                Humans and technology are increasingly a hybrid concept: it is
+                necessary to create a healthy and balanced relationship.
               </DescriptionText>
             </DescriptionTextContainer>
           </LeftBorderedGrid>
@@ -212,10 +222,9 @@ const Manifesto = () => {
           <RightBorderedGrid xs={6}>
             <DescriptionTextContainer>
               <DescriptionText variant="h4" textAlign="right">
-                Occorre intendere l’arte digitale come mezzo di divulgazione
-                culturale e generatore di esperienze sensoriali: sviluppo
-                necessario per una continuità di ricerca artistica
-                generazionale.
+                We live between the real world and the digital world: it is
+                necessary to treat this transition in a socially responsible way
+                by creating a balanced bridge between online and offline.
               </DescriptionText>
             </DescriptionTextContainer>
           </RightBorderedGrid>
@@ -229,10 +238,9 @@ const Manifesto = () => {
           <LeftBorderedGrid xs={6}>
             <DescriptionTextContainer>
               <DescriptionText variant="h4" textAlign="left">
-                Occorre intendere l’arte digitale come mezzo di divulgazione
-                culturale e generatore di esperienze sensoriali: sviluppo
-                necessario per una continuità di ricerca artistica
-                generazionale.
+                Decentralization allows us to have control over personal data
+                and digital identities, restoring freedom and autonomy and
+                giving breath to a circular structure.
               </DescriptionText>
             </DescriptionTextContainer>
           </LeftBorderedGrid>
@@ -240,10 +248,9 @@ const Manifesto = () => {
           <RightBorderedGrid xs={6}>
             <DescriptionTextContainer>
               <DescriptionText variant="h4" textAlign="right">
-                Occorre intendere l’arte digitale come mezzo di divulgazione
-                culturale e generatore di esperienze sensoriali: sviluppo
-                necessario per una continuità di ricerca artistica
-                generazionale.
+                The market must aim to operate in compliance with a cultural
+                responsibility following a sustainable and transparent benefit
+                model.
               </DescriptionText>
             </DescriptionTextContainer>
           </RightBorderedGrid>

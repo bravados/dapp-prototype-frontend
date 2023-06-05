@@ -42,6 +42,8 @@ type BlockchainContext = WalletContext & {
   mint: (params: MintParams) => any;
   parseAmount: (formattedAmount: string) => string;
   publishNft: (params: PublishParams) => void;
+  storageDeposit: (params: StorageDepositParams) => void;
+  storageWithdraw: (params: StorageWithdrawParams) => void;
   unpublishNft: (params: UnpublishParams) => void;
   useGetNft: () => [
     (tokenId: string) => void,
@@ -63,6 +65,16 @@ type MintParams = {
   nftStorageId: string;
   royalties: Royalty[];
   callbackUrl?: string;
+};
+
+type StorageDepositParams = {
+  amount: string;
+  accountId?: string;
+  callbackUrl: string;
+};
+
+type StorageWithdrawParams = {
+  callbackUrl: string;
 };
 
 type PublishParams = {
@@ -189,7 +201,12 @@ const NearProvider = ({ children }: { children: React.ReactNode }) => {
             'get_sales_by_nft_contract_id',
             'get_supply_by_nft_contract_id',
           ],
-          changeMethods: ['remove_sale', 'offer'],
+          changeMethods: [
+            'remove_sale',
+            'offer',
+            'storage_deposit',
+            'storage_withdraw',
+          ],
         },
       );
       setMarketContract(marketContract);
@@ -383,6 +400,44 @@ const NearProvider = ({ children }: { children: React.ReactNode }) => {
     setIsSignedIn(false);
   }, [walletConnection]);
 
+  const storageDeposit = useCallback(
+    ({ amount, accountId, callbackUrl }: StorageDepositParams) => {
+      if (!marketContract) {
+        throw new Error('Market contract is not initialized');
+      }
+
+      const args = accountId
+        ? {
+            account_id: accountId,
+          }
+        : {};
+
+      return marketContract.storage_deposit({
+        args,
+        gas: BOATLOAD_OF_GAS,
+        amount: parseAmount(amount),
+        callbackUrl: callbackUrl,
+      });
+    },
+    [marketContract],
+  );
+
+  const storageWithdraw = useCallback(
+    ({ callbackUrl }: StorageWithdrawParams) => {
+      if (!marketContract) {
+        throw new Error('Market contract is not initialized');
+      }
+
+      return marketContract.storage_withdraw({
+        args: {},
+        amount: MIN_ATTACHABLE_DEPOSIT,
+        gas: BOATLOAD_OF_GAS,
+        callbackUrl: callbackUrl,
+      });
+    },
+    [marketContract],
+  );
+
   const memoizedContext = useMemo<BlockchainContext>(
     () => ({
       accountBalance,
@@ -392,6 +447,8 @@ const NearProvider = ({ children }: { children: React.ReactNode }) => {
       gasFees,
       isSignedIn,
       mint,
+      storageDeposit,
+      storageWithdraw,
       signIn,
       signOut,
       parseAmount,

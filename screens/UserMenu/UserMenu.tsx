@@ -22,7 +22,7 @@ const UserMenu = () => {
   // Business logic
   const { user, setUser, deleteUser } = useKirunalabs();
 
-  const { isSignedIn, signOut, address } = useNear();
+  const { isSignedIn, signOut, storageWithdraw, address } = useNear();
 
   const [
     requestExistingUser,
@@ -88,6 +88,10 @@ const UserMenu = () => {
     deleteUser();
   };
 
+  const onStorageWithdraw = () => {
+    storageWithdraw({ callbackUrl: window.location.href });
+  };
+
   const onAcceptTermsAndConditions = () => {
     requestCreateUser();
   };
@@ -116,7 +120,10 @@ const UserMenu = () => {
         <Divider />
         <NearMenuItems
           isMintButtonVisible={user?.type === 'ARTIST'}
+          isDepositFundButtonVisible={true}
+          isWithdrawFundButtonVisible={true}
           isMintButtonSelected={asPath === '/mint/near'}
+          onWithdrawFund={onStorageWithdraw}
           onSignOut={onSignOut}
         />
 

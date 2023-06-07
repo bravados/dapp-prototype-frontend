@@ -10,3 +10,4 @@ export * from './Manifesto';
 export * from './AboutUs';
 export * from './Artworks';
 export * from './UserInfo';
+export * from './UserProfileEdit';

@@ -2,35 +2,22 @@ import { Divider, Grid, Stack, Typography } from '@mui/material';
 import { Nft } from '@domain/nft/nft';
 import { NftCollection } from '@ui/core/NftCollection';
 import { ImageUploader } from '@ui/viewComponents/ImageUploader';
-import { UserProfileDataForm } from '@screens/UserProfileDataForm';
 import { UserProfileData } from '@screens/UserProfileData';
 
 type Props = {
-  isEdit: boolean;
-  isLoading: boolean;
   name: string;
-  email: string;
   avatar?: string;
   createdNfts: Nft[];
   ownedNfts: Nft[];
-  onAvatarChange: (file: any) => void;
-  onAvatarRemove: () => void;
-  onUserDataChange: (name: string, email?: string) => void;
   onClickNft: (blockchain: string, id: string) => void;
 };
 
 const UserProfile = ({
-  isEdit,
-  isLoading,
   avatar,
   name,
-  email,
   createdNfts,
   ownedNfts,
-  onAvatarChange,
-  onAvatarRemove,
   onClickNft,
-  onUserDataChange,
 }: Props) => {
   const hasCreatedNfts = createdNfts?.length > 0;
   const hasOwnedNfts = ownedNfts?.length > 0;
@@ -55,22 +42,14 @@ const UserProfile = ({
           spacing={4}
         >
           <Grid item>
-            <ImageUploader
-              fileUrl={avatar}
-              isEdit={isEdit}
-              isLoading={isLoading}
-              onChange={onAvatarChange}
-              onRemove={onAvatarRemove}
-            />
-            {isEdit ? (
-              <UserProfileDataForm
-                name={name}
-                email={email}
-                onSubmit={onUserDataChange}
+            {avatar && (
+              <ImageUploader
+                fileUrl={avatar}
+                isEdit={false}
+                isLoading={false}
               />
-            ) : (
-              <UserProfileData name={name} />
             )}
+            <UserProfileData name={name} />
           </Grid>
         </Grid>
         {hasCreatedNfts && (

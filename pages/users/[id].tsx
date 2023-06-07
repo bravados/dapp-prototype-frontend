@@ -2,7 +2,7 @@ import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from 'next';
 import { ParsedUrlQuery } from 'querystring';
 import { User } from '@domain/user';
 import { UserAdapter } from '@services/users/user.adapter';
-import { UserScreen } from '@screens/UserProfile';
+import { UserProfileScreen } from '@screens/UserProfile';
 import { MainLayout } from '@ui/layouts';
 
 interface Params extends ParsedUrlQuery {
@@ -39,7 +39,7 @@ export const getStaticProps: GetStaticProps<any, Params> = async ({
 const Users = (user: User) => {
   return (
     <MainLayout>
-      <UserScreen preloadedUser={user} />
+      <UserProfileScreen preloadedUser={user} />
     </MainLayout>
   );
 };

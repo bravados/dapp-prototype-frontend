@@ -82,8 +82,6 @@ const NftProfile = ({
           direction="column"
           justifyContent="center"
           alignItems="center"
-          xs={12}
-          md={6}
         >
           <div>
             <Typography variant="h1" gutterBottom>
@@ -116,8 +114,6 @@ const NftProfile = ({
           direction="row"
           justifyContent="center"
           alignItems="center"
-          xs={12}
-          md={6}
         >
           <div>
             <UserInfo

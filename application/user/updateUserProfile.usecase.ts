@@ -8,13 +8,13 @@ class UpdateUserProfileUseCase {
     this.userService = new UserAdapter();
   }
 
-  updateUserProfile(id: number) {
-    return this.userService.updateUserProfile(id);
+  updateUserProfile() {
+    return this.userService.updateUserProfile();
   }
 }
 
-function useUpdateUserProfile(id: number) {
-  return new UpdateUserProfileUseCase().updateUserProfile(id);
+function useUpdateUserProfile() {
+  return new UpdateUserProfileUseCase().updateUserProfile();
 }
 
 export { useUpdateUserProfile };

@@ -18,8 +18,8 @@ type GetUserResponse = [
     loading: boolean;
     error?: HTTPError;
     data?: User;
-  }
-]
+  },
+];
 
 type GetUserIdsResponse = number[];
 
@@ -32,8 +32,12 @@ type CreateUserPayload = {
 
 type CreateUserResponse = QueryResponse<User>;
 
+type RemoveUserAvatarRequestPayload = {
+  id: number;
+};
+
 type RemoveUserAvatarResponse = [
-  () => void,
+  (payload: RemoveUserAvatarRequestPayload) => void,
   {
     loading: boolean;
     error?: HTTPError;
@@ -42,8 +46,9 @@ type RemoveUserAvatarResponse = [
 ];
 
 type UpdateUserAvatarRequestPayload = {
+  id: number;
   file: File;
-}
+};
 
 type UpdateUserAvatarResponse = [
   (payload: UpdateUserAvatarRequestPayload) => void,
@@ -52,9 +57,10 @@ type UpdateUserAvatarResponse = [
     error?: HTTPError;
     success: boolean;
   },
-]
+];
 
 type UpdateUserProfileRequestPayload = {
+  id: number;
   name: string;
   email?: string;
 };
@@ -66,19 +72,19 @@ type UpdateUserProfileResponse = [
     error?: HTTPError;
     data?: User;
   },
-]
+];
 
 interface UserService {
   createUser(payload: CreateUserPayload): CreateUserResponse;
   getUser(options?: QueryOptions): GetUserResponse;
   getUserIds(): Promise<GetUserIdsResponse>;
   getUserById(id: number): Promise<User>;
-  removeUserAvatar(id: number): RemoveUserAvatarResponse;
-  uploadUserAvatar(id: number): UpdateUserAvatarResponse;
-  updateUserProfile(id: number): UpdateUserProfileResponse;
+  removeUserAvatar(): RemoveUserAvatarResponse;
+  uploadUserAvatar(): UpdateUserAvatarResponse;
+  updateUserProfile(): UpdateUserProfileResponse;
 }
 
-export { GET_KIRUNALABS_USER_QUERY }
+export { GET_KIRUNALABS_USER_QUERY };
 
 export type {
   UserService,
@@ -89,6 +95,7 @@ export type {
   CreateUserPayload,
   UpdateUserProfileRequestPayload,
   CreateUserResponse,
+  RemoveUserAvatarRequestPayload,
   UpdateUserAvatarRequestPayload,
   RemoveUserAvatarResponse,
   UpdateUserAvatarResponse,

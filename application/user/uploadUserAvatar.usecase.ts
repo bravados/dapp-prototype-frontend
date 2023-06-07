@@ -8,13 +8,13 @@ class UploadUserAvatarUseCase {
     this.userService = new UserAdapter();
   }
 
-  uploadUserAvatar(id: number) {
-    return this.userService.uploadUserAvatar(id);
+  uploadUserAvatar() {
+    return this.userService.uploadUserAvatar();
   }
 }
 
-function useUploadUserAvatar(id: number) {
-  return new UploadUserAvatarUseCase().uploadUserAvatar(id);
+function useUploadUserAvatar() {
+  return new UploadUserAvatarUseCase().uploadUserAvatar();
 }
 
 export { useUploadUserAvatar };

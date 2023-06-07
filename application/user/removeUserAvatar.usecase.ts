@@ -8,13 +8,13 @@ class RemoveUserAvatarUseCase {
     this.userService = new UserAdapter();
   }
 
-  removeUserAvatar(id: number) {
-    return this.userService.removeUserAvatar(id);
+  removeUserAvatar() {
+    return this.userService.removeUserAvatar();
   }
 }
 
-function useRemoveUserAvatar(id: number) {
-  return new RemoveUserAvatarUseCase().removeUserAvatar(id);
+function useRemoveUserAvatar() {
+  return new RemoveUserAvatarUseCase().removeUserAvatar();
 }
 
 export { useRemoveUserAvatar };

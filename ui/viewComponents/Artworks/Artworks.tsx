@@ -17,10 +17,12 @@ const Container = ({
     position: 'sticky',
     top: 0,
     height: '100vh',
+    overflow: 'hidden',
   });
 
   const Background = styled('img', {
     filter: `brightness(${backgroundBrightness})`,
+    width: '-webkit-fill-available',
   });
 
   return (

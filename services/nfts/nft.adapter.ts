@@ -5,10 +5,19 @@ import {
   GetNftIdsResponse,
   GetNftPayload,
   GetNftResponse,
+  GetNftsResponse,
   NftService,
 } from './nft.port';
-import { NftBackendResponse, NftIdsResponse } from '@interfaces/backend/NftResponse';
-import { request as httpRequest, useMutation, useQuery } from '@infrastructure/http';
+import {
+  NftBackendResponse,
+  NftIdsResponse,
+  NftsBackendResponse,
+} from '@interfaces/backend/NftResponse';
+import {
+  request as httpRequest,
+  useMutation,
+  useQuery,
+} from '@infrastructure/http';
 import { Blockchain } from '@domain/wallet';
 
 const baseUrl = process.env.NEXT_PUBLIC_KIRUNALABS_API_URL;
@@ -54,18 +63,40 @@ class NftAdapter implements NftService {
     ];
   }
 
+  getNfts(): GetNftsResponse {
+    const uri = `${baseUrl}/nfts`;
+
+    const [request, { loading, error, data }] =
+      useQuery<NftsBackendResponse>(uri);
+
+    return [
+      request,
+      {
+        loading,
+        error,
+        data: data
+          ? data.nfts.map((backendNft) => NftBackend.fromData(backendNft))
+          : data,
+      },
+    ];
+  }
+
   // Not using useQuery here because it's called on the server side (no hooks)
-  async getNftByBlockchainById(blockchain: Blockchain, id: string): Promise<NftBackend> {
+  async getNftByBlockchainById(
+    blockchain: Blockchain,
+    id: string,
+  ): Promise<NftBackend> {
     const uri = `${baseUrl}/nfts/${blockchain.toLowerCase()}/${id}`;
 
     try {
-      const response = await httpRequest(uri, { method: 'GET' }) as NftBackendResponse
+      const response = (await httpRequest(uri, {
+        method: 'GET',
+      })) as NftBackendResponse;
       const nft = NftBackend.fromData(response);
 
       return nft;
-    }
-    catch (error) {
-      console.log(error)
+    } catch (error) {
+      console.log(error);
       throw new Error('nft.adapter.getNftByBlockchainById: request failed');
     }
   }
@@ -75,12 +106,13 @@ class NftAdapter implements NftService {
     const uri = `${baseUrl}/nfts/${blockchain.toLowerCase()}`;
 
     try {
-      const response = await httpRequest(uri, { method: 'GET' }) as NftIdsResponse
+      const response = (await httpRequest(uri, {
+        method: 'GET',
+      })) as NftIdsResponse;
 
       return response.ids;
-    }
-    catch (error) {
-      console.log(error)
+    } catch (error) {
+      console.log(error);
       throw new Error('nft.adapter.getNftIds: request failed');
     }
   }

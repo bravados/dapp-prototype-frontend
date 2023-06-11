@@ -13,8 +13,12 @@ interface NftBackendResponse {
   };
 }
 
+interface NftsBackendResponse {
+  nfts: NftBackendResponse[];
+}
+
 interface NftIdsResponse {
   ids: string[];
 }
 
-export type { NftBackendResponse, NftIdsResponse };
+export type { NftBackendResponse, NftsBackendResponse, NftIdsResponse };

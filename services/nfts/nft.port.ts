@@ -27,11 +27,21 @@ type GetNftResponse = [
   },
 ];
 
+type GetNftsResponse = [
+  () => void,
+  {
+    loading: boolean;
+    error?: HTTPError;
+    data?: Nft[];
+  },
+];
+
 type GetNftIdsResponse = string[];
 
 interface NftService {
   createNft: () => CreateNftResponse;
   getNft: () => GetNftResponse;
+  getNfts: () => GetNftsResponse;
   getNftByBlockchainById: (blockchain: Blockchain, id: string) => Promise<Nft>;
   getNftIds(blockchain: Blockchain): Promise<GetNftIdsResponse>;
 }
@@ -42,5 +52,6 @@ export type {
   CreateNftResponse,
   GetNftPayload,
   GetNftResponse,
+  GetNftsResponse,
   GetNftIdsResponse,
 };

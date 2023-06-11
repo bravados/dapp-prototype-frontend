@@ -115,7 +115,7 @@ const UserMenu = () => {
         onClick={handleClose}
       >
         <MenuItem onClick={handleClose}>
-          <ActionButton href={`/users/${user?.id}`}>Profile</ActionButton>
+          <ActionButton href={`/users/profile/edit`}>Profile</ActionButton>
         </MenuItem>
         <Divider />
         <NearMenuItems

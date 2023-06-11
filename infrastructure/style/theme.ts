@@ -97,6 +97,21 @@ const theme = createTheme({
         },
       },
     },
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          '& .MuiOutlinedInput-notchedOutline': {
+            borderColor: 'white',
+          },
+          '&:hover .MuiOutlinedInput-notchedOutline': {
+            borderColor: 'white',
+          },
+          '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+            borderColor: 'white',
+          },
+        },
+      },
+    },
   },
 });
 

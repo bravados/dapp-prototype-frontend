@@ -24,8 +24,6 @@ const UserInfo = ({ title, id, name, avatar }: Props) => {
         direction="column"
         justifyContent="center"
         alignItems="center"
-        xs={12}
-        md={6}
       >
         <div>
           <Typography variant="h6">{title}</Typography>

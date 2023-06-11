@@ -61,11 +61,17 @@ const theme = createTheme({
         root: {
           textDecoration: 'none',
           textTransform: 'none',
+          backgroundColor: 'transparent',
+          fontSize: 24,
+          fontWeight: 'normal',
+          color: '#D9D9D9',
+          ':disabled': {
+            color: '#888888',
+          },
+          ':enabled': { color: 'white' },
           ':hover': {
             backgroundColor: 'transparent',
           },
-          fontSize: 24,
-          fontWeight: 'normal',
         },
       },
     },

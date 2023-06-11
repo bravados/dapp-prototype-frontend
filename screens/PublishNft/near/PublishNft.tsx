@@ -2,8 +2,10 @@ import { Fragment, useEffect, useState } from 'react';
 import { useGetNft } from '@application/nft';
 import { Blockchain } from '@domain/wallet';
 import { useNear } from '@infrastructure/blockchain/near';
-import { Button } from '@mui/material';
+import { Button, CardMedia, Grid } from '@mui/material';
 import { KirunaDialog, PublishNftForm } from '@ui/viewComponents';
+import { NftCard } from '@ui/core/NftCard';
+import { ActionButton } from '@ui/core';
 
 const kirunalabsUrl = process.env.NEXT_PUBLIC_KIRUNALABS_FALLBACK_URL;
 
@@ -72,7 +74,7 @@ const PublishNft = ({ tokenId }: Props) => {
   };
 
   return (
-    <Fragment>
+    <Grid container direction="column" spacing={2} alignItems={'center'}>
       <KirunaDialog
         isOpen={isDialogOpen}
         title={dialogTitle}
@@ -80,9 +82,17 @@ const PublishNft = ({ tokenId }: Props) => {
       >
         <Button onClick={handleDialogClose}>Close</Button>
       </KirunaDialog>
-      {nft && !sale && <PublishNftForm onSubmit={handlePublish} />}
-      {nft && sale && <Button onClick={handleUnpublish}>Unpublish</Button>}
-    </Fragment>
+
+      <Grid item>
+        <CardMedia component="img" image={`${nft?.media}`} alt={nft?.title} />
+      </Grid>
+      <Grid item>
+        {nft && !sale && <PublishNftForm onSubmit={handlePublish} />}
+        {nft && sale && (
+          <ActionButton onClick={handleUnpublish}>Unpublish</ActionButton>
+        )}
+      </Grid>
+    </Grid>
   );
 };
 

@@ -6,3 +6,4 @@ export * from './PublishNft';
 export * from './UserProfileData';
 export * from './UserProfileDataForm';
 export * from './ActionsContainer';
+export * from './Nfts';

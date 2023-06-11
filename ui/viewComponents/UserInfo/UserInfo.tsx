@@ -12,29 +12,35 @@ const UserInfo = ({ title, id, name, avatar }: Props) => {
     <Grid
       container
       direction="row"
-      justifyContent="flex-start"
+      justifyContent="center"
       alignItems="center"
+      spacing={2}
     >
       <Grid item>
         <Avatar src={avatar} sx={{ width: 100, height: 100 }} />
       </Grid>
 
-      <Grid
-        container
-        direction="column"
-        justifyContent="center"
-        alignItems="center"
-      >
-        <div>
-          <Typography variant="h6">{title}</Typography>
-          {id ? (
-            <Link href={`/users/${id}`}>
+      <Grid item>
+        <Grid
+          container
+          direction="column"
+          justifyContent="center"
+          alignItems="flex-start"
+        >
+          <Grid item>
+            <Typography variant="h6">{title}</Typography>
+          </Grid>
+
+          <Grid item>
+            {id ? (
+              <Link href={`/users/${id}`}>
+                <Typography variant="h4">{name}</Typography>
+              </Link>
+            ) : (
               <Typography variant="h4">{name}</Typography>
-            </Link>
-          ) : (
-            <Typography variant="h4">{name}</Typography>
-          )}
-        </div>
+            )}
+          </Grid>
+        </Grid>
       </Grid>
     </Grid>
   );

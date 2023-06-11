@@ -79,58 +79,83 @@ const NftProfile = ({
       >
         <Grid
           container
-          direction="column"
-          justifyContent="center"
-          alignItems="center"
-        >
-          <div>
-            <Typography variant="h1" gutterBottom>
-              {title}
-            </Typography>
-            <Typography variant="h3" gutterBottom>
-              {description}
-            </Typography>
-          </div>
-          {isBuyButtonVisible && (
-            <div>
-              <ActionButton onClick={onOpenBuyDialog}>Make offer</ActionButton>
-            </div>
-          )}
-          {isGoToPublishButtonVisible && (
-            <div>
-              <ActionButton
-                href={`/publish/near?tokenId=${tokenId}`}
-                isSelected={false}
-                onClick={() => {}}
-              >
-                Go to Publish page
-              </ActionButton>
-            </div>
-          )}
-        </Grid>
-
-        <Grid
-          container
           direction="row"
           justifyContent="center"
           alignItems="center"
         >
-          <div>
-            <UserInfo
-              title={'Artist'}
-              id={creator.id}
-              name={creator.name}
-              avatar={creator.avatar}
-            />
-          </div>
-          <div>
-            <UserInfo
-              title={'Owner'}
-              id={owner.id}
-              name={owner.name}
-              avatar={owner.avatar}
-            />
-          </div>
+          <Grid item md={6}>
+            <Grid
+              container
+              direction="column"
+              justifyContent="center"
+              alignItems="center"
+              spacing={4}
+            >
+              <Grid
+                item
+                container
+                direction="row"
+                justifyContent="center"
+                alignItems="center"
+                spacing={4}
+              >
+                <Grid item>
+                  <UserInfo
+                    title={'Artist'}
+                    id={creator.id}
+                    name={creator.name}
+                    avatar={creator.avatar}
+                  />
+                </Grid>
+                <Grid item>
+                  <UserInfo
+                    title={'Owner'}
+                    id={owner.id}
+                    name={owner.name}
+                    avatar={owner.avatar}
+                  />
+                </Grid>
+              </Grid>
+
+              <Grid item>
+                <Typography variant="h1" gutterBottom>
+                  {title}
+                </Typography>
+              </Grid>
+              <Grid item>
+                <Typography variant="h3" gutterBottom>
+                  {description}
+                </Typography>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item md={6}>
+            <Grid
+              container
+              direction="column"
+              justifyContent="center"
+              alignItems="center"
+            >
+              {isBuyButtonVisible && (
+                <div>
+                  <ActionButton onClick={onOpenBuyDialog}>
+                    Make offer
+                  </ActionButton>
+                </div>
+              )}
+              {isGoToPublishButtonVisible && (
+                <div>
+                  <ActionButton
+                    href={`/publish/near?tokenId=${tokenId}`}
+                    isSelected={false}
+                    onClick={() => {}}
+                  >
+                    Go to Publish page
+                  </ActionButton>
+                </div>
+              )}
+            </Grid>
+          </Grid>
         </Grid>
       </Grid>
 

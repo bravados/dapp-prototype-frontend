@@ -3,6 +3,13 @@ import { Card, CardActionArea, CardContent, Grid } from '@mui/material';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { PriceBox } from '@ui/core/PriceBox';
+import { styled } from '@stitches/react';
+
+const MEDIUM_SIZE = 352;
+
+const ImageWrapper = styled('div', {
+  height: `${MEDIUM_SIZE}px`,
+});
 
 export type Props = {
   id: string;
@@ -14,8 +21,6 @@ export type Props = {
   onClick: (blockchain: string, id: string) => void;
 };
 
-const MEDIUM_SIZE = 352;
-
 const NftCard = ({ id, title, media, price, blockchain, onClick }: Props) => {
   return (
     <Card square={true} sx={{ width: MEDIUM_SIZE }}>
@@ -24,23 +29,25 @@ const NftCard = ({ id, title, media, price, blockchain, onClick }: Props) => {
           onClick(blockchain, id);
         }}
       >
-        <CardMedia component="img" image={`${media}`} alt={title} />
+        <ImageWrapper>
+          <CardMedia component="img" image={`${media}`} alt={title} />
+        </ImageWrapper>
         <CardContent>
           <Grid container>
-            <Typography
-              variant="h3"
-              noWrap
-              gutterBottom
-              sx={{ fontStyle: 'bold' }}
-            >
-              {title}
-            </Typography>
             <Grid
               container
-              direction="row"
+              direction="column"
               justifyContent="flex-end"
               alignItems="center"
             >
+              <Typography
+                variant="h3"
+                noWrap
+                gutterBottom
+                sx={{ fontStyle: 'bold', mixBlendMode: 'difference' }}
+              >
+                {title}
+              </Typography>
               {price && <PriceBox price={price} blockchain={blockchain} />}
             </Grid>
           </Grid>

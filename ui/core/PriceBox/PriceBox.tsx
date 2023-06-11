@@ -16,7 +16,12 @@ const PriceBox = ({ blockchain, price }: Props) => {
     <Box mt={3}>
       <Grid container columns={1}>
         <Grid item>
-          <Typography variant="body2" color="text.primary" mb={2}>
+          <Typography
+            variant="body2"
+            color="text.primary"
+            mb={2}
+            sx={{ mixBlendMode: 'difference' }}
+          >
             Price
           </Typography>
         </Grid>
@@ -32,7 +37,7 @@ const PriceBox = ({ blockchain, price }: Props) => {
             <Typography
               variant="body2"
               color="text.primary"
-              sx={{ fontWeight: 'bold' }}
+              sx={{ fontWeight: 'bold', mixBlendMode: 'difference' }}
             >
               {price}
             </Typography>

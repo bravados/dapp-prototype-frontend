@@ -40,7 +40,7 @@ const theme = createTheme({
     allVariants: {
       color: '#FFFFFF',
       fontFamily: 'Montserrat-Regular',
-    }
+    },
   },
   palette: {
     primary: {
@@ -61,7 +61,7 @@ const theme = createTheme({
         root: {
           textDecoration: 'none',
           textTransform: 'none',
-          ":hover": {
+          ':hover': {
             backgroundColor: 'transparent',
           },
           fontSize: 24,
@@ -73,17 +73,24 @@ const theme = createTheme({
       styleOverrides: {
         paper: {
           backgroundColor: '#0F0F0F',
-        }
-      }
+        },
+      },
     },
     MuiDialog: {
       styleOverrides: {
         paper: {
           backgroundColor: '#888888',
-        }
-      }
+        },
+      },
+    },
+    MuiInputBase: {
+      styleOverrides: {
+        root: {
+          color: '#FFFFFF',
+        },
+      },
     },
   },
 });
 
-export { theme, ThemeProvider }
+export { theme, ThemeProvider };

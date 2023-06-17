@@ -1,5 +1,6 @@
 import { Fragment } from 'react';
 import { KirunaDialog } from '../KirunaDialog';
+import { Button } from '@mui/material';
 
 type Props = {
   isVisible: boolean;
@@ -23,8 +24,12 @@ const TermsAndConditions = ({ isVisible, onAccept, onReject }: Props) => {
       title={'Terms and Conditions'}
       content={content}
     >
-      <button onClick={onReject}>Reject</button>
-      <button onClick={onAccept}>Accept</button>
+      <Button variant="whiteBackground" onClick={onReject}>
+        Reject
+      </Button>
+      <Button variant="whiteBackground" onClick={onAccept}>
+        Accept
+      </Button>
     </KirunaDialog>
   );
 };

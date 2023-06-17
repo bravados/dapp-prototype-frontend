@@ -1,5 +1,11 @@
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
+declare module '@mui/material/Button' {
+  interface ButtonPropsVariantOverrides {
+    whiteBackground: true;
+  }
+}
+
 const theme = createTheme({
   typography: {
     h1: {
@@ -27,7 +33,7 @@ const theme = createTheme({
     h6: {
       fontSize: 18,
       fontWeight: 'regular',
-      color: '#D9D9D9',
+      color: '#0F0F0F',
     },
     body1: {
       fontSize: 20,
@@ -74,6 +80,19 @@ const theme = createTheme({
           },
         },
       },
+      variants: [
+        {
+          props: { variant: 'whiteBackground' },
+          style: {
+            backgroundColor: 'transparent',
+            color: '#0F0F0F',
+            ':enabled': { color: '#0F0F0F' },
+            '&:hover': {
+              backgroundColor: '#transparent',
+            },
+          },
+        },
+      ],
     },
     MuiPopover: {
       styleOverrides: {
@@ -85,7 +104,7 @@ const theme = createTheme({
     MuiDialog: {
       styleOverrides: {
         paper: {
-          backgroundColor: '#888888',
+          backgroundColor: 'white',
         },
       },
     },

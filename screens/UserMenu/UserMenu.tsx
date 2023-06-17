@@ -1,14 +1,18 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useNear } from '@infrastructure/blockchain/near';
 import { useCreateUser, useGetKirunalabsUser } from '@application/user';
-import { TermsAndConditions } from 'ui/viewComponents';
 import { NearMenuItems } from '@ui/viewComponents/NearMenuItems';
 import { useKirunalabs } from 'screens/KirunalabsContext';
 import { Avatar, Divider, IconButton, Menu, MenuItem } from '@mui/material';
 import { ActionButton } from '@ui/core';
 
-const UserMenu = () => {
+type Props = {
+  isUserConfirmed: boolean;
+  onUserChanged: (newUser: boolean) => void;
+};
+
+const UserMenu = ({ isUserConfirmed, onUserChanged }: Props) => {
   // UI logic
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -38,9 +42,6 @@ const UserMenu = () => {
     address: address!,
   });
 
-  const [isTermsAndConditionsVisible, setIsTermsAndConditionsVisible] =
-    useState(false);
-
   const { asPath } = useRouter();
 
   // request existing user only once
@@ -66,7 +67,7 @@ const UserMenu = () => {
   // show terms and conditions if user is not found
   useEffect(() => {
     if (requestExistingUserError && requestExistingUserError.status === 404) {
-      setIsTermsAndConditionsVisible(true);
+      onUserChanged(true);
     }
   }, [requestExistingUserError]);
 
@@ -74,13 +75,20 @@ const UserMenu = () => {
   useEffect(() => {
     if (newUser && !user) {
       setUser(newUser);
-      setIsTermsAndConditionsVisible(false);
+      onUserChanged(false);
     } else {
       if (createUserError) {
         console.error(createUserError);
       }
     }
   }, [newUser, createUserError, setUser]);
+
+  // create the user if the user accepts the terms and conditions
+  useEffect(() => {
+    if (isUserConfirmed) {
+      requestCreateUser();
+    }
+  }, [isUserConfirmed]);
 
   const onSignOut = () => {
     setAnchorEl(null);
@@ -90,14 +98,6 @@ const UserMenu = () => {
 
   const onStorageWithdraw = () => {
     storageWithdraw({ callbackUrl: window.location.href });
-  };
-
-  const onAcceptTermsAndConditions = () => {
-    requestCreateUser();
-  };
-
-  const onRejectTermsAndConditions = () => {
-    console.log('Terms and conditions rejected');
   };
 
   return (
@@ -125,12 +125,6 @@ const UserMenu = () => {
           isMintButtonSelected={asPath === '/mint/near'}
           onWithdrawFund={onStorageWithdraw}
           onSignOut={onSignOut}
-        />
-
-        <TermsAndConditions
-          isVisible={isTermsAndConditionsVisible}
-          onAccept={onAcceptTermsAndConditions}
-          onReject={onRejectTermsAndConditions}
         />
       </Menu>
     </Fragment>

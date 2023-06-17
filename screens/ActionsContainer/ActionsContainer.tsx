@@ -1,8 +1,10 @@
+import { useState } from 'react';
 import { UserMenu } from '@screens/UserMenu';
 import { ActionButton } from '@ui/core';
 import { styled } from '@stitches/react';
 import { useRouter } from 'next/router';
 import { useNear } from '@infrastructure/blockchain/near';
+import { TermsAndConditions } from '@ui/viewComponents';
 
 const Container = styled('div', {
   position: 'fixed',
@@ -21,6 +23,24 @@ const ActionsContainer = () => {
     signIn();
   };
 
+  const [isTermsAndConditionsVisible, setIsTermsAndConditionsVisible] =
+    useState(false);
+
+  const [isUserConfirmed, setIsUserConfirmed] = useState(false);
+
+  const handleUserChanged = (newUser: boolean) => {
+    setIsTermsAndConditionsVisible(newUser);
+  };
+
+  const handleUserConfirmed = () => {
+    setIsTermsAndConditionsVisible(false);
+    setIsUserConfirmed(true);
+  };
+
+  const handleRejectTermsAndConditions = () => {
+    setIsTermsAndConditionsVisible(false);
+  };
+
   return (
     <Container>
       <ActionButton href="/about-us" isSelected={asPath === '/about-us'}>
@@ -33,7 +53,18 @@ const ActionsContainer = () => {
         Contacts
       </ActionButton>
       {!isSignedIn && <ActionButton onClick={onSignIn}>Sign In</ActionButton>}
-      {isSignedIn && <UserMenu />}
+      {isSignedIn && (
+        <UserMenu
+          isUserConfirmed={isUserConfirmed}
+          onUserChanged={handleUserChanged}
+        />
+      )}
+
+      <TermsAndConditions
+        isVisible={isTermsAndConditionsVisible}
+        onAccept={handleUserConfirmed}
+        onReject={handleRejectTermsAndConditions}
+      />
     </Container>
   );
 };

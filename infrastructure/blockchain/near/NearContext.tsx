@@ -27,6 +27,10 @@ import {
 } from './helper';
 import { NftNear } from '@domain/nft/nft';
 
+const NFT_CONTRACT_NAME = getConfig().nftContractName;
+
+const MARKET_CONTRACT_NAME = getConfig().marketContractName;
+
 type WalletContext = {
   isSignedIn: boolean;
   signIn: (successUrl?: string) => void;
@@ -179,7 +183,7 @@ const NearProvider = ({ children }: { children: React.ReactNode }) => {
       // contracts
       const nftContract = new nearAPI.Contract(
         walletConnection.account(),
-        getConfig().nftContractName,
+        NFT_CONTRACT_NAME,
         {
           viewMethods: ['nft_token', 'nft_tokens', 'nft_tokens_for_owner'],
           changeMethods: [
@@ -194,7 +198,7 @@ const NearProvider = ({ children }: { children: React.ReactNode }) => {
 
       const marketContract = new nearAPI.Contract(
         walletConnection.account(),
-        getConfig().marketContractName,
+        MARKET_CONTRACT_NAME,
         {
           viewMethods: [
             'get_sale',
@@ -220,7 +224,7 @@ const NearProvider = ({ children }: { children: React.ReactNode }) => {
   const buyNft = ({ tokenId, price, callbackUrl }: BuyParams) => {
     marketContract.offer({
       args: {
-        nft_contract_id: getConfig().nftContractName,
+        nft_contract_id: NFT_CONTRACT_NAME,
         token_id: tokenId,
       },
       gas: BOATLOAD_OF_GAS,
@@ -235,7 +239,7 @@ const NearProvider = ({ children }: { children: React.ReactNode }) => {
     nftContract.nft_approve({
       args: {
         token_id: tokenId,
-        account_id: getConfig().marketContractName,
+        account_id: MARKET_CONTRACT_NAME,
         msg: JSON.stringify({ sale_conditions: parsedPrice }),
       },
       gas: BOATLOAD_OF_GAS,
@@ -247,7 +251,7 @@ const NearProvider = ({ children }: { children: React.ReactNode }) => {
   const unpublishNft = ({ tokenId, callbackUrl }: UnpublishParams) => {
     marketContract.remove_sale({
       args: {
-        nft_contract_id: getConfig().nftContractName,
+        nft_contract_id: NFT_CONTRACT_NAME,
         token_id: tokenId,
       },
       gas: BOATLOAD_OF_GAS,
@@ -302,7 +306,12 @@ const NearProvider = ({ children }: { children: React.ReactNode }) => {
               account_id: address,
             })
             .then((nfts: any) => {
-              const deserializedNfts = nfts.map((nft: any) =>
+              const publishedNfts = nfts.filter((nft: any) => {
+                return Object.keys(nft.approved_account_ids).includes(
+                  MARKET_CONTRACT_NAME,
+                );
+              });
+              const deserializedNfts = publishedNfts.map((nft: any) =>
                 NftNear.fromData(nft),
               );
               setNfts(deserializedNfts);
@@ -328,7 +337,7 @@ const NearProvider = ({ children }: { children: React.ReactNode }) => {
         if (marketContract) {
           marketContract
             .get_sale({
-              nft_contract_token: `${getConfig().nftContractName}.${tokenId}`,
+              nft_contract_token: `${NFT_CONTRACT_NAME}.${tokenId}`,
             })
             .then((sale: { owner_id: string; sale_conditions: string }) => {
               if (sale) {

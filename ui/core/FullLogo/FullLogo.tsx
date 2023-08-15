@@ -1,5 +1,4 @@
 import { styled } from '@stitches/react';
-import { Typography } from '@mui/material';
 import { CustomLink } from '../CustomLink';
 
 const Container = styled('div', {

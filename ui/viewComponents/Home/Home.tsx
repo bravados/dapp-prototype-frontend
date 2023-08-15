@@ -1,4 +1,4 @@
-import { Button, Grid, Hidden, Typography } from '@mui/material';
+import { Grid, Hidden, Link, Typography } from '@mui/material';
 import { styled } from '@stitches/react';
 import { CustomLink } from '@ui/core/CustomLink';
 
@@ -66,7 +66,7 @@ const Home = () => {
     <MainDiv>
       <Hidden mdDown>
         <Video
-          src={`${process.env.NEXT_PUBLIC_CLOUDFRONT_DISTRIBUTION_DOMAIN}/mangrove.mp4`}
+          src={`${process.env.NEXT_PUBLIC_HOME_VIDEO}`}
           autoPlay
           loop
           muted
@@ -81,11 +81,12 @@ const Home = () => {
       >
         <Grid item xs={12} md={5}>
           <Typography variant="h2">
-            Discover, collect and sell extraordinary NTFs
+            This is a prototype of a website that allows you to create NFTs in
+            the <Link href="https://near.org/ecosystem">Near ecosystem</Link>.
           </Typography>
           <ExploreButton>
             <CustomLink href="/">
-              <Typography>EXPLORE</Typography>
+              <Typography>See the NFTs</Typography>
             </CustomLink>
           </ExploreButton>
         </Grid>
@@ -108,14 +109,18 @@ const Home = () => {
           alignItems={'flex-start'}
         >
           <Typography variant="body1">
-            Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-            accusantium doloremque laudantium, totam rem aperiam, eaque ipsa
-            quae ab illo inventore veritatis et quasi architecto beatae vitae
-            dicta sunt explicabo.
+            The tech stack is composed by (1) a front-end app built with React,
+            Next.js, TypeScript and Stitches, which is serving the website you
+            are seeing right now, (2) a back-end app built with NestJS and
+            Typescript which receives the requests coming from the front-end and
+            performs some business logic, (3) two smart contracts written in
+            Rust and deployed into the NEAR blockchain. <br />
+            <br />
+            Both the front-end and the back-end have their source code in Github
+            repositories and are physically deployed in Amazon Web Services by
+            using Github Actions.
           </Typography>
-          <ThreeTimesLogo src="/replicated-logo.svg" />
         </Grid>
-        <Circunferences src="/circunferences.svg" />
       </Grid>
     </MainDiv>
   );

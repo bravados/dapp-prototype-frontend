@@ -19,13 +19,7 @@ const Container = styled('div', {
 const SocialMedia = () => {
   return (
     <Container>
-      <ActionButton>
-        <StyledImg src="/instagram-negative.svg" />
-      </ActionButton>
-      <ActionButton>
-        <StyledImg src="/facebook-negative.svg" />
-      </ActionButton>
-      <ActionButton>
+      <ActionButton href="https://www.linkedin.com/in/fjmh89/">
         <StyledImg src="/linkedin-negative.svg" />
       </ActionButton>
     </Container>

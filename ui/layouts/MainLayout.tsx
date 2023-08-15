@@ -4,7 +4,6 @@ import { FullLogo } from '@ui/core/FullLogo';
 import { SocialMedia } from '@ui/viewComponents/SocialMedia';
 import { ActionsContainer } from '@screens/ActionsContainer';
 import { ManifestoButton } from '@ui/viewComponents/ManifestoButton';
-import { Hidden } from '@mui/material';
 import { styled } from '@stitches/react';
 
 const Background = styled('div', {
@@ -17,36 +16,6 @@ const Background = styled('div', {
   zIndex: -1,
 });
 
-const TopBar = () => {
-  const StyledDiv = styled('div', {
-    position: 'fixed',
-    top: 0,
-    width: '100vw',
-    height: '22vh',
-    backgroundColor: '#000000',
-  });
-  return (
-    <Hidden mdUp>
-      <StyledDiv />
-    </Hidden>
-  );
-};
-
-const BottomBar = () => {
-  const StyledDiv = styled('div', {
-    position: 'fixed',
-    bottom: 0,
-    width: '100vw',
-    height: '22vh',
-    backgroundColor: '#000000',
-  });
-  return (
-    <Hidden mdUp>
-      <StyledDiv />
-    </Hidden>
-  );
-};
-
 type MainLayoutProps = {
   children: React.ReactNode;
 };
@@ -55,17 +24,18 @@ const MainLayout = ({ children }: MainLayoutProps) => {
   return (
     <div>
       <Head>
-        <title>Kiruna Labs</title>
-        <meta name="description" content="Curated digital art" />
+        <title>Create NFTs in NEAR ecosystem</title>
+        <meta
+          name="description"
+          content="Prototype of a custom marketplace of NFTs that uses NEAR ecosystem"
+        />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
         <Background />
-        <TopBar />
         <FullLogo />
         <ActionsContainer />
-        <BottomBar />
         <SocialMedia />
         <ManifestoButton />
         {children}

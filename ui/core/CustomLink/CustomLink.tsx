@@ -1,13 +1,15 @@
+import { Fragment } from 'react';
 import { useTheme } from '@mui/material';
 import { styled } from '@stitches/react';
-import Link from 'next/link';
-import { Fragment } from 'react';
+
+const StyledLink = styled('a', {
+  textDecoration: 'none',
+  color: 'inherit',
+});
 
 const WithLink = (href: string, children: React.ReactNode) => {
-  return <Link href={href}>{children}</Link>;
+  return <StyledLink href={href}>{children}</StyledLink>;
 };
-
-const Container = styled('div', {});
 
 type Props = {
   href?: string;
@@ -15,13 +17,7 @@ type Props = {
 };
 
 const CustomLink = ({ href, children }: Props) => {
-  const theme = useTheme();
-
-  return (
-    <Container style={{ color: theme.palette.secondary.main }}>
-      {href ? WithLink(href, children) : children}
-    </Container>
-  );
+  return <Fragment>{href ? WithLink(href, children) : children}</Fragment>;
 };
 
 export { CustomLink };

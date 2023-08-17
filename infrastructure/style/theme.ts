@@ -65,12 +65,13 @@ const theme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: {
+          fontcolor: 'white',
           textDecoration: 'none',
           textTransform: 'none',
           backgroundColor: 'transparent',
           fontSize: 24,
           fontWeight: 'normal',
-          color: '#D9D9D9',
+          color: 'white',
           ':disabled': {
             color: '#888888',
           },

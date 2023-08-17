@@ -47,10 +47,7 @@ const ActionsContainer = () => {
         About us
       </ActionButton>
       <ActionButton href="/artworks" isSelected={asPath === '/artworks'}>
-        Artworks
-      </ActionButton>
-      <ActionButton href="/contacts" isSelected={asPath === '/contacts'}>
-        Contacts
+        NFTs
       </ActionButton>
       {!isSignedIn && <ActionButton onClick={onSignIn}>Sign In</ActionButton>}
       {isSignedIn && (

@@ -24,16 +24,6 @@ const ManifestoOverviewLogos = styled('img', {
   height: '100vh',
 });
 
-const ManifestoDetailsLogos = styled('img', {
-  position: 'absolute',
-  top: 0,
-  left: 0,
-  width: '76.56vw',
-  height: '196.06vh',
-  marginTop: '144.76vh',
-  marginLeft: '11.74vw',
-});
-
 const LeftBorderedGrid = styled(Grid, {
   borderLeft: '1px solid #B3B3B3',
 });

@@ -20,7 +20,12 @@ type Props = ButtonProps & {
   isSelected?: boolean;
 };
 
-const ActionButton = ({ href, isSelected = false, onClick, children }: Props) => {
+const ActionButton = ({
+  href,
+  isSelected = false,
+  onClick,
+  children,
+}: Props) => {
   return (
     <StyledButton
       isSelected={isSelected}

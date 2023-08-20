@@ -11,11 +11,11 @@ type Props = {
 const TermsAndConditions = ({ isVisible, onAccept, onReject }: Props) => {
   const content = (
     <Fragment>
-      These terms and conditions outline the rules and regulations for the use
-      of Kirunalabs&apos;s Website. By accessing this website we assume you
-      accept these terms and conditions in full. Do not continue to use
-      Kirunalabs&apos;s website if you do not accept all of the terms and
-      conditions stated on this page.
+      In this popup the user (you) is asked to accept or reject the terms and
+      conditions. Typically, there will be a link to a document that would
+      detail the terms and conditions. The user needs to accept them if they
+      want to continue using the platform. When accepted, an account for the
+      user is created in the back-end. This only happens once.
     </Fragment>
   );
   return (

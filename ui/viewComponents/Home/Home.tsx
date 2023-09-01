@@ -85,7 +85,7 @@ const Home = () => {
             the <Link href="https://near.org/ecosystem">Near ecosystem</Link>.
           </Typography>
           <ExploreButton>
-            <CustomLink href="/">
+            <CustomLink href="/nfts">
               <Typography>See the NFTs</Typography>
             </CustomLink>
           </ExploreButton>

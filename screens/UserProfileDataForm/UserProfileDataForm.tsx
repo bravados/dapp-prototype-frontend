@@ -54,6 +54,7 @@ const UserProfileDataForm = ({ name, email, onSubmit }: Props) => {
         >
           <Grid item>
             <TextField
+              InputLabelProps={{ shrink: true }}
               error={!!errors.newName}
               label="Name"
               value={newName}
@@ -65,6 +66,7 @@ const UserProfileDataForm = ({ name, email, onSubmit }: Props) => {
           </Grid>
           <Grid item>
             <TextField
+              InputLabelProps={{ shrink: true }}
               error={!!errors.newEmail}
               label="Email"
               value={newEmail}

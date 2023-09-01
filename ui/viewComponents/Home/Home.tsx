@@ -1,5 +1,7 @@
+import { useRef, useState } from 'react';
 import { Grid, Hidden, Link, Typography } from '@mui/material';
 import { styled } from '@stitches/react';
+import { TutorialPopper } from '@ui/core';
 import { CustomLink } from '@ui/core/CustomLink';
 
 const MainDiv = styled('div', {
@@ -62,6 +64,10 @@ const Circunferences = styled('img', {
 });
 
 const Home = () => {
+  const [isTutorialOpen, setIsTutorialOpen] = useState(true);
+
+  const anchorRef = useRef();
+
   return (
     <MainDiv>
       <Hidden mdDown>
@@ -78,6 +84,7 @@ const Home = () => {
         direction="row"
         justifyContent="center"
         alignItems="flex-start"
+        ref={anchorRef.current}
       >
         <Grid item xs={12} md={5}>
           <Typography variant="h2">
@@ -122,6 +129,31 @@ const Home = () => {
           </Typography>
         </Grid>
       </Grid>
+      <TutorialPopper
+        placement="bottom"
+        anchorEl={anchorRef.current}
+        isOpen={isTutorialOpen}
+        onClose={() => {
+          setIsTutorialOpen(false);
+        }}
+      >
+        <Typography textAlign={'center'}>
+          You can Sign in{' '}
+          <a target="_blank" href="https://justpaste.it/2pxlf" rel="noreferrer">
+            {' '}
+            with the playground wallet{' '}
+          </a>{' '}
+          or{' '}
+          <a
+            target="_blank"
+            href="https://testnet.mynearwallet.com/"
+            rel="noreferrer"
+          >
+            create your own test wallet{' '}
+          </a>{' '}
+          and use it to create a new account in this platform
+        </Typography>
+      </TutorialPopper>
     </MainDiv>
   );
 };

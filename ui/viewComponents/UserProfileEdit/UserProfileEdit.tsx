@@ -1,6 +1,8 @@
 import { Divider, Grid, Stack } from '@mui/material';
 import { ImageUploader } from '@ui/viewComponents/ImageUploader';
 import { UserProfileDataForm } from '@screens/UserProfileDataForm';
+import { useRef, useState } from 'react';
+import { TutorialPopper } from '@ui/core';
 
 type Props = {
   isLoading: boolean;
@@ -21,6 +23,9 @@ const UserProfileEdit = ({
   onAvatarRemove,
   onUserDataChange,
 }: Props) => {
+  const [isTutorialOpen, setIsTutorialOpen] = useState(true);
+  const anchorRef = useRef();
+
   return (
     <Grid
       container
@@ -32,6 +37,7 @@ const UserProfileEdit = ({
         direction="column"
         divider={<Divider orientation="horizontal" flexItem />}
         spacing={2}
+        ref={anchorRef}
       >
         <Grid
           container
@@ -55,6 +61,15 @@ const UserProfileEdit = ({
             />
           </Grid>
         </Grid>
+        <TutorialPopper
+          message="In this section you can edit your profile data"
+          placement="bottom"
+          anchorEl={anchorRef.current}
+          isOpen={isTutorialOpen}
+          onClose={() => {
+            setIsTutorialOpen(false);
+          }}
+        />
       </Stack>
     </Grid>
   );

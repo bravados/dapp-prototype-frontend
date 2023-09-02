@@ -7,7 +7,7 @@ const Nfts = () => {
   const [requestGetNfts, { loading, error, data: nfts }] = useGetNfts();
 
   useEffect(() => {
-    requestGetNfts();
+    if (requestGetNfts && !nfts) requestGetNfts();
   }, [requestGetNfts]);
 
   const onClickNft = (blockchain: string, id: string) => {

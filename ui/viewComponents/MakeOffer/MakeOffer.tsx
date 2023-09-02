@@ -51,7 +51,7 @@ export const MakeOffer = ({
 
   return (
     <Dialog fullScreen={md} open={isOpen} onClose={onClose}>
-      <DialogTitle id="responsive-dialog-title">
+      <DialogTitle id="responsive-dialog-title" color={'black'}>
         {'Make an Offer on '}
         {title}
       </DialogTitle>
@@ -107,11 +107,11 @@ export const MakeOffer = ({
         </Grid>
       </DialogContent>
       <DialogActions>
-        <Button variant="outlined" autoFocus onClick={onClose}>
+        <Button variant="whiteBackground" autoFocus onClick={onClose}>
           Decide later
         </Button>
         <Button
-          variant="contained"
+          variant="whiteBackground"
           onClick={() => {
             onBuy(amount);
           }}

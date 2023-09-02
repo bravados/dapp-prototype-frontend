@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Grid, Hidden, Link, Typography } from '@mui/material';
 import { styled } from '@stitches/react';
 import { TutorialPopper } from '@ui/core';
@@ -41,11 +41,6 @@ const ExploreButton = styled('div', {
   marginTop: '7.9vh',
 });
 
-const ThreeTimesLogo = styled('img', {
-  position: 'absolute',
-  marginTop: '20vh',
-});
-
 const Video = styled('video', {
   objectFit: 'cover',
   top: 0,
@@ -57,16 +52,18 @@ const Video = styled('video', {
   filter: 'brightness(0.5)',
 });
 
-const Circunferences = styled('img', {
-  position: 'absolute',
-  bottom: '0',
-  right: '0',
-});
+type Props = {
+  isSignedIn: boolean;
+};
 
-const Home = () => {
-  const [isTutorialOpen, setIsTutorialOpen] = useState(true);
+const Home = ({ isSignedIn }: Props) => {
+  const [isTutorialOpen, setIsTutorialOpen] = useState(!isSignedIn);
 
   const anchorRef = useRef();
+
+  useEffect(() => {
+    setIsTutorialOpen(!isSignedIn);
+  }, [isSignedIn]);
 
   return (
     <MainDiv>

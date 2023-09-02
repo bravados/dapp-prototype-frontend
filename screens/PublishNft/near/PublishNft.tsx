@@ -47,13 +47,13 @@ const PublishNft = ({ tokenId }: Props) => {
 
   // check if nft already published in market
   const { useGetSale } = useNear();
-  const [requestGetSale, { data: sale }] = useGetSale();
+  const [requestGetSale, { data: sale, error }] = useGetSale();
 
   useEffect(() => {
-    if (nft) {
+    if (nft && !error) {
       requestGetSale(nft.id);
     }
-  }, [nft, requestGetSale]);
+  }, [nft, error, requestGetSale]);
 
   // if nft is not published in market, show button
   const { publishNft } = useNear();

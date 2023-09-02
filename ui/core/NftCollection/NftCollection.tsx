@@ -12,7 +12,7 @@ const NftCollection = ({ nfts, onClickNft }: Props) => {
   return (
     <Fragment>
       {nfts?.length > 0 && (
-        <Grid container>
+        <Grid container justifyContent={'center'}>
           {nfts.map((nft) => {
             return (
               <Grid
@@ -22,7 +22,7 @@ const NftCollection = ({ nfts, onClickNft }: Props) => {
                 xs={12}
                 sm={6}
                 md={6}
-                lg={4}
+                lg={6}
                 xl={4}
                 p={[3, 3, 3, 4, 4]}
               >

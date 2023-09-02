@@ -82,6 +82,7 @@ export const AmountField = ({
         inputMode: 'numeric',
         pattern: '[0-9]*',
       }}
+      sx={{ color: 'black' }}
     />
   );
 };

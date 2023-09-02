@@ -28,12 +28,12 @@ const theme = createTheme({
     h5: {
       fontSize: 20,
       fontWeight: 'regular',
-      color: '#888888',
+      color: '#FFFFFF',
     },
     h6: {
       fontSize: 18,
       fontWeight: 'regular',
-      color: '#0F0F0F',
+      color: '#FFFFFF',
     },
     body1: {
       fontSize: 20,

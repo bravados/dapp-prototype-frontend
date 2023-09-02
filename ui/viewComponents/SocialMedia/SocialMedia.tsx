@@ -22,6 +22,9 @@ const SocialMedia = () => {
       <ActionButton href="https://www.linkedin.com/in/fjmh89/">
         <StyledImg src="/linkedin-negative.svg" />
       </ActionButton>
+      <ActionButton href="https://github.com/bravados?tab=repositories&q=dapp">
+        <StyledImg src="/github-negative.png" />
+      </ActionButton>
     </Container>
   );
 };
